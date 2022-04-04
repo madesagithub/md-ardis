@@ -1,5 +1,5 @@
 import math
-from re import S
+import os
 import re
 import requests
 from datetime import date
@@ -95,6 +95,12 @@ default_values = {
 }
 
 today = date.today()
+
+# Cria diretórios
+if not os.path.isdir('Fábrica Branca'):
+    os.mkdir('./Fábrica Branca')
+if not os.path.isdir('Fábrica Vermelha'):
+    os.mkdir('./Fábrica Vermelha')
 
 files = {
     'B': {
