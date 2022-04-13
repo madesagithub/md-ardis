@@ -104,12 +104,12 @@ if not os.path.isdir('Fábrica Vermelha'):
 
 files = {
     'B': {
-        'normal': open("./Fábrica Branca/MATERIAIS_FB_NORMAL_"+ str(today.strftime("%d%m%Y")) +".STD", "w"),
-        'prioridade': open("./Fábrica Branca/MATERIAIS_FB_PRIORIDADE_"+ str(today.strftime("%d%m%Y")) +".STD", "w"),
+        'normal': open("./Fábrica Branca/MATERIAIS_FB_NORMAL_"+ str(today.strftime("%Y%m%d")) +".STD", "w"),
+        'prioridade': open("./Fábrica Branca/MATERIAIS_FB_PRIORIDADE_"+ str(today.strftime("%Y%m%d")) +".STD", "w"),
     },
     'V': {
-        'normal': open("./Fábrica Vermelha/MATERIAIS_FV_NORMAL_"+ str(today.strftime("%d%m%Y")) +".STD", "w"),
-        'prioridade': open("./Fábrica Vermelha/MATERIAIS_FV_PRIORIDADE_"+ str(today.strftime("%d%m%Y")) +".STD", "w"),
+        'normal': open("./Fábrica Vermelha/MATERIAIS_FV_NORMAL_"+ str(today.strftime("%Y%m%d")) +".STD", "w"),
+        'prioridade': open("./Fábrica Vermelha/MATERIAIS_FV_PRIORIDADE_"+ str(today.strftime("%Y%m%d")) +".STD", "w"),
     }
 }
 # ----------
