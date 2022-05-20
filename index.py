@@ -97,19 +97,23 @@ default_values = {
 today = date.today()
 
 # Cria diretórios
-if not os.path.isdir('Fábrica Branca'):
-    os.mkdir('./Fábrica Branca')
-if not os.path.isdir('Fábrica Vermelha'):
-    os.mkdir('./Fábrica Vermelha')
+# if not os.path.isdir('Fábrica Branca'):
+#     os.mkdir('./Fábrica Branca')
+# if not os.path.isdir('Fábrica Vermelha'):
+#     os.mkdir('./Fábrica Vermelha')
 
 files = {
     'B': {
-        'normal': open("./Fábrica Branca/MATERIAIS_FB_NORMAL_"+ str(today.strftime("%Y%m%d")) +".STD", "w"),
-        'prioridade': open("./Fábrica Branca/MATERIAIS_FB_PRIORIDADE_"+ str(today.strftime("%Y%m%d")) +".STD", "w"),
+        # 'normal': open("./Fábrica Branca/MATERIAIS_FB_NORMAL_"+ str(today.strftime("%Y%m%d")) +".STD", "w"),
+        'normal': open("./MATERIAIS_FB_NORMAL.STD", "w"),
+        # 'prioridade': open("./Fábrica Branca/MATERIAIS_FB_PRIORIDADE_"+ str(today.strftime("%Y%m%d")) +".STD", "w"),
+        'prioridade': open("./MATERIAIS_FB_PRIORIDADE.STD", "w"),
     },
     'V': {
-        'normal': open("./Fábrica Vermelha/MATERIAIS_FV_NORMAL_"+ str(today.strftime("%Y%m%d")) +".STD", "w"),
-        'prioridade': open("./Fábrica Vermelha/MATERIAIS_FV_PRIORIDADE_"+ str(today.strftime("%Y%m%d")) +".STD", "w"),
+        # 'normal': open("./Fábrica Vermelha/MATERIAIS_FV_NORMAL_"+ str(today.strftime("%Y%m%d")) +".STD", "w"),
+        'normal': open("./MATERIAIS_FV_NORMAL.STD", "w"),
+        # 'prioridade': open("./Fábrica Vermelha/MATERIAIS_FV_PRIORIDADE_"+ str(today.strftime("%Y%m%d")) +".STD", "w"),
+        'prioridade': open("./MATERIAIS_FV_PRIORIDADE.STD", "w"),
     }
 }
 # ----------
@@ -282,3 +286,5 @@ VLV==FIELD(PATH(FIELD (\"SUBSTS\";\"SubMCH\");SheetMach;\"mch\");\"MACHTB\";\"Ma
             for prioridade in files[local]:
                 files[local][prioridade].write(rodape)   
 # ----------
+
+os.exit(0)
