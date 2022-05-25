@@ -34,6 +34,30 @@ with open(filename, 'r') as file_csv:
 	# file[14] = Ordem
 	# file[15] = Data ordem
 
+
+	# Arquivo de entrada
+
+	# file[ 0] = No.
+
+	# file[ 1] = Código material
+	# file[ 2] = Descrição material
+	# file[ 3] = Comprimento material
+	# file[ 4] = Largura material
+	# file[ 5] = Quantidade material
+
+	# file[ 6] = Código chapa
+	# file[ 7] = Descrição chapa 
+	# file[ 8] = Comprimento chapa
+	# file[ 9] = Largura Chapa
+	# file[10] = Quantidade Chapa
+
+	# file[11] = Ordem
+	# file[12] = Aproveitamento
+	# file[13] = Tempo
+
+	# file[14] = Hora
+	# file[15] = Data
+
 	for linha in reader:
 		print(', '.join(linha))
 
@@ -69,6 +93,9 @@ for ordem in ordens:
 
 # cadastrar no sistema de controle de produção
 api_controle = 'http://'
-# put = requests.put(api_controle, data=ordens)
+api_controle = 'http://localhost/md-ardis/Fase%203/public/api/ordem/store/'
+post = requests.post(api_controle, json = ordens)
+# requests.put(api_controle, data=ordens)
 # put = requests.patch(api_controle, data=ordens)
+print(post.status_code)
 print(ordens)

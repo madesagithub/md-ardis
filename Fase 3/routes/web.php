@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\ChapaController;
+use App\Http\Controllers\MaquinaController;
+use App\Http\Controllers\MaterialController;
+use App\Http\Controllers\OrdemController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +20,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::resource('chapa', ChapaController::class);
+Route::resource('material', MaterialController::class);
+Route::resource('maquina', MaquinaController::class);
+Route::resource('ordem', OrdemController::class);
