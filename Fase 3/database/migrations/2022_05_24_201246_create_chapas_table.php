@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('chapas', function (Blueprint $table) {
+        Schema::create('pecas', function (Blueprint $table) {
             $table->id();
 			$table->string('codigo');
 			$table->string('descricao');
@@ -27,10 +27,10 @@ return new class extends Migration
 		# file[2] = No.
 		# file[3] = %
 		# file[4] = Desc. Material
-		# file[5] = Código Chapa
-		# file[6] = Comp. Chapa
-		# file[7] = Larg. Chapa
-		# file[8] = Qtd. Chapa
+		# file[5] = Código Peca
+		# file[6] = Comp. Peca
+		# file[7] = Larg. Peca
+		# file[8] = Qtd. Peca
 		# file[9] = Código Material
 		# file[10] = Descrição
 		# file[11] = Comprimento
@@ -47,6 +47,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('chapas');
+        Schema::dropIfExists('pecas');
     }
 };

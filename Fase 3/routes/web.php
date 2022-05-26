@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\ChapaController;
+use App\Http\Controllers\PecaController;
 use App\Http\Controllers\MaquinaController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\OrdemController;
@@ -21,7 +21,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::resource('chapa', ChapaController::class);
+Route::resource('peca', PecaController::class);
 Route::resource('material', MaterialController::class);
 Route::resource('maquina', MaquinaController::class);
 Route::resource('ordem', OrdemController::class);

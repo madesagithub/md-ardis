@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Chapa;
+use App\Models\Peca;
 use Illuminate\Http\Request;
 
-class ChapaController extends Controller
+class PecaController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class ChapaController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Chapa  $chapa
+     * @param  \App\Models\Peca  $peca
      * @return \Illuminate\Http\Response
      */
-    public function show(Chapa $chapa)
+    public function show(Peca $peca)
     {
         //
     }
@@ -52,10 +52,10 @@ class ChapaController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Chapa  $chapa
+     * @param  \App\Models\Peca  $peca
      * @return \Illuminate\Http\Response
      */
-    public function edit(Chapa $chapa)
+    public function edit(Peca $peca)
     {
         //
     }
@@ -64,10 +64,10 @@ class ChapaController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Chapa  $chapa
+     * @param  \App\Models\Peca  $peca
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Chapa $chapa)
+    public function update(Request $request, Peca $peca)
     {
         //
     }
@@ -75,10 +75,10 @@ class ChapaController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Chapa  $chapa
+     * @param  \App\Models\Peca  $peca
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Chapa $chapa)
+    public function destroy(Peca $peca)
     {
         //
     }

@@ -11,7 +11,7 @@
 
 </head>
 
-<body id="page-top" class="bg-dark text-light">
+<body id="page-top" class="text-light">
 
 	@include('layouts.partials.nav')
 

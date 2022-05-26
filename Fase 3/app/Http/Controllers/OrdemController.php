@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Chapa;
+use App\Models\Peca;
 use App\Models\Material;
 use App\Models\Ordem;
 use Illuminate\Http\Request;
@@ -40,7 +40,7 @@ class OrdemController extends Controller
     public function store(Request $request)
     {
 		$material = Material::firstWhere('codigo', $request->input('cod_material'));
-		$chapa = Chapa::firstWhere('codigo', $request->input('cod_chapa'));
+		$peca = Peca::firstWhere('codigo', $request->input('cod_peca'));
 		
 		if (! $material) {
 			$data = [
@@ -54,22 +54,22 @@ class OrdemController extends Controller
 			// $material = MaterialController::store($data);
 		}
 
-		if (! $chapa) {
+		if (! $peca) {
 			$data = [
-				'codigo' => $request->input['cod_chapa'],
+				'codigo' => $request->input['cod_peca'],
 				'descricao' => $request->input['descricao'],
 				'comprimento' => $request->input['comprimento'],
 				'largura' => $request->input['largura'],
 				'quantidade' => $request->input['quantidade'],
 			];
 
-			// $chapa = ChapaController::store($data);
+			// $peca = PecaController::store($data);
 		}
 
         $ordem = Ordem::create([
 			'identificador' => $request->input('identificador'),
 			'material_id' => 1,
-			'chapa_id' => 1,
+			'peca_id' => 1,
 			'ordem' => $request->input('ordem'),
 			'tempo' => $request->input('tempo'),
 		]);

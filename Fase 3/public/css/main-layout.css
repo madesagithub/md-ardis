@@ -1,0 +1,13 @@
+body {
+    background-color: #222;
+    background-color: #111213;
+    /* background-color: var(--bs-body-color); */
+}
+
+.card {
+    background-color: var(--bs-gray-900)
+}
+
+.card-children {
+    background-color: var(--bs-gray-800)
+}

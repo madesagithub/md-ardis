@@ -39,7 +39,7 @@ class OrdemController extends Controller
 		$ordem = Ordem::create([
 			'identificador' => $request->input('identificador'),
 			'material_id' => 1,
-			'chapa_id' => 1,
+			'peca_id' => 1,
 			'ordem' => $request->input('ordem'),
 			'tempo' => $request->input('tempo'),
 		]);

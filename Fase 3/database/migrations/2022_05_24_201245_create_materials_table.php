@@ -25,10 +25,10 @@ return new class extends Migration
 		# file[2] = No.
 		# file[3] = %
 		# file[4] = Desc. Material
-		# file[5] = Código Chapa
-		# file[6] = Comp. Chapa
-		# file[7] = Larg. Chapa
-		# file[8] = Qtd. Chapa
+		# file[5] = Código Peca
+		# file[6] = Comp. Peca
+		# file[7] = Larg. Peca
+		# file[8] = Qtd. Peca
 		# file[9] = Código Material
 		# file[10] = Descrição
 		# file[11] = Comprimento

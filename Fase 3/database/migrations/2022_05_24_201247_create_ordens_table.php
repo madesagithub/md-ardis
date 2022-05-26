@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Chapa;
+use App\Models\Peca;
 use App\Models\Maquina;
 use App\Models\Material;
 use Illuminate\Database\Migrations\Migration;
@@ -21,7 +21,7 @@ return new class extends Migration
 			$table->integer('identificador');
 			$table->integer('ordem');
 			$table->foreignIdFor(Material::class);
-			$table->foreignIdFor(Chapa::class);
+			$table->foreignIdFor(Peca::class);
 			$table->float('aproveitamento');
 			$table->time('tempo', $precision = 0);
 			$table->boolean('active')
@@ -37,10 +37,10 @@ return new class extends Migration
 		# file[3] = %
 		# file[4] = Desc. Material
 
-		# file[5] = Código Chapa
-		# file[6] = Comp. Chapa
-		# file[7] = Larg. Chapa
-		# file[8] = Qtd. Chapa
+		# file[5] = Código Peca
+		# file[6] = Comp. Peca
+		# file[7] = Larg. Peca
+		# file[8] = Qtd. Peca
 
 		# file[9] = Código Material
 		# file[10] = Descrição
