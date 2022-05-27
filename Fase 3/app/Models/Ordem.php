@@ -30,11 +30,11 @@ class Ordem extends Model
 
 	public function plano()
 	{
-		$this->belongsTo(Plano::class);
+		return $this->belongsTo(Plano::class);
 	}
 
 	public function peca()
 	{
-		$this->belongsTo(Peca::class);
+		return $this->belongsTo(Peca::class);
 	}
 }

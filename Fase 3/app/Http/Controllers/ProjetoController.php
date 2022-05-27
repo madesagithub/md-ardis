@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Plano;
+use App\Models\Projeto;
 use Illuminate\Http\Request;
 
-class PlanoController extends Controller
+class ProjetoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +15,20 @@ class PlanoController extends Controller
      */
     public function index()
     {
-        return response()->json('Chegou aqui: index');
+
+
+        // $projetos = Projeto::all();
+        // $projetos = Projeto::with('maquina')->get();
+
+        $projetos = Projeto::with(
+			'maquina',
+			// 'material',
+			'planos',
+			// 'ordem.peca',
+			'user',
+		)->get();
+
+		return view('pages.projeto.projetoIndex', compact('projetos'));
     }
 
     /**
@@ -41,10 +55,10 @@ class PlanoController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Plano  $plano
+     * @param  \App\Models\Projeto  $projeto
      * @return \Illuminate\Http\Response
      */
-    public function show(Plano $plano)
+    public function show(Projeto $projeto)
     {
         //
     }
@@ -52,10 +66,10 @@ class PlanoController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Plano  $plano
+     * @param  \App\Models\Projeto  $projeto
      * @return \Illuminate\Http\Response
      */
-    public function edit(Plano $plano)
+    public function edit(Projeto $projeto)
     {
         //
     }
@@ -64,10 +78,10 @@ class PlanoController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Plano  $plano
+     * @param  \App\Models\Projeto  $projeto
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Plano $plano)
+    public function update(Request $request, Projeto $projeto)
     {
         //
     }
@@ -75,10 +89,10 @@ class PlanoController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Plano  $plano
+     * @param  \App\Models\Projeto  $projeto
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Plano $plano)
+    public function destroy(Projeto $projeto)
     {
         //
     }

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Maquina;
-use App\Models\Plano;
+use App\Models\Projeto;
 use App\Models\Usuario;
 use Illuminate\Http\Request;
 
@@ -17,7 +17,7 @@ class MaquinaController extends Controller
     public function index()
     {
 
-		$plano = Plano::create([
+		$projeto = Projeto::create([
 			'nome' => 'teste',
 			'numero' => 1,
 			'material_id' => 1,

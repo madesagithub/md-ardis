@@ -6,41 +6,34 @@ use Illuminate\Database\Eloquent\Model;
 
 class Plano extends Model
 {
-	/**
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-		'nome',
 		'numero',
+		'projeto_id',
 		'material_id',
-		'maquina_id',
 		'tempo_maquina',
-		'user_id',
 		'aproveitamento',
+		'quantidade_material',
 		'tempo',
-		'data_processamento',
-		'active'
+		'active',
 	];
 
 	public function ordens()
 	{
-		$this->hasMany(Ordem::class);
+		return $this->hasMany(Ordem::class);
 	}
-
+	
 	public function material()
 	{
-		$this->belongsTo(Material::class);
+		return $this->belongsTo(Material::class);
 	}
 
-	public function maquina()
+	public function projeto()
 	{
-		$this->belongsTo(Maquina::class);
-	}
-
-	public function user()
-	{
-		$this->belongsTo(User::class);
+		return $this->belongsTo(Projeto::class);
 	}
 }

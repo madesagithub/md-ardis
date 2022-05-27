@@ -13,8 +13,8 @@ class Maquina extends Model
      */
     protected $fillable = ['nome'];
 
-	public function planos()
+	public function projetos()
 	{
-		$this->hasMany(Plano::class);
+		return $this->hasMany(Projeto::class);
 	}
 }

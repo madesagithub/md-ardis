@@ -5,7 +5,7 @@
 
 <hr>
 
-<div class="card card-plano mb-5">
+<div class="card card-projeto mb-5">
 	<div class="card-body">
 
 		<div class="row text-center">
@@ -30,7 +30,7 @@
 						<div class="row justify-content-between">
 							<div class="col-auto align-self-center">
 								<span>
-									Plano 1
+									Projeto 1
 								</span>
 								&nbsp;
 								<span>
@@ -58,7 +58,7 @@
 						<div class="row justify-content-between">
 							<div class="col-auto align-self-center">
 								<span class="align-self-center">
-									Plano 2
+									Projeto 2
 								</span>
 							</div>
 							<div class="col-auto">
@@ -78,7 +78,7 @@
 						<div class="row justify-content-between">
 							<div class="col-auto align-self-center">
 								<span>
-									Plano 3
+									Projeto 3
 								</span>
 							</div>
 							<div class="col-auto">
@@ -109,7 +109,7 @@
 						<div class="row justify-content-between">
 							<div class="col-auto">
 								<span class="align-bottom">
-									Plano 1 AGLOM 12MM (2750x1850)
+									Projeto 1 AGLOM 12MM (2750x1850)
 								</span>
 							</div>
 							<div class="col-auto">
@@ -129,7 +129,7 @@
 						<div class="row justify-content-between">
 							<div class="col-auto">
 								<span class="align-bottom">
-									Plano 2 AGLOM 12MM (2750x1850)
+									Projeto 2 AGLOM 12MM (2750x1850)
 								</span>
 							</div>
 							<div class="col-auto">
@@ -149,7 +149,7 @@
 						<div class="row justify-content-between">
 							<div class="col-auto">
 								<span class="align-bottom">
-									Plano 3
+									Projeto 3
 								</span>
 							</div>
 							<div class="col-auto">

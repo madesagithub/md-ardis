@@ -8,11 +8,12 @@ use App\Models\Material;
 use App\Models\Ordem;
 use App\Models\Peca;
 use App\Models\Plano;
+use App\Models\Projeto;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
-class PlanoController extends Controller
+class ProjetoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,15 +35,23 @@ class PlanoController extends Controller
     {
 		foreach (json_decode($request->input()[0]) as $data) {
 
-			// return time();
+			// return $data->nome_projeto;
 			// return date('Y-m-d', time());
 
-			$plano = Plano::firstWhere('nome', $data->nome);
+			$projeto = Projeto::firstWhere('nome', $data->nome_projeto);
+			$maquina = Maquina::firstWhere('nome', $data->maquina);
 			$material = Material::firstWhere('codigo', $data->codigo_material);
 			$peca = Peca::firstWhere('codigo', $data->codigo_peca);
-			$maquina = Maquina::firstWhere('nome', $data->maquina);
 			$user = User::firstWhere('name', $data->usuario);
 
+			// Criar Maquina
+			if (! $maquina) {
+				$maquina = Maquina::create([
+					'nome' => $data->maquina,
+				]);
+			}
+
+			// Criar Material
 			if (! $material) {
 				$material = Material::create([
 					'codigo' => $data->codigo_material,
@@ -52,6 +61,7 @@ class PlanoController extends Controller
 				]);
 			}
 	
+			// Criar Peca
 			if (! $peca) {
 				$peca = Peca::create([
 					'codigo' => $data->codigo_peca,
@@ -61,38 +71,47 @@ class PlanoController extends Controller
 				]);
 			}
 
-			if (! $maquina) {
-				$maquina = Maquina::create([
-					'nome' => $data->maquina,
-				]);
-			}
-
+			// Criar User
 			if (! $user) {
 				$user = User::create([
 					'name' => $data->usuario,
 				]);
 			}
 
+			// Criar Projeto
+			if (! $projeto) {
+				$projeto = Projeto::create([
+					'nome' => $data->nome_projeto,
+					'maquina_id' => $maquina->id,
+					'user_id' => $user->id,
+					'data_processamento' => date('Y-m-d H:m:s', time()),
+					'active' => 1,
+					// 'tempo_maquina' => $data->tempo_maquina,
+					// 'tempo_maquina' => date('H:m:s', time()),
+					// 'data_processamento' => date($data->data_processamento),
+				]);
+			}
+
+			$plano = Plano::firstWhere([
+				'projeto_id' => $projeto->id,
+				'numero' => $data->numero_plano,
+			]);
+
+			// Criar Plano
 			if (! $plano) {
 				$plano = Plano::create([
-					'nome' => $data->nome,
-					'numero' => $data->numero,
+					'numero' => $data->numero_plano,
+					'projeto_id' => $projeto->id,
 					'material_id' => $material->id,
-					'maquina_id' => $maquina->id,
-					// 'tempo_maquina' => $data->tempo_maquina,
 					'tempo_maquina' => date('H:m:s', time()),
-					'user_id' => $user->id,
 					'aproveitamento' => $data->aproveitamento,
-					// 'tempo' => $data->tempo,
+					'quantidade_material' => $data->quantidade_material,
 					'tempo' => date('H:m:s', time()),
-					// 'data_processamento' => date($data->data_processamento),
-					// 'hora_processamento' => $data->hora_processamento,
-					'data_processamento' => date('Y-m-d H:m:s', time()),
-					// 'hora_processamento' => date('H:m:s', time()),
 					'active' => 1,
 				]);
 			}
 
+			// Criar Ordem
 			$ordem = Ordem::create([
 				'ordem' => $data->ordem,
 				'peca_id' => $peca->id,
@@ -104,10 +123,9 @@ class PlanoController extends Controller
 				'active' => 1,
 			]);
 		}
-		
 
 		return response()->json([
-			"message" => "Plano criado!",
+			"message" => "Projeto criado!",
 		], 201);
     }
 

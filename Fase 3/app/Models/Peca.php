@@ -17,9 +17,9 @@ class Peca extends Model
 		'comprimento',
 		'largura',
 	];
-
+	
 	public function ordens()
 	{
-		$this->hasMany(Ordem::class);
+		return $this->hasMany(Ordem::class);
 	}
 }

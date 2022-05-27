@@ -4,7 +4,7 @@ use App\Http\Controllers\PecaController;
 use App\Http\Controllers\MaquinaController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\OrdemController;
-use App\Http\Controllers\PlanoController;
+use App\Http\Controllers\ProjetoController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,4 +26,4 @@ Route::resource('peca', PecaController::class);
 Route::resource('material', MaterialController::class);
 Route::resource('maquina', MaquinaController::class);
 Route::resource('ordem', OrdemController::class);
-Route::resource('plano', PlanoController::class);
+Route::resource('projeto', ProjetoController::class);

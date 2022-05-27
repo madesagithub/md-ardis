@@ -27,6 +27,6 @@ class Material extends Model
 
 	public function planos()
 	{
-		$this->hasMany(Plano::class);
+		return $this->hasMany(Plano::class);
 	}
 }

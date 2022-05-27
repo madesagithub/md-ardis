@@ -16,16 +16,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('planos', function (Blueprint $table) {
+        Schema::create('projetos', function (Blueprint $table) {
 			$table->id();
 			$table->string('nome');
-			$table->integer('numero');
-			$table->foreignIdFor(Material::class);
-			$table->foreignIdFor(Maquina::class);
-			$table->time('tempo_maquina', $precision = 0);
-			$table->foreignIdFor(User::class);
-			$table->float('aproveitamento');
-			$table->time('tempo', $precision = 0);
+			$table->foreignIdFor(Maquina::class)
+				->constrained('maquinas');
+			$table->foreignIdFor(User::class)
+				->constrained('users');
 			$table->datetime('data_processamento');
 			$table->boolean('active')->default(true);
 			$table->timestamps();
@@ -39,6 +36,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('planos');
+        Schema::dropIfExists('projetos');
     }
 };

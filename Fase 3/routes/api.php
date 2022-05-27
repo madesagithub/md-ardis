@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Api\PlanoController;
+use App\Http\Controllers\Api\ProjetoController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -20,10 +20,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::apiResources([
-    'plano' => PlanoController::class,
+    'projeto' => ProjetoController::class,
     // 'ordem' => OrdemController::class,
     // 'posts' => PostController::class,
 ]);
 
 // Create new artigo
-// Route::post('plano', [PlanoController::class, 'store']);
+// Route::post('projeto', [ProjetoController::class, 'store']);
