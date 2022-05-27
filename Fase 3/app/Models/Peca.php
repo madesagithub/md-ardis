@@ -4,15 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Material extends Model
+class Peca extends Model
 {
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'materiais';
-
 	/**
      * The attributes that are mass assignable.
      *
@@ -25,8 +18,8 @@ class Material extends Model
 		'largura',
 	];
 
-	public function planos()
+	public function ordens()
 	{
-		$this->hasMany(Plano::class);
+		$this->hasMany(Ordem::class);
 	}
 }

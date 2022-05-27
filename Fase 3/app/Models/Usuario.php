@@ -2,19 +2,17 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Maquina extends Model
+class Usuario extends Model
 {
-	/**
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['nome'];
-
-	public function planos()
-	{
-		$this->hasMany(Plano::class);
-	}
+    protected $fillable = [
+		'nome',
+	];
 }

@@ -4,10 +4,14 @@ body {
     /* background-color: var(--bs-body-color); */
 }
 
-.card {
+.card-plano {
     background-color: var(--bs-gray-900)
 }
 
-.card-children {
+.card-material {
     background-color: var(--bs-gray-800)
+}
+
+.card-peca {
+    background-color: var(--bs-gray-900)
 }

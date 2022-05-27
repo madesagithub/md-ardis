@@ -1,6 +1,6 @@
-from ast import Continue
 import csv
 from datetime import datetime
+import json
 import os
 import requests
 
@@ -21,7 +21,7 @@ with open(filename, 'r') as file_txt:
 
 		# Remover porcentagem e asteriscos
 		line = [x.replace('%', '') for x in line]
-		line = [x.replace('*****', '') for x in line]
+		line = [x.replace('*****', '100') for x in line]
 
 		# Remover caracteres desnecessários
 		line = [i for i in line if i != '' and i != '\n']
@@ -35,7 +35,9 @@ with open(filename, 'r') as file_txt:
 	cabecalho = {
 		'nome': data[0][0].upper(),
 		'maquina': data[0][1].split(':')[1].strip().title(),
+		# 'tempo_maquina': data[0][2],
 		'data_processamento': data[0][2],
+		# 'hora_processamento': data[0][2],
 		'usuario': data[0][3].title(),
 	}
 
@@ -58,6 +60,8 @@ with open(filename, 'r') as file_txt:
 			# line[4]	= Comp.				= comprimento_material
 			# line[5]	= Larg.				= largura_material
 			# line[6]	= Qtd.				= quantidade_material
+			# line[7]	= m²				= area_material
+			# line[8]	= tempo				= tempo
 
 			ordem = {
 				'numero': int(line[0]),
@@ -66,11 +70,13 @@ with open(filename, 'r') as file_txt:
 				'codigo_material': int(line[3]),
 				'comprimento_material': int(line[4]),
 				'largura_material': int(line[5]),
-				'quantidade_material': int(line[6])
+				'quantidade_material': int(line[6]),
+				# 'area_material': int(line[6])
+				# 'tempo': int(line[6])
 			}
 
 		else:
-			# Plano = min(lens)
+			# Ordem = min(lens)
 
 			# Arquivo de entrada
 			# line[0]	= #				= numero
@@ -80,7 +86,7 @@ with open(filename, 'r') as file_txt:
 			# line[4]	= Larg.			= largura_peca
 			# line[5] 	= Qtd.			= quantidade_peca
 			# line[6]	= Ordem			= ordem
-			# line[6]	= Data			= data_producao
+			# line[6]	= Data			= data_embalagem
 			# line[7]	= Produzido		= produzido
 
 			peca = {
@@ -91,8 +97,8 @@ with open(filename, 'r') as file_txt:
 				'largura_peca': int(line[4]),
 				'quantidade_peca': int(line[5]),
 				'ordem': int(line[6]),
-				'data_producao': datetime.strptime(line[7], '%d/%m/%y').strftime('%d/%m/%Y'),
-				'produzido': float(line[8]) if line[8] != '' else line[8]
+				'data_embalagem': datetime.strptime(line[7], '%d/%m/%y').strftime('%d/%m/%Y'),
+				'produzido': float(line[8])
 			}
 
 			insert = {}
@@ -161,13 +167,24 @@ for ordem in ordens:
 	# print(api_totvs)
 
 
+
+# Converter dicionario em json
+ordens = json.dumps(ordens, indent = 4)
+
 # Cadastrar no sistema de controle de chapas (php)
-api_controle = 'http://'
-api_controle = 'http://localhost/md-ardis/Fase%203/public/api/ordem/store/'
-post = requests.post(api_controle, json = ordens)
-# requests.put(api_controle, data=ordens)
-# put = requests.patch(api_controle, data=ordens)
-# print(post.status_code)
-for ordem in ordens:
-	print(ordem)
+api_endpoint = 'http://localhost/md-ardis/Fase%203/public/api/plano'
+api_headers = {
+	'Content-Type': 'application/json',
+}
+
+post = requests.post(url=api_endpoint, headers=api_headers, json=ordens)
+# print(post.json())
+print(post.content)
+print(post.status_code)
+
+# for ordem in ordens:
+# 	print('{')
+# 	for line in ordem:
+# 		print('\t', line, ':', ordem[line])
+# 	print('}')
 # print(ordens)

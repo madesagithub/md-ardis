@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Maquina;
-use App\Models\Plano;
 use App\Models\Usuario;
 use Illuminate\Http\Request;
 
-class MaquinaController extends Controller
+class UsuarioController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,34 +14,7 @@ class MaquinaController extends Controller
      */
     public function index()
     {
-
-		$plano = Plano::create([
-			'nome' => 'teste',
-			'numero' => 1,
-			'material_id' => 1,
-			'maquina_id' => 1,
-			// 'tempo_maquina' => $data->tempo_maquina,
-			'tempo_maquina' => date('H:m:s', time()),
-			'user_id' => 1,
-			'aproveitamento' => 100,
-			// 'tempo' => $data->tempo,
-			'tempo' => date('H:m:s', time()),
-			// 'data_processamento' => date($data->data_processamento),
-			'data_processamento' => date('Y-m-d H:m:s', time()),
-			// 'hora_processamento' => date('H:m:s', time()),
-			// 'hora_processamento' => $data->hora_processamento,
-			'active' => 1,
-		]);
-
-
-		// $usuario = Usuario::firstWere('nome', 'Alexandre');
-		$maquina = Maquina::firstWhere('nome', 'teste');
-
-        if (! $maquina) {
-			$maquina = Maquina::create([
-				'nome' => 'teste',
-			]);
-		}
+        //
     }
 
     /**
@@ -70,10 +41,10 @@ class MaquinaController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Maquina  $maquina
+     * @param  \App\Models\Usuario  $usuario
      * @return \Illuminate\Http\Response
      */
-    public function show(Maquina $maquina)
+    public function show(Usuario $usuario)
     {
         //
     }
@@ -81,10 +52,10 @@ class MaquinaController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Maquina  $maquina
+     * @param  \App\Models\Usuario  $usuario
      * @return \Illuminate\Http\Response
      */
-    public function edit(Maquina $maquina)
+    public function edit(Usuario $usuario)
     {
         //
     }
@@ -93,10 +64,10 @@ class MaquinaController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Maquina  $maquina
+     * @param  \App\Models\Usuario  $usuario
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Maquina $maquina)
+    public function update(Request $request, Usuario $usuario)
     {
         //
     }
@@ -104,10 +75,10 @@ class MaquinaController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Maquina  $maquina
+     * @param  \App\Models\Usuario  $usuario
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Maquina $maquina)
+    public function destroy(Usuario $usuario)
     {
         //
     }

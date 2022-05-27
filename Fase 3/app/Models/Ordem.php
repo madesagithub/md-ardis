@@ -12,4 +12,29 @@ class Ordem extends Model
      * @var string
      */
     protected $table = 'ordens';
+
+	/**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+		'ordem',
+		'peca_id',
+		'quantidade_peca',
+		'data_embalagem',
+		'produzido',
+		'plano_id',
+		'active'
+	];
+
+	public function plano()
+	{
+		$this->belongsTo(Plano::class);
+	}
+
+	public function peca()
+	{
+		$this->belongsTo(Peca::class);
+	}
 }
