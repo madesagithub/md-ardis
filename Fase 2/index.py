@@ -35,11 +35,12 @@ with open(filename, 'r') as file_txt:
 
 	# Dados do projeto
 	# Dados do cabeçalho do arquivo
+	fabrica = data[0][0]
 	cabecalho = {
 		'nome_projeto': data[0][0].upper(),
 		'maquina': data[0][1].strip().title(),
-		# 'tempo_maquina': data[0][2],
 		'data_processamento': data[0][2],
+		'tempo_maquina': data[0][5].strip(),
 		# 'hora_processamento': data[0][2],
 		'usuario': data[0][3].title(),
 		# 'fabrica': ,
@@ -171,7 +172,7 @@ planos = json.dumps(planos, indent = 4)
 print(planos)
 
 api_endpoint = 'http://localhost/md-ardis/Fase%203/public/api/projeto'
-# api_endpoint = 'http://localhost:8080/md-ardis/Fase%203/public/api/projeto'
+api_endpoint = 'http://localhost:8080/md-ardis/Fase%203/public/api/projeto'
 api_headers = {
 	'Content-Type': 'application/json',
 }

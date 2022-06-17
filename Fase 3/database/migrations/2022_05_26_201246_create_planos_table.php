@@ -22,10 +22,9 @@ return new class extends Migration
 				->constrained();
 			$table->foreignIdFor(Material::class)
 				->constrained('materiais');
-			$table->time('tempo_maquina', $precision = 0);
 			$table->float('aproveitamento');
 			$table->integer('quantidade_material');
-			$table->time('tempo', $precision = 0);
+			$table->time('tempo_processo', $precision = 0);
 			$table->boolean('active')->default(true);
             $table->timestamps();
         });

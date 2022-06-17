@@ -10,8 +10,8 @@ use App\Models\Peca;
 use App\Models\Plano;
 use App\Models\Projeto;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
 
 class ProjetoController extends Controller
 {
@@ -84,11 +84,9 @@ class ProjetoController extends Controller
 					'nome' => $data->nome_projeto,
 					'maquina_id' => $maquina->id,
 					'user_id' => $user->id,
-					'data_processamento' => date('Y-m-d H:m:s', time()),
+					'data_processamento' => Carbon::createFromFormat('d/m/Y', $data->data_processamento)->format('Y-m-d'),
+					'tempo_maquina' => Carbon::createFromFormat('H:i', $data->tempo_maquina)->format('H:i'),
 					'active' => 1,
-					// 'tempo_maquina' => $data->tempo_maquina,
-					// 'tempo_maquina' => date('H:m:s', time()),
-					// 'data_processamento' => date($data->data_processamento),
 				]);
 			}
 
@@ -103,10 +101,9 @@ class ProjetoController extends Controller
 					'numero' => $data->numero_plano,
 					'projeto_id' => $projeto->id,
 					'material_id' => $material->id,
-					'tempo_maquina' => date('H:m:s', time()),
 					'aproveitamento' => $data->aproveitamento,
 					'quantidade_material' => $data->quantidade_material,
-					'tempo' => date('H:m:s', time()),
+					'tempo_processo' => Carbon::createFromFormat('H:i', $data->tempo_processo)->format('H:i'),
 					'active' => 1,
 				]);
 			}
@@ -116,8 +113,7 @@ class ProjetoController extends Controller
 				'ordem' => $data->ordem,
 				'peca_id' => $peca->id,
 				'quantidade_peca' => $data->quantidade_peca,
-				// 'data_embalagem' => $data->data_embalagem,
-				'data_embalagem' => date('Y-m-d H:m:s', time()),
+				'data_embalagem' => Carbon::createFromFormat('d/m/Y', $data->data_embalagem)->format('Y-m-d'),
 				'produzido' => $data->produzido,
 				'plano_id' => $plano->id,
 				'active' => 1,

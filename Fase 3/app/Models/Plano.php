@@ -15,10 +15,9 @@ class Plano extends Model
 		'numero',
 		'projeto_id',
 		'material_id',
-		'tempo_maquina',
 		'aproveitamento',
 		'quantidade_material',
-		'tempo',
+		'tempo_processo',
 		'active',
 	];
 

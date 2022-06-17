@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Plano;
 use App\Models\Projeto;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ProjetoController extends Controller
@@ -18,7 +19,7 @@ class ProjetoController extends Controller
 
 
         // $projetos = Projeto::all();
-        // $projetos = Projeto::with('maquina')->get();
+        // $projetos = Projeto::with('maquina')->get();d
 
         $projetos = Projeto::with(
 			'maquina',
