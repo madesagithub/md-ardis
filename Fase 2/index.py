@@ -2,6 +2,7 @@ import csv
 from datetime import datetime
 import json
 import os
+import socket
 import requests
 
 # varredura de diretório
@@ -171,8 +172,10 @@ for plano in planos:
 planos = json.dumps(planos, indent = 4)
 print(planos)
 
-api_endpoint = 'http://localhost/md-ardis/Fase%203/public/api/projeto'
-api_endpoint = 'http://localhost:8080/md-ardis/Fase%203/public/api/projeto'
+
+ip_address = socket.gethostbyname(socket.gethostname())
+api_endpoint = 'http://' + ip_address + '/md-ardis/Fase%203/public/api/projeto'
+# api_endpoint = 'http://' + ip_address + ':8080/md-ardis/Fase%203/public/api/projeto'
 api_headers = {
 	'Content-Type': 'application/json',
 }
@@ -181,4 +184,3 @@ post = requests.post(url=api_endpoint, headers=api_headers, json=planos)
 # print(post.json())
 print(post.content)
 print(post.status_code)
-
