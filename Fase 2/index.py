@@ -119,8 +119,8 @@ def get_planos(filename):
 					'codigo_peca'                      : row['código peça erp'],
 					# 'descricao_peca'                   : row['descrição da peça'],
 					'descricao_peca'                   : row['descrição peça 2'],
-					'comprimento_peca_final'           : int(row['comprimento peça final']) if row['comprimento peça final'].isdigit() else row['comprimento peça final'],
-					'largura_peca_final'               : int(row['largura peça final']) if row['largura peça final'].isdigit() else row['largura peça final'],
+					'comprimento_peca_final'           : int(row['comprimento peça final']) if row['comprimento peça final'].isdigit() else 0,
+					'largura_peca_final'               : int(row['largura peça final']) if row['largura peça final'].isdigit() else 0,
 					# ----------
 					'codigo_chapa_cadastro'            : row['código chapa erp cadastro'],
 					# ----------
@@ -144,18 +144,17 @@ def get_planos(filename):
 					'percentual_produzido'             : float(row['% produzido']) if row['% produzido'].isdigit() else 0,
 				}
 
-				# print(row['código chapa erp usada'])
 				chapa = {
 					# 'codigo_chapa_usada'           : int(row['código chapa erp']),
 					# 'codigo_chapa_cadastro'           : int(row['código chapa erp']),
 					'descricao_chapa'        : row['descrição da chapa'],
 					'classificacao_chapa'    : row['classificação da chapa'],
-					'comprimento_chapa'      : float(row['comprimento chapa']) if row['comprimento chapa'] else row['comprimento chapa'],
-					'largura_chapa'          : float(row['largura chapa']) if row['largura chapa'] else row['largura chapa'],
+					'comprimento_chapa'      : int(row['comprimento chapa']) if row['comprimento chapa'].isdigit() else row['comprimento chapa'],
+					'largura_chapa'          : int(row['largura chapa']) if row['largura chapa'].isdigit() else row['largura chapa'],
 					'espessura_chapa'        : float(row['espessura chapa e peça']) if row['espessura chapa e peça'] else row['espessura chapa e peça'],
 					# ----------
-					'metro_quadrado_chapa'   : float(row['m² da chapa']) if row['m² da chapa'] else row['m² da chapa'],
-					'quantidade_chapa'       : int(row['quantidade de chapa']) if row['quantidade de chapa'] else row['quantidade de chapa'],
+					'metro_quadrado_chapa'   : float(row['m² da chapa']) if row['m² da chapa']else row['m² da chapa'],
+					'quantidade_chapa'       : int(row['quantidade de chapa']) if row['quantidade de chapa'].isdigit() else row['quantidade de chapa'],
 				}
 
 				# peca = {
