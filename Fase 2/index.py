@@ -12,291 +12,163 @@ def get_planos(filename):
 	planos = []
 	data = []
 	with open(filename, 'r', encoding='latin-1') as file_csv:
-		
-		# Tratamento de dados do arquivo
-		# for line in file_csv:
-			
-		# 	# Quebra de coluna
-		# 	# line = line.split('\t')
-			
-		# 	# Remover porcentagem e asteriscos
-		# 	line = [x.replace('%', '') for x in line]
-		# 	line = [x.replace('****', '100') for x in line]
 
-		# 	# Remover caracteres desnecessários
-		# 	line = [i for i in line if i != '' and i != '\n']
-			
-		# 	# Remover espaços
-		# 	line = [x.strip() for x in line]
-			
-		# 	data.append(line)
-
-
-		
-
-		csv_reader = csv.DictReader(file_csv, delimiter='\t')
+		csv_reader = csv.DictReader(file_csv, delimiter=';')
 
 		# Remove espaços e torna minusculo
 		headers = [head.strip().lower() for head in csv_reader.fieldnames]
 		csv_reader.fieldnames = headers
 
-		
-
 		file_csv.readline()
 		for row in csv_reader:
 			
-			# Remove espaços, % e asteriscos
-			row = dict((k, v.strip()) for k, v in row.items())
-			row = dict((k, v.replace('%', '')) for k, v in row.items())
-			row = dict((k, v.replace('*****', '100')) for k, v in row.items())
-			
-			# Layout
-			# C�digo chapa ERP
-			# Desc. da chapa
-			# Fam�lia da chapa
-			# Espessura
-			# Comp. chapa
-			# Larg. Chapa
-			# m� da chapa
-			# Qtd chapa
-			# m� total plano
+			# N° Layout						Plano
+			# Código chapa ERP usada		Chapa
+			# Descrição da chapa
+			# Classificação da chapa
+			# Espessura chapa e peça
+			# Comprimento chapa
+			# Largura Chapa
+			# m² da chapa
+			# Quantidade de chapa
+			# m³ total plano				Plano
 			# Carregamentos
-			# Qtd por corte
+			# Quantidade por corte
 			# Aproveitamento
-			# Ocupa��o Maq.
-			# m� chapa
-			# Custo R$/m�
+			# Ocupação Máquina
+			# m² total
+			# Custo R$/m²
 			# Tempo corte
-			# M�quina
+			# Máquina
 			# Deposito
 			# Cortes N1
 			# Cortes N2
 			# Cortes N3
-			# % pe�a plano
-			# C�digo pe�a ERP
-			# Descri��o da pe�a
-			# Comp. pe�a
-			# Largura pe�a
-			# m� liq. pe�a
-			# Qdt prog.
-			# m�  liq. total
-			# m� liq.  total
-			# m� bruto pe�a
-			# Qtd  produzida
-			# P�s sup. prod.
-			# m� sup. prod.
+			# % peça no plano
+			# Código peça ERP				Peça
+			# Descrição da peça
+			# Comprimento da peça
+			# Largura da peça
+			# m² líquido peça
+			# Quantidade programada
+			# m² líquido total peça
+			# m³ líquido total peça
+			# m² bruto peça
+			# Quantidade produzida
+			# Peças superprodução
+			# m² superprodução
 			# Data embalagem
-			# Refer�ncia
+			# Referência do item
 			# Lote
-			# L�gica
-			# Cod. chapa ERP
-			# N�vel
+			# Lógica Ardis
+			# Código chapa ERP Cadastro
+			# Nível
 			# Prioridade
-			# Comp. p� final
-			# Larg. p� final
+			# Comprimento peça final
+			# Largura peça final
 			# % produzido
-			# Nome arquivo data
+			# Nome arquivo data				Cabeçalho
 			# Tipo dado
-			# Usu�rio
-			# Data proc.
-			# Hora proc.
+			# Usuário
+			# Data processamento
+			# Hora processamento
 			# Unidade
+			# Descrição Peça 2
 
+			# Remove espaços, % e asteriscos
+			row = dict((k, v.strip()) for k, v in row.items())
+			row = dict((k, v.replace('%', '')) for k, v in row.items())
+			row = dict((k, v.replace('*****', '100')) for k, v in row.items())
 
-			if row['tipo dado'] == 'DATA_PECA':
-
+			if row['tipo dado'] == 'DATA_PEÇA':
 
 				# Dados do projeto
 				cabecalho = {
-					# 'nome_projeto'      : row[].upper(),
 					'nome_arquivo'      : row['nome arquivo data'].upper(),
+					'tempo_corte'     	: row['tempo corte'],
+					'data_processamento': row['data processamento'],
+					'hora_processamento': row['hora processamento'],
+					'fabrica'           : row['unidade'].title(),
+					# ----------
 					'maquina'           : row['máquina'].title(),
-					# 'tempo_maquina'     : data[0][5].strip(),
-					'tempo_corte'     	: row['tempo_corte'],
-					'data_processamento': row['data proc.'],
-					'hora_processamento': row['hora proc.'],
-					'fabrica'           : row['fábrica'],
+					# ----------
 					'usuario'           : row['usuário'].title(),
 				}
 
-				# layout = {
-				# 	'numero_plano'        : int(line[0]),
-				# 	'codigo_material'     : int(line[1]),
-				# 	'descricao_material'  : line[2],
-				# 	'comprimento_material': int(line[3]),
-				# 	'largura_material'    : int(line[4]),
-				# 	'quantidade_material' : int(line[5]),
-				# 	'aproveitamento'      : float(line[6]),
-				# 	'area_material'       : float(line[7]),
-				# 	'tempo_processo'      : line[8],
-				# 	'familia_material'    : line[9],
-				# }
-
-				chapa = {
-					'codigo_chapa'           : row['codigo chapa erp'],
-					'descricao_chapa'        : row['desc. da chapa'],
-					'familia_chapa'          : row['familia da chapa'],
-					'espessura_chapa'        : row['espessura'],
-					'comprimento_chapa'      : row['comp. chapa'],
-					'largura_chapa'          : row['larg. chapa'],
-					'metro_quadrado_da_chapa': row['m² da chapa'],      # ?
-					'metro_quadrado_chapa'   : row['m² chapa'],         # ?
-					'quantidade_chapa'       : row['qtd chapa'],
-				}
-
 				plano = {
-					'metro_quadrado_plano' : row['m² total plano'],
-					'carregamentos'        : row['carregamentos'],
-					'quantidade_por_corte' : row['qtd por corte'],
-					'aproveitamento'       : row['aproveitamento'],
-					'ocupacao_maquina'     : row['ocupação máquina'],
-					'metro_quadrado_chapa' : row['m² chapa'],         # ?
-					'custo_por_metro'      : row['custo r$/m²'],
-					'tempo_corte'          : row['tempo corte'],
-					'maquina'              : row['máquina'],
-					'deposito'             : row['depósito'],
-					'cortes_n1'            : row['cortes n1'],
-					'cortes_n2'            : row['cortes n2'],
-					'cortes_n3'            : row['cortes n3'],
-					'percentual_peca_plano': row['% peça plano'],
+					# ----------
+					'codigo_chapa_usado'         : row['código chapa erp usada'],
+					# ----------
+					'numero_layout'              : row['n° layout'],
+					'metro_cubico_plano'         : float(row['m³ total plano']) if row['m³ total plano'] else row['m³ total plano'],
+					'carregamentos'              : int(row['carregamentos']) if row['carregamentos'] else row['carregamentos'],
+					'quantidade_por_corte'       : row['quantidade por corte'],
+					'aproveitamento'             : float(row['aproveitamento']) if row['aproveitamento'] else row['aproveitamento'],
+					'percentual_ocupacao_maquina': float(row['ocupação máquina']) if row['ocupação máquina'] else row['ocupação máquina'],
+					'metro_quadrado_chapa'       : float(row['m² da chapa']) if row['m² da chapa'] else row['m² da chapa'],
+					'custo_por_metro'            : float(row['custo r$/m²']) if row['custo r$/m²'] else row['custo r$/m²'],
+					'tempo_corte'                : row['tempo corte'],
+					'deposito'                   : row['deposito'].upper(),
+					'cortes_n1'                  : int(row['cortes n1']) if row['cortes n1'] else row['cortes n1'],
+					'cortes_n2'                  : int(row['cortes n2']) if row['cortes n2'] else row['cortes n2'],
+					'cortes_n3'                  : int(row['cortes n3']) if row['cortes n3'] else row['cortes n3'],
+					'percentual_peca_plano'      : float(row['% peça no plano']) if row['% peça no plano'] else row['% peça no plano'],
 				}
 
 				peca = {
 					'codigo_peca'                      : row['código peça erp'],
-					'descricao_peca'                   : row['descrição da peça'],
-					'comprimento_peca'                 : row['comp. peça'],
-					'largura_peca'                     : row['larg. peça'],
-					'metro_quadrado_liquido_peca'      : row['m² liq. peça'],
-					'quantidade_programada'            : row['qtd prog.'],
-					'metro_quadrado_liquido_total'     : row['m² liq. total'],
-					'metro_cubico_liquido_total'       : row['m³ liq. total'],
-					'metro_quadrado_bruto_peca'        : row['m² bruto peça'],
-					'quantidade_produzida'             : row['qtd  produzida'],
-					'pecas_superiores_produzidas'      : row['pçs sup. prod.'],
-					'metro_quadrado_superior_produzido': row['m² sup. prod.'],
+					# 'descricao_peca'                   : row['descrição da peça'],
+					'descricao_peca'                   : row['descrição peça 2'],
+					'comprimento_peca_final'           : int(row['comprimento peça final']) if row['comprimento peça final'].isdigit() else row['comprimento peça final'],
+					'largura_peca_final'               : int(row['largura peça final']) if row['largura peça final'].isdigit() else row['largura peça final'],
+					# ----------
+					'codigo_chapa_cadastro'            : row['código chapa erp cadastro'],
+					# ----------
+					'comprimento_peca'                 : int(row['comprimento da peça']) if row['comprimento da peça'].isdigit() else row['comprimento da peça'],
+					'largura_peca'                     : int(row['largura da peça']) if row['largura da peça'].isdigit() else row['largura da peça'],
+					'espessura_peca'                   : float(row['espessura chapa e peça']) if row['espessura chapa e peça'] else row['espessura chapa e peça'],
+					'quantidade_programada'            : int(row['quantidade programada']) if row['quantidade programada'] else row['quantidade programada'],
+					'metro_quadrado_liquido_peca'      : float(row['m² líquido peça']) if row['m² líquido peça'] else row['m² líquido peça'],
+					'metro_quadrado_liquido_total_peca': float(row['m² líquido total peça']) if row['m² líquido total peça'] else row['m² líqido total peça'],
+					'metro_cubico_liquido_total_peca'  : float(row['m³ líquido total peça']) if row['m³ líquido total peça'] else row['m³ líquido total peça'],
+					'metro_quadrado_bruto_peca'        : float(row['m² bruto peça']) if row['m² bruto peça'] else row['m² bruto peça'],
+					'quantidade_produzida'             : int(row['quantidade produzida']) if row['quantidade produzida'] else row['quantidade produzida'],
+					'pecas_superiores_produzidas'      : row['peças superprodução'],
+					'metro_quadrado_superior_produzido': float(row['m² superprodução']) if row['m² superprodução'].isdigit() else row['m² superprodução'],
 					'data_embalagem'                   : row['data embalagem'],
-					'referencia'                       : row['referencia'],	# referencia peca
+					'referencia_item'                  : row['referência do item'],
+					'lote'                             : int(row['lote']) if row['lote'] else row['lote'],
+					'logica_ardis'                     : row['lógica ardis'],
+					'nivel'                            : int(row['nível']) if row['nível'].isdigit() else row['nível'],
+					'prioridade'                       : int(row['prioridade']) if row['prioridade'].isdigit() else 0,
+					'percentual_produzido'             : float(row['% produzido']) if row['% produzido'].isdigit() else 0,
 				}
 
-				peca = {
-					'numero_peca'     : int(line[0]),
-					'codigo_peca'     : line[1],
-					'descricao_peca'  : line[2],
-					'comprimento_peca': int(line[3]),
-					'largura_peca'    : int(line[4]),
-					'quantidade_peca' : int(line[5]),
-					'produzido'       : float(line[6]),
-					'area_material'   : float(line[7]),
-					'ordem'           : int(line[8]) if line[8] else line[8],
-					'item_pai'        : int(line[9]) if line[9] else line[9],
-					'cod_cadastro'    : int(line[10]) if line[10] else line[10],
-					'qtd_ordem'       : int(line[11]),
-					'logica_ardis'    : int(line[12]),
-					'data_embalagem'  : datetime.strptime(line[7], '%d/%m/%y').strftime('%d/%m/%Y'),
+				# print(row['código chapa erp usada'])
+				chapa = {
+					# 'codigo_chapa_usada'           : int(row['código chapa erp']),
+					# 'codigo_chapa_cadastro'           : int(row['código chapa erp']),
+					'descricao_chapa'        : row['descrição da chapa'],
+					'classificacao_chapa'    : row['classificação da chapa'],
+					'comprimento_chapa'      : float(row['comprimento chapa']) if row['comprimento chapa'] else row['comprimento chapa'],
+					'largura_chapa'          : float(row['largura chapa']) if row['largura chapa'] else row['largura chapa'],
+					'espessura_chapa'        : float(row['espessura chapa e peça']) if row['espessura chapa e peça'] else row['espessura chapa e peça'],
+					# ----------
+					'metro_quadrado_chapa'   : float(row['m² da chapa']) if row['m² da chapa'] else row['m² da chapa'],
+					'quantidade_chapa'       : int(row['quantidade de chapa']) if row['quantidade de chapa'] else row['quantidade de chapa'],
 				}
 
-				insert = {}
-				insert.update(cabecalho)
-				# insert.update(plano)
-				insert.update(peca)
-
-				planos.append(insert)
-
-
-			print(planos)
-			exit()
-		exit()
-
-		# Dados do projeto
-		# Dados do cabeçalho do arquivo
-		fabrica = data[0][0]
-		cabecalho = {
-			  'nome_projeto'      : data[0][0].upper(),
-			  'maquina'           : data[0][1].strip().title(),
-			  'data_processamento': data[0][2],
-			  'tempo_maquina'     : data[0][5].strip(),
-			# 'hora_processamento': data[0][2],
-			  'usuario'           : data[0][3].title(),
-			# 'fabrica'           : ,
-		}
-
-		# Tamanhos das arrays de dados
-		lens = [len(line) for line in data[1:-1]]
-		lens = list(set(lens))
-		lens.sort()
-
-		# Varredura dos dados
-		for line in data[1:-1]:
-			
-			# Cabeçalhos = min(lens)
-			# Plano
-			if len(line) == min(lens):
-
-				# Arquivo de entrada
-				# line[0] = No.               = numero_plano
-				# line[1] = Código            = codigo_material
-				# line[2] = Desc. Material    = descricao_material
-				# line[3] = Comp.             = comprimento_material
-				# line[4] = Larg.             = largura_material
-				# line[5] = Qtd.              = quantidade_material
-				# line[6] = %                 = aproveitamento
-				# line[7] = m²                = area_material
-				# line[8] = tempo de processo = tempo_processo
-				# line[9] = Tipo de material  = familia_material
-
-				plano = {
-					'numero_plano'        : int(line[0]),
-					'codigo_material'     : int(line[1]),
-					'descricao_material'  : line[2],
-					'comprimento_material': int(line[3]),
-					'largura_material'    : int(line[4]),
-					'quantidade_material' : int(line[5]),
-					'aproveitamento'      : float(line[6]),
-					'area_material'       : float(line[7]),
-					'tempo_processo'      : line[8],
-					'familia_material'    : line[9],
-				}
-
-			else:
-				# Peça = max(lens)
-				# line[0]  = #               = numero_peca
-				# line[1]  = Código          = codigo_peca
-				# line[2]  = Descrição       = descricao_peca
-				# line[3]  = Comp.           = comprimento_peca
-				# line[4]  = Larg.           = largura_peca
-				# line[5]  = Qtd.            = quantidade_peca
-				# line[6]  = Produzido       = produzido
-				# line[7]  = m²              = area_material
-				# line[8]  = Ordem           = ordem
-				# line[9]  = item            = item_pai
-				# line[10] = Código cadastro = cod_cadastro
-				# line[11] = quantidade      = qtd_ordem
-				# line[12] = lógica          = logica_ardis
-
-				peca = {
-					'numero_peca'     : int(line[0]),
-					'codigo_peca'     : line[1],
-					'descricao_peca'  : line[2],
-					'comprimento_peca': int(line[3]),
-					'largura_peca'    : int(line[4]),
-					'quantidade_peca' : int(line[5]),
-					'produzido'       : float(line[6]),
-					'area_material'   : float(line[7]),
-					'ordem'           : int(line[8]) if line[8] else line[8],
-					'item_pai'        : int(line[9]) if line[9] else line[9],
-					'cod_cadastro'    : int(line[10]) if line[10] else line[10],
-					'qtd_ordem'       : int(line[11]),
-					'logica_ardis'    : int(line[12]),
-					'data_embalagem'  : datetime.strptime(line[7], '%d/%m/%y').strftime('%d/%m/%Y'),
-				}
+				# peca = {
+				# 	'data_embalagem'  : datetime.strptime(line[7], '%d/%m/%y').strftime('%d/%m/%Y'),
+				# }
 
 				insert = {}
 				insert.update(cabecalho)
 				insert.update(plano)
 				insert.update(peca)
+				insert.update(chapa)
 
 				planos.append(insert)
-
 		return planos
 
 
@@ -352,7 +224,7 @@ def send_totvs(planos):
 # --------------------------------------------------
 # Cadastrar no sistema de controle de chapas (php)
 # Enviar para API
-def send_php():
+def send_php(planos):
 	# Converter dicionario em json
 	planos = json.dumps(planos, indent = 4)
 
@@ -382,17 +254,29 @@ def print_planos(planos):
 # Main
 
 path = 'Relatórios'
-# os.chdir(path)
+path = 'F:\Automação\ARDIS\Data\Eng'
+os.chdir(path)
 
-# Lista arquivos do diretório
+# Get files list
+files = os.listdir(path)
+files = [file for file in files if file.endswith('.csv')]
+
+# Get the last file
+latest_file = max(files, key=os.path.getctime)
+
+planos = get_planos(latest_file)
+print_planos(planos)
+
+# # Lista arquivos do diretório
 # for file in os.listdir():
 # 	# Check whether file is in text format or not
-# 	if file.endswith(".txt"):
+	
+# 	if file.endswith(".csv"):
 # 		file_path = f"{file}"
 
-# 		get_planos(file_path)
-		# planos = send_php()
-		# print_planos(planos)
+# 		planos = get_planos(file_path)
+# 		# send_php(planos)
+# 		print_planos(planos)
 
 # cwd = os.getcwd()  # Get the current working directory (cwd)
 # files = os.listdir(cwd)  # Get all the files in that directory
@@ -402,7 +286,10 @@ path = 'Relatórios'
 # filename = 'Fase 2/RELATORIO_PEÇAS.TXT'
 # filename = 'Relatórios/G20070515Z.1_-_50006272022_151536_FV.csv'
 
-filename = f'{path}/29062022_070710_300622 - 12_FV_data.csv'
+# filename = f'{path}/29062022_070710_300622 - 12_FV_data.csv'
+# filename = f'{path}/01072022_073826_G20070515Z.1 - 500_FV_data.csv'
+# filename = f'{path}/01072022_095252_G20070515Z.1 - 500_FV_data.csv'
 # filename = f'{path}/29062022_082952_300622 - 12_FV_data.csv'
 
-get_planos(filename)
+# planos = get_planos(filename)
+# print_planos(planos)
