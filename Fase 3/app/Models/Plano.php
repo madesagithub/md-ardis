@@ -12,13 +12,22 @@ class Plano extends Model
      * @var array
      */
     protected $fillable = [
-		'numero',
+		'numero_layout',
 		'projeto_id',
-		'material_id',
+		'chapa_id',
+		'quantidade_chapa',
+		'metro_quadrado_chapa',
 		'aproveitamento',
-		'quantidade_material',
-		'tempo_processo',
-		'active',
+		'carregamentos',
+		'tempo_corte',
+		'metro_cubico',
+		'quantidade_por_corte',
+		'percentual_ocupacao_maquina',
+		'custo_por_metro',
+		'cortes_n1',
+		'cortes_n2',
+		'cortes_n3',
+		'active'
 	];
 
 	public function ordens()
@@ -26,9 +35,9 @@ class Plano extends Model
 		return $this->hasMany(Ordem::class);
 	}
 	
-	public function material()
+	public function chapa()
 	{
-		return $this->belongsTo(Material::class);
+		return $this->belongsTo(Chapa::class);
 	}
 
 	public function projeto()

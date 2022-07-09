@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Maquina extends Model
+class Produto extends Model
 {
 	/**
      * The attributes that are mass assignable.
@@ -12,17 +12,16 @@ class Maquina extends Model
      * @var array
      */
     protected $fillable = [
-		'nome',
-		'fabrica_id',
+		'referencia',
 	];
 
-	public function fabrica()
+	public function pecas()
 	{
-		return $this->belongsTo(Fabrica::class);
+		return $this->hasMany(Peca::class);
 	}
 
-	public function projetos()
+	public function lotes()
 	{
-		return $this->hasMany(Projeto::class);
+		return $this->hasMany(Lote::class);
 	}
 }

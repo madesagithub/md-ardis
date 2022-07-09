@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Fabrica;
+use App\Models\Produto;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,11 +14,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('maquinas', function (Blueprint $table) {
+        Schema::create('lotes', function (Blueprint $table) {
             $table->id();
-			$table->string('nome');
-			$table->foreignIdFor(Fabrica::class)
-				->constrained('fabricas');
+			$table->integer('numero');
+			$table->foreignIdFor(Produto::class)
+				->constrained('produtos');
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('maquinas');
+        Schema::dropIfExists('lotes');
     }
 };

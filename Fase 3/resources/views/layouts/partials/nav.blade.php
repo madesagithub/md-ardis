@@ -11,7 +11,7 @@
 				<li><a href="#" class="nav-link px-2 text-secondary {{ Route::currentRouteName() === 'estrutura.buscar' ? 'active' : null }}">Home</a></li>
 				<li><a href="{{ route('projeto.index') }}" class="nav-link px-2 text-white">Projetos</a></li>
 				<li><a href="{{ route('ordem.index') }}" class="nav-link px-2 text-white">Ordens</a></li>
-				<li><a href="{{ route('material.index') }}" class="nav-link px-2 text-white">Materiais</a></li>
+				<li><a href="{{ route('chapa.index') }}" class="nav-link px-2 text-white">Materiais</a></li>
 				<li><a href="{{ route('peca.index') }}" class="nav-link px-2 text-white">Peças</a></li>
 				<li><a href="{{ route('maquina.index') }}" class="nav-link px-2 text-white">Maquinas</a></li>
 			</ul>

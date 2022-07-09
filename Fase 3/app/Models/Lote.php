@@ -4,18 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Peca extends Model
+class Lote extends Model
 {
 	/**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [
-		'codigo',
-		'descricao',
-		'comprimento_final',
-		'largura_final',
+	 * The attributes that are mass assignable.
+	 *
+	 * @var array
+	 */
+	protected $fillable = [
+		'numero',
 		'produto_id',
 	];
 
@@ -23,7 +20,7 @@ class Peca extends Model
 	{
 		return $this->belongsTo(Produto::class);
 	}
-	
+
 	public function ordens()
 	{
 		return $this->hasMany(Ordem::class);

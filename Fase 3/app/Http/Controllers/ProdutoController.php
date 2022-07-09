@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Models\Ordem;
+use App\Models\Produto;
 use Illuminate\Http\Request;
 
-class OrdemController extends Controller
+class ProdutoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +14,7 @@ class OrdemController extends Controller
      */
     public function index()
     {
-        return response()->json(Ordem::all());
+        //
     }
 
     /**
@@ -36,24 +35,16 @@ class OrdemController extends Controller
      */
     public function store(Request $request)
     {
-		$ordem = Ordem::create([
-			'identificador' => $request->input('identificador'),
-			'chapa_id' => 1,
-			'peca_id' => 1,
-			'ordem' => $request->input('ordem'),
-			'tempo' => $request->input('tempo'),
-		]);
-
-        return response()->json($ordem);
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Produto  $produto
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Produto $produto)
     {
         //
     }
@@ -61,10 +52,10 @@ class OrdemController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Produto  $produto
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Produto $produto)
     {
         //
     }
@@ -73,10 +64,10 @@ class OrdemController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Models\Produto  $produto
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Produto $produto)
     {
         //
     }
@@ -84,10 +75,10 @@ class OrdemController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\Produto  $produto
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Produto $produto)
     {
         //
     }

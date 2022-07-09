@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Lote;
 use App\Models\Peca;
 use App\Models\Plano;
 use App\Models\Projeto;
@@ -18,15 +19,30 @@ return new class extends Migration
     {
         Schema::create('ordens', function (Blueprint $table) {
 			$table->id();
-			$table->integer('ordem');
-			$table->foreignIdFor(Peca::class)
-				->constrained('pecas');
-			$table->integer('quantidade_peca');
-			$table->date('data_embalagem');
-			$table->float('produzido');
+			// $table->integer('ordem');
 			$table->foreignIdFor(Plano::class)
 				->constrained();
-			$table->boolean('active')->default(true);
+			$table->foreignIdFor(Peca::class)
+				->constrained();
+			$table->integer('comprimento_peca');
+			$table->integer('largura_peca');
+			$table->integer('espessura_peca');
+			$table->integer('quantidade_programada');
+			$table->integer('quantidade_produzida');
+			$table->float('metro_quadrado_bruto_peca');
+			$table->float('metro_quadrado_liquido_peca');
+			$table->float('metro_quadrado_liquido_total_peca');
+			$table->float('metro_cubico_liquido_total_peca');
+			$table->integer('pecas_superproducao');
+			$table->float('metro_quadrado_superproducao');
+			$table->float('percentual_peca_plano');
+			$table->foreignIdFor(Lote::class)
+				->constrained();
+			$table->integer('logica_ardis');
+			$table->integer('nivel');
+			$table->integer('prioridade');
+			$table->float('percentual_produzido');
+			$table->date('data_embalagem');
 			$table->timestamps();
         });
     }

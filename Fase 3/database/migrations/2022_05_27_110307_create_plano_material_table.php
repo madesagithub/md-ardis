@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Material;
+use App\Models\Chapa;
 use App\Models\Projeto;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -15,12 +15,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('projeto_material', function (Blueprint $table) {
+        Schema::create('projeto_chapa', function (Blueprint $table) {
             $table->id();
 			$table->foreignIdFor(Projeto::class)
 				->constrained('projetos');
-			$table->foreignIdFor(Material::class)
-				->constrained('materiais');
+			$table->foreignIdFor(Chapa::class)
+				->constrained('chapas');
 			$table->integer('ordem');
             $table->timestamps();
         });
@@ -33,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('projeto_material');
+        Schema::dropIfExists('projeto_chapa');
     }
 };

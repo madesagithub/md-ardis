@@ -4,14 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Material extends Model
+class Chapa extends Model
 {
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'materiais';
+    protected $table = 'chapas';
 
 	/**
      * The attributes that are mass assignable.
@@ -20,13 +20,20 @@ class Material extends Model
      */
     protected $fillable = [
 		'codigo',
+		'familia_id',
 		'descricao',
 		'comprimento',
 		'largura',
+		'espessura',
 	];
 
 	public function planos()
 	{
 		return $this->hasMany(Plano::class);
+	}
+
+	public function familia()
+	{
+		return $this->belongsTo(FamiliaChapa::class);
 	}
 }

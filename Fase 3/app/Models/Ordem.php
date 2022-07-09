@@ -19,13 +19,27 @@ class Ordem extends Model
      * @var array
      */
     protected $fillable = [
-		'ordem',
-		'peca_id',
-		'quantidade_peca',
-		'data_embalagem',
-		'produzido',
+		// 'ordem',
 		'plano_id',
-		'active'
+		'peca_id',
+		'comprimento_peca',
+		'largura_peca',
+		'espessura_peca',
+		'quantidade_programada',
+		'quantidade_produzida',
+		'metro_quadrado_bruto_peca',
+		'metro_quadrado_liquido_peca',
+		'metro_quadrado_liquido_total_peca',
+		'metro_cubico_liquido_total_peca',
+		'pecas_superproducao',
+		'metro_quadrado_superproducao',
+		'percentual_peca_plano',
+		'lote_id',
+		'logica_ardis',
+		'nivel',
+		'prioridade',
+		'percentual_produzido',
+		'data_embalagem',
 	];
 
 	public function plano()
@@ -36,5 +50,10 @@ class Ordem extends Model
 	public function peca()
 	{
 		return $this->belongsTo(Peca::class);
+	}
+
+	public function lote()
+	{
+		return $this->belongsTo(Lote::class);
 	}
 }

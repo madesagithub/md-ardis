@@ -14,9 +14,9 @@ class Projeto extends Model
     protected $fillable = [
 		'nome',
 		'maquina_id',
+		'deposito_id',
 		'user_id',
 		'data_processamento',
-		'tempo_maquina',
 		'active'
 	];
 

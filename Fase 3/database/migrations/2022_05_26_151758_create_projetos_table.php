@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Deposito;
 use App\Models\Maquina;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
@@ -20,10 +21,11 @@ return new class extends Migration
 			$table->string('nome');
 			$table->foreignIdFor(Maquina::class)
 				->constrained('maquinas');
+			$table->foreignIdFor(Deposito::class)
+				->constrained('depositos');
 			$table->foreignIdFor(User::class)
 				->constrained('users');
-			$table->date('data_processamento');
-			$table->time('tempo_maquina');
+			$table->dateTime('data_processamento');
 			$table->boolean('active')->default(true);
 			$table->timestamps();
         });

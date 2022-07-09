@@ -23,13 +23,13 @@
 		
 		@foreach ($projeto->planos as $plano)
 		<!-- Plano -->
-		<div class="card card-material mb-4">
+		<div class="card card-chapa mb-4">
 			<div class="card-body">
 
 				<div class="row mb-4 justify-content-between">
 					<div class="col-auto align-self-center">
 						<h4 class="h4 mb-0">
-							{{ $plano->numero }} &nbsp; {{ $plano->material->descricao }} &nbsp; {{ $plano->aproveitamento }}%	
+							{{ $plano->numero }} &nbsp; {{ $plano->chapa->descricao }} &nbsp; {{ $plano->aproveitamento }}%	
 						</h4>
 					</div>
 

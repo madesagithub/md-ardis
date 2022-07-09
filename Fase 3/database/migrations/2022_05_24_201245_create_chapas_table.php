@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Fabrica;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,11 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('maquinas', function (Blueprint $table) {
+        Schema::create('chapas', function (Blueprint $table) {
             $table->id();
-			$table->string('nome');
-			$table->foreignIdFor(Fabrica::class)
-				->constrained('fabricas');
+			$table->string('codigo');
+			$table->foreignId('familia_id')
+				->constrained('familia_chapas');
+			$table->string('descricao')->nullable();
+			$table->integer('comprimento')->nullable();
+			$table->integer('largura')->nullable();
+			$table->integer('espessura')->nullable();
             $table->timestamps();
         });
     }
@@ -30,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('maquinas');
+        Schema::dropIfExists('chapas');
     }
 };

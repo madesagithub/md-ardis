@@ -4,10 +4,15 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Maquina;
-use App\Models\Material;
+use App\Models\Chapa;
+use App\Models\Deposito;
+use App\Models\Fabrica;
+use App\Models\FamiliaChapa;
+use App\Models\Lote;
 use App\Models\Ordem;
 use App\Models\Peca;
 use App\Models\Plano;
+use App\Models\Produto;
 use App\Models\Projeto;
 use App\Models\User;
 use Carbon\Carbon;
@@ -35,89 +40,204 @@ class ProjetoController extends Controller
     {
 		foreach (json_decode($request->input()[0]) as $data) {
 
-			// return $data->nome_projeto;
-			// return date('Y-m-d', time());
+			// Fábrica
+			$fabrica = Fabrica::firstWhere('nome', $data->fabrica);
+			if (! $fabrica) {
+				$fabrica = Fabrica::create([
+					'nome' => $data->fabrica,
+				]);
+			}
+			dump($fabrica->getAttributes());
 
-			$projeto = Projeto::firstWhere('nome', $data->nome_projeto);
-			$maquina = Maquina::firstWhere('nome', $data->maquina);
-			$material = Material::firstWhere('codigo', $data->codigo_material);
-			$peca = Peca::firstWhere('codigo', $data->codigo_peca);
-			$user = User::firstWhere('name', $data->usuario);
+			// Maquina
+			$maquina = Maquina::firstWhere([
+				['nome', $data->maquina],
+				['fabrica_id', $fabrica->id],
+			]);
 
-			// Criar Maquina
 			if (! $maquina) {
 				$maquina = Maquina::create([
 					'nome' => $data->maquina,
+					'fabrica_id' => $fabrica->id,
 				]);
 			}
+			dump($maquina->getAttributes());
 
-			// Criar Material
-			if (! $material) {
-				$material = Material::create([
-					'codigo' => $data->codigo_material,
-					'descricao' => $data->descricao_material,
-					'comprimento' => $data->comprimento_material,
-					'largura' => $data->largura_material,
-				]);
-			}
-	
-			// Criar Peca
-			if (! $peca) {
-				$peca = Peca::create([
-					'codigo' => $data->codigo_peca,
-					'descricao' => $data->descricao_peca,
-					'comprimento' => $data->comprimento_peca,
-					'largura' => $data->largura_peca,
-				]);
-			}
-
-			// Criar User
+			// User
+			$user = User::firstWhere('name', $data->usuario);
 			if (! $user) {
 				$user = User::create([
 					'name' => $data->usuario,
 				]);
 			}
+			dump($user->getAttributes());
 
-			// Criar Projeto
+			// Produto
+			$produto = Produto::firstWhere('referencia', $data->referencia_item);
+			if (! $produto) {
+				$produto = Produto::create([		
+					'referencia' => $data->referencia_item,
+				]);
+			}
+			dump($produto->getAttributes());
+
+			// Lote
+			$lote = Lote::create([
+				'numero' => $data->lote,
+				'produto_id' => $produto->id,
+			]);
+
+			if (! $lote) {
+				$lote = Lote::firstWhere([
+					'numero', $data->lote,
+					'produto_id', $produto->id,
+				]);
+			}
+			dump($lote->getAttributes());
+
+			// Familia chapa
+			$familiaChapa = FamiliaChapa::firstWhere('nome', $data->familia_chapa);
+			if (! $familiaChapa) {
+				$familiaChapa = FamiliaChapa::create([
+					'nome' => $data->familia_chapa,
+				]);
+			}
+			dump($familiaChapa->getAttributes());
+
+			// Chapa
+			$chapaCadastro = Chapa::firstWhere('codigo', $data->codigo_chapa_cadastro);
+			if (! $chapaCadastro) {
+				$chapaCadastro = Chapa::create([
+					'codigo' => $data->codigo_chapa_cadastro,
+					'familia_id' => $familiaChapa->id,
+					'descricao' => $data->descricao_chapa,
+					'comprimento' => $data->comprimento_chapa,
+					'largura' => $data->largura_chapa,
+					'espessura' => $data->espessura_chapa,	// verificar
+				]);			
+			}
+
+			if (is_null($chapaCadastro->getAttribute('descricao'))) {
+				$chapaCadastro->descricao = $data->descricao_chapa;
+				$chapaCadastro->comprimento = $data->comprimento_chapa;
+				$chapaCadastro->largura = $data->largura_chapa;
+				$chapaCadastro->espessura = $data->espessura_chapa;
+				$chapaCadastro->save();
+			}
+			dump($chapaCadastro->getAttributes());
+
+			// Chapa utilizada
+			$chapaUtilizada = Chapa::firstWhere('codigo', $data->codigo_chapa_usado);
+			if (! $chapaUtilizada) {
+				$chapaUtilizada = Chapa::create([
+					'codigo' => $data->codigo_chapa_usado,
+					'familia_id' => $familiaChapa->id,
+				]);			
+			}
+			dump($chapaUtilizada->getAttributes());
+
+			// Peca
+			$peca = Peca::firstWhere([
+				['codigo', $data->codigo_peca],
+				['produto_id', $produto->id]]
+			);
+
+			if (! $peca) {
+				$peca = Peca::create([
+					'codigo' => $data->codigo_peca,
+					'descricao' => $data->descricao_peca,
+					'comprimento_final' => $data->comprimento_peca_final,
+					'largura_final' => $data->largura_peca_final,
+					'produto_id' => $produto->id,
+					'chapa_id' => $chapaCadastro->id,
+				]);
+			}
+			dump($peca->getAttributes());
+
+			// Deposito
+			$deposito = Deposito::firstWhere('nome', $data->deposito);
+			if (! $deposito) {
+				$deposito = Deposito::create([
+					'nome' => $data->deposito,
+				]);
+			}
+			dump($deposito->getAttributes());
+
+			// Projeto
+			$projeto = Projeto::firstWhere('nome', $data->nome_arquivo);
 			if (! $projeto) {
 				$projeto = Projeto::create([
-					'nome' => $data->nome_projeto,
+					'nome' => $data->nome_arquivo,
 					'maquina_id' => $maquina->id,
+					'deposito_id' => $deposito->id,
 					'user_id' => $user->id,
-					'data_processamento' => Carbon::createFromFormat('d/m/Y', $data->data_processamento)->format('Y-m-d'),
-					'tempo_maquina' => Carbon::createFromFormat('H:i', $data->tempo_maquina)->format('H:i'),
+					'data_processamento' => Carbon::createFromFormat(
+						'd/m/Y H:i:s', 
+						$data->data_processamento.' '.$data->hora_processamento.':00')->format('Y-m-d H:i:s'),
 					'active' => 1,
 				]);
 			}
+			dump($projeto->getAttributes());
 
+			// Plano
 			$plano = Plano::firstWhere([
 				'projeto_id' => $projeto->id,
-				'numero' => $data->numero_plano,
+				'numero_layout' => $data->numero_layout,
 			]);
 
-			// Criar Plano
 			if (! $plano) {
 				$plano = Plano::create([
-					'numero' => $data->numero_plano,
+					'numero_layout' => $data->numero_layout,
 					'projeto_id' => $projeto->id,
-					'material_id' => $material->id,
+					'chapa_id' => $chapaUtilizada->id,
+					'quantidade_chapa' => $data->quantidade_chapa,
+					'metro_quadrado_chapa' => $data->metro_quadrado_chapa,
 					'aproveitamento' => $data->aproveitamento,
-					'quantidade_material' => $data->quantidade_material,
-					'tempo_processo' => Carbon::createFromFormat('H:i', $data->tempo_processo)->format('H:i'),
+					'carregamentos' => $data->carregamentos,
+					'tempo_corte' => Carbon::createFromFormat('H:i', $data->tempo_corte)->format('H:i'),
+					'metro_cubico' => $data->metro_cubico_plano,
+					'quantidade_por_corte' => $data->quantidade_por_corte,
+					'percentual_ocupacao_maquina' => $data->percentual_ocupacao_maquina,
+					'custo_por_metro' => $data->custo_por_metro,
+					'cortes_n1' => $data->cortes_n1,
+					'cortes_n2' => $data->cortes_n2,
+					'cortes_n3' => $data->cortes_n3,
 					'active' => 1,
 				]);
 			}
+			dump($plano->getAttributes());
 
-			// Criar Ordem
+			// Ordem
+			$ordem = Ordem::firstWhere([
+				// ['numero', $data->numero_ordem],
+				['plano_id', $plano->id],
+				['peca_id', $peca->id],
+			]);	
+
 			$ordem = Ordem::create([
-				'ordem' => $data->ordem,
-				'peca_id' => $peca->id,
-				'quantidade_peca' => $data->quantidade_peca,
-				'data_embalagem' => Carbon::createFromFormat('d/m/Y', $data->data_embalagem)->format('Y-m-d'),
-				'produzido' => $data->produzido,
+				// 'ordem' => $data->ordem,	// Talvez precise
 				'plano_id' => $plano->id,
-				'active' => 1,
+				'peca_id' => $peca->id,
+				'comprimento_peca' => $data->comprimento_peca,
+				'largura_peca' => $data->largura_peca,
+				'espessura_peca' => $data->espessura_peca,
+				'quantidade_programada' => $data->quantidade_programada,
+				'quantidade_produzida' => $data->quantidade_produzida,
+				'metro_quadrado_bruto_peca' => $data->metro_quadrado_bruto_peca,
+				'metro_quadrado_liquido_peca' => $data->metro_quadrado_liquido_peca,
+				'metro_quadrado_liquido_total_peca' => $data->metro_quadrado_liquido_total_peca,
+				'metro_cubico_liquido_total_peca' => $data->metro_cubico_liquido_total_peca,
+				'pecas_superproducao' => $data->pecas_superproducao,
+				'metro_quadrado_superproducao' => $data->metro_quadrado_superproducao,
+				'percentual_peca_plano' => $data->percentual_peca_plano,
+				'lote_id' => $lote->id,
+				'logica_ardis' => $data->logica_ardis,
+				'nivel' => $data->nivel,
+				'prioridade' => $data->prioridade,
+				'percentual_produzido' => $data->percentual_produzido,
+				'data_embalagem' => Carbon::createFromFormat('d/m/y', $data->data_embalagem)->format('Y-m-d'),
 			]);
+			dump($ordem->getAttributes());
 		}
 
 		return response()->json([

@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\PecaController;
 use App\Http\Controllers\MaquinaController;
-use App\Http\Controllers\MaterialController;
+use App\Http\Controllers\ChapaController;
 use App\Http\Controllers\OrdemController;
 use App\Http\Controllers\ProjetoController;
 use Illuminate\Support\Facades\Route;
@@ -23,7 +23,7 @@ Route::get('/', function () {
 });
 
 Route::resource('peca', PecaController::class);
-Route::resource('material', MaterialController::class);
+Route::resource('chapa', ChapaController::class);
 Route::resource('maquina', MaquinaController::class);
 Route::resource('ordem', OrdemController::class);
 Route::resource('projeto', ProjetoController::class);

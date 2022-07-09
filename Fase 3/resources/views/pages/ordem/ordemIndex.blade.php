@@ -16,7 +16,7 @@
 
 		<hr class="mb-4">
 
-		<div class="card card-material">
+		<div class="card card-chapa">
 			<div class="card-body">
 
 				<div class="row">
@@ -95,7 +95,7 @@
 			</div>
 		</div>
 
-		<div class="card card-material mt-4">
+		<div class="card card-chapa mt-4">
 			<div class="card-body">
 
 				<div class="row">
