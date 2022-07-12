@@ -25,7 +25,7 @@ def get_planos(filename):
 			# N° Layout						Plano
 			# Código chapa ERP usada		Chapa
 			# Descrição da chapa
-			# Familia da chapa
+			# Classificação da chapa
 			# Espessura chapa e peça
 			# Comprimento chapa
 			# Largura Chapa
@@ -123,8 +123,7 @@ def get_planos(filename):
 
 				peca = {
 					'codigo_peca'                      : int(row['código peça erp']) if row['código peça erp'].isdigit() else row['código peça erp'],
-					# 'descricao_peca'                   : row['descrição da peça'],
-					'descricao_peca'                   : row['descrição peça 2'],
+					'descricao_peca'                   : row['descrição peça 2'] if row['descrição peça 2'] else row['descrição da peça'],
 					'comprimento_peca_final'           : int(row['comprimento peça final']) if row['comprimento peça final'].isdigit() else 0,
 					'largura_peca_final'               : int(row['largura peça final']) if row['largura peça final'].isdigit() else 0,
 				}
@@ -140,7 +139,7 @@ def get_planos(filename):
 				# Alterar para material?
 				chapa = {
 					'codigo_chapa_usado'   : int(row['código chapa erp usada']) if row['código chapa erp usada'].isdigit() else row['código chapa erp usada'],
-					'familia_chapa'        : row['familia da chapa'],
+					'classificacao_chapa'  : row['classificação da chapa'],
 					'descricao_chapa'      : row['descrição da chapa'],
 					'comprimento_chapa'    : int(row['comprimento chapa']) if row['comprimento chapa'].isdigit() else row['comprimento chapa'],
 					'largura_chapa'        : int(row['largura chapa']) if row['largura chapa'].isdigit() else row['largura chapa'],
@@ -275,6 +274,7 @@ def print_planos(planos):
 # filename = f'{path}/29062022_070710_300622 - 12_FV_data.csv'
 
 path = 'F:\Automação\ARDIS\Data\Eng'
+path = os.getcwd() + '/Relatórios'
 os.chdir(path)
 
 # Get files list
@@ -284,22 +284,10 @@ files = [file for file in files if file.endswith('.csv')]
 # Get the last file
 latest_file = max(files, key=os.path.getctime)
 
+# ----------
 planos = get_planos(latest_file)
 print_planos(planos)
 # send_totvs(planos)
-# send_php(planos)
-
-# # Lista arquivos do diretório
-# for file in os.listdir():
-# 	# Check whether file is in text format or not
-
-# 	if file.endswith(".csv"):
-# 		file_path = f"{file}"
-
-# 		planos = get_planos(file_path)
-# 		# send_php(planos)
-# 		print_planos(planos)
-
-# cwd = os.getcwd()  # Get the current working directory (cwd)
-# files = os.listdir(cwd)  # Get all the files in that directory
-# print("Files in %r: %s" % (cwd, files))
+send_php(planos)
+# ----------
+# General error: 1366 Incorrect integer value: &#039;CORTE 1X&#039; for column &#039;logica_ardis&#039; at row 1 (SQL: insert into `ordens` (`plano_id`, `peca_id`, `comprimento_peca`, `largura_peca`, `espessura_peca`, `quantidade_programada`, `quantidade_produzida`, `metro_quadrado_bruto_peca`, `metro_quadrado_liquido_peca`, `metro_quadrado_liquido_total_peca`, `metro_cubico_liquido_total_peca`, `pecas_superproducao`, `metro_quadrado_superproducao`, `percentual_peca_plano`, `lote_id`, `logica_ardis`, `nivel`, `prioridade`, `percentual_produzido`, `data_embalagem`, `updated_at`, `created_at`) values (3, 6, 613, 260, 15, 32, 140, 5.331238676, 0.15938, 5.10016, 0.0765024, 1, 0.17, 13.09748, 18, CORTE 1X, 0, 0, 22.9, 2022-07-06, 2022-07-11 13:44:27, 2022-07-11 13:44:27))

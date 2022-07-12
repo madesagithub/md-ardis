@@ -2,22 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Deposito;
-use App\Models\Fabrica;
-use App\Models\Lote;
-use App\Models\Maquina;
-use App\Models\Chapa;
-use App\Models\FamiliaChapa;
-use App\Models\Ordem;
-use App\Models\Peca;
-use App\Models\Plano;
-use App\Models\Produto;
-use App\Models\Projeto;
-use App\Models\User;
-use Carbon\Carbon;
+use App\Models\LogicaArdis;
 use Illuminate\Http\Request;
 
-class ProjetoController extends Controller
+class LogicaArdisController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -26,18 +14,7 @@ class ProjetoController extends Controller
      */
     public function index()
     {
-        $projetos = Projeto::all();
-        $projetos = Projeto::with('maquina')->get();
-
-        $projetos = Projeto::with(
-			'maquina',
-			// 'chapa',
-			'planos',
-			// 'ordem.peca',
-			'user',
-		)->get();
-
-		return view('pages.projeto.projetoIndex', compact('projetos'));
+        //
     }
 
     /**
@@ -58,16 +35,16 @@ class ProjetoController extends Controller
      */
     public function store(Request $request)
     {
-        return response()->json('Chegou aqui => store');
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Projeto  $projeto
+     * @param  \App\Models\LogicaArdis  $logicaArdis
      * @return \Illuminate\Http\Response
      */
-    public function show(Projeto $projeto)
+    public function show(LogicaArdis $logicaArdis)
     {
         //
     }
@@ -75,10 +52,10 @@ class ProjetoController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Projeto  $projeto
+     * @param  \App\Models\LogicaArdis  $logicaArdis
      * @return \Illuminate\Http\Response
      */
-    public function edit(Projeto $projeto)
+    public function edit(LogicaArdis $logicaArdis)
     {
         //
     }
@@ -87,10 +64,10 @@ class ProjetoController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Projeto  $projeto
+     * @param  \App\Models\LogicaArdis  $logicaArdis
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Projeto $projeto)
+    public function update(Request $request, LogicaArdis $logicaArdis)
     {
         //
     }
@@ -98,10 +75,10 @@ class ProjetoController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Projeto  $projeto
+     * @param  \App\Models\LogicaArdis  $logicaArdis
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Projeto $projeto)
+    public function destroy(LogicaArdis $logicaArdis)
     {
         //
     }

@@ -1,9 +1,9 @@
 <?php
 
+use App\Models\LogicaArdis;
 use App\Models\Lote;
 use App\Models\Peca;
 use App\Models\Plano;
-use App\Models\Projeto;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -38,7 +38,9 @@ return new class extends Migration
 			$table->float('percentual_peca_plano');
 			$table->foreignIdFor(Lote::class)
 				->constrained();
-			$table->integer('logica_ardis');
+			$table->foreignIdFor(LogicaArdis::class)
+				->nullable()
+				->constrained();
 			$table->integer('nivel');
 			$table->integer('prioridade');
 			$table->float('percentual_produzido');

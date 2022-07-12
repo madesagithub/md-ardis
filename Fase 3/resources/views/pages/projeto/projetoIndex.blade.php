@@ -18,9 +18,6 @@
 
 		<hr class="mb-4">
 
-		
-
-		
 		@foreach ($projeto->planos as $plano)
 		<!-- Plano -->
 		<div class="card card-chapa mb-4">
@@ -45,13 +42,13 @@
 
 			
 				@foreach ($plano->ordens as $ordem)
-				<!-- Peça -->
+				<!-- Ordem -->
 				<div class="card card-peca mb-3">
 					<div class="card-body">
 						<div class="row justify-content-between">
 							<div class="col-auto align-self-center">
 								<span>
-									{{ $ordem->ordem }}
+									{{ $ordem->id }}
 								</span>
 								&nbsp;
 								<span>
@@ -59,7 +56,7 @@
 								</span>
 								&nbsp;
 								<span>
-									{{ $ordem->quantidade_peca }}
+									{{ $ordem->quantidade_programada }}
 								</span>
 							</div>
 						</div>

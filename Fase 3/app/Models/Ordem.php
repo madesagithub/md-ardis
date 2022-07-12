@@ -35,7 +35,7 @@ class Ordem extends Model
 		'metro_quadrado_superproducao',
 		'percentual_peca_plano',
 		'lote_id',
-		'logica_ardis',
+		'logica_ardis_id',
 		'nivel',
 		'prioridade',
 		'percentual_produzido',
