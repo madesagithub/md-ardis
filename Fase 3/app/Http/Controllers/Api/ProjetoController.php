@@ -134,7 +134,7 @@ class ProjetoController extends Controller
 			$peca = Peca::firstWhere([
 				['codigo', $data->codigo_peca],
 				['produto_id', $produto->id],
-				['chapa_id', $produto->id]
+				// ['chapa_id', $chapaCadastro->id]
 			]);
 
 			if (!$peca) {

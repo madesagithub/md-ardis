@@ -31,9 +31,9 @@
 					</div>
 
 					<div class="col-auto">
-						<button class="btn btn-danger ms-1">
+						<a href="{{ route('plano.cancelar', ['id' => $plano->id]) }}" class="btn btn-danger ms-1" >
 							Cancelar
-						</button>
+						</a>
 						<button class="btn btn-success ms-1">
 							Finalizar
 						</button>

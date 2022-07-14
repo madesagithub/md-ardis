@@ -201,7 +201,7 @@ def send_totvs(planos):
 		cod_chave = '128964ard'
 
 		# Item a ser movimentado estoque
-		item = str(plano['codigo_chapa_usado'])
+		chapa = str(plano['codigo_chapa_usado'])
 
 		# Depósito de origem
 		dep_origem = 'ALM'
@@ -231,7 +231,7 @@ def send_totvs(planos):
 		# ----------
 
 		# Api para comunicação com o TOTVS
-		api_totvs = 'http://192.168.0.26:8888/scripts/cgiip.exe/WService='+ base +'/rsapi/rsapi015web?codChave='+ cod_chave +'&Item='+ item +'&dep_orig='+ dep_origem +'&loc_orig='+ loc_origem +'&dep_dest='+ dep_destino +'&loc_dest='+ loc_destino +'&quantidade='+ quantidade +'&codEmitente=' + cod_emitente
+		api_totvs = 'http://192.168.0.26:8888/scripts/cgiip.exe/WService='+ base +'/rsapi/rsapi015web?codChave='+ cod_chave +'&Item='+ chapa +'&dep_orig='+ dep_origem +'&loc_orig='+ loc_origem +'&dep_dest='+ dep_destino +'&loc_dest='+ loc_destino +'&quantidade='+ quantidade +'&codEmitente=' + cod_emitente
 
 		# response = requests.get(api)
 		# response.content

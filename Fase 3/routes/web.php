@@ -1,9 +1,10 @@
 <?php
 
+use App\Http\Controllers\ChapaController;
 use App\Http\Controllers\PecaController;
 use App\Http\Controllers\MaquinaController;
-use App\Http\Controllers\ChapaController;
 use App\Http\Controllers\OrdemController;
+use App\Http\Controllers\PlanoController;
 use App\Http\Controllers\ProjetoController;
 use Illuminate\Support\Facades\Route;
 
@@ -20,6 +21,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::resource('plano', PlanoController::class);
+Route::controller(PlanoController::class)->group(function () {
+    Route::get('/planos/cancelar/{id}', 'cancelar')->name('plano.cancelar');
+    // Route::post('/orders', 'store');
 });
 
 Route::resource('peca', PecaController::class);
