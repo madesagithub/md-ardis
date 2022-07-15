@@ -32,6 +32,38 @@ class Projeto extends Model
 		// 'user'
 	];
 
+	public function enable()
+	{
+		$this->active = true;
+		$this->save();
+	}
+
+	public function disable()
+	{
+		$this->active = false;
+		$this->save();
+	}
+
+	public function cancelarTotvs()
+	{
+		foreach ($this->planos as $plano) {
+			$plano->cancelarTotvs();
+		}
+
+		// Verificar respostas do TOTVS
+		$this->disable();
+	}
+
+	public function confirmarTotvs()
+	{
+		foreach ($this->planos as $plano) {
+			$plano->cancelarTotvs();
+		}
+
+		// Verificar respostas do TOTVS
+		$this->disable();
+	}
+
 	public function planos()
 	{
 		return $this->hasMany(Plano::class);

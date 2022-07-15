@@ -26,6 +26,7 @@ Route::get('/', function () {
 Route::resource('plano', PlanoController::class);
 Route::controller(PlanoController::class)->group(function () {
     Route::get('/planos/cancelar/{id}', 'cancelar')->name('plano.cancelar');
+    Route::get('/planos/confirmar/{id}', 'confirmar')->name('plano.confirmar');
     // Route::post('/orders', 'store');
 });
 

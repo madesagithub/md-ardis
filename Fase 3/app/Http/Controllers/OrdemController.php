@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Peca;
 use App\Models\Chapa;
 use App\Models\Ordem;
+use App\Models\Plano;
 use Illuminate\Http\Request;
 
 class OrdemController extends Controller

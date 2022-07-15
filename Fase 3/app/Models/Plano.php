@@ -30,6 +30,48 @@ class Plano extends Model
 		'active'
 	];
 
+	public function enable()
+	{
+		$this->active = true;
+		$this->save();
+	}
+
+	public function disable()
+	{
+		$this->active = false;
+		$this->save();
+	}
+
+	public function cancelarTotvs() {
+		foreach ($this->ordens as $ordem) {
+			$ordem->cancelarTotvs();
+		}
+
+		// Verificar respostas do TOTVS
+		// $this->disable();
+		$this->atualizarStatus();
+	}
+
+	public function confirmarTotvs() {
+		foreach ($this->ordens as $ordem) {
+			$ordem->confirmarTotvs();
+		}
+
+		// Verificar respostas do TOTVS
+		$this->disable();
+		$this->atualizarStatus();
+	}
+
+	public function atualizarStatus() {
+		$array = $this->ordens->pluck('status')->toArray();
+
+		if (in_array('CANCELADO', $array) || in_array('EM PROCESSAMENTO', $array)) {
+			$this->enable();
+		} else {
+			$this->disable();
+		}
+	}
+
 	public function ordens()
 	{
 		return $this->hasMany(Ordem::class);

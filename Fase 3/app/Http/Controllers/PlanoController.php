@@ -10,78 +10,17 @@ class PlanoController extends Controller
     public function cancelar($id)
 	{
 		$plano = Plano::find($id);
-		// dd($plano);
+		$plano->cancelarTotvs();
 
-		// $url = $this->getUrlApiTotvs($id);
-		$url = $this->getUrlApiTotvs($plano, 'cancel');
 		// return back();
 	}
 
-	public function getUrlApiTotvs(Plano $plano, $action)
+	public function confirmar($id)
 	{
-		# Item a ser movimentado estoque
-		$chapa = $plano->chapa->codigo;
+		$plano = Plano::find($id);
+		$plano->confirmarTotvs();
 
-		if ($action == 'cancel') {
-			# Depósito de origem
-			$depOrigem = 'ALM';
-
-			# Local de origem
-			$fabrica = preg_replace('~[^A-Z]~', '', $plano->projeto->maquina->fabrica->nome);
-
-			if ($fabrica == 'FB') {
-				$locOrigem = 'ALMB-A';
-			} elseif ($fabrica == 'FV') {
-				$locOrigem = 'ALMV-A';
-			}
-
-			# dep_dest à deposito destino
-			$depDestino = 'FAB';
-
-			# Local destino
-			$locDestino = '';
-
-		} elseif ($action == 'confirm') {
-			# Depósito de origem
-			$depOrigem = 'ALM';
-
-			# Local de origem
-			$fabrica = preg_replace('~[^A-Z]~', '', $plano->projeto->maquina->fabrica->nome);
-
-			if ($fabrica == 'FB') {
-				$locOrigem = 'ALMB-A';
-			} elseif ($fabrica == 'FV') {
-				$locOrigem = 'ALMV-A';
-			}
-
-			# dep_dest à deposito destino
-			$depDestino = 'FAB';
-
-			# Local destino
-			$locDestino = '';
-		}
-
-		foreach ($plano->ordens as $ordem) {
-
-			# Quantidade deve ser na unidade de medida cadastrada no sistema
-			$quantidade = $ordem->metro_quadrado_bruto_peca;
-
-			# Api para comunicação com o TOTVS
-			$apiTotvs = env('TOTVS_API') 
-				.'/WService='. env('TOTVS_BASE')
-				.'/rsapi/rsapi015web?codChave='. env('TOTVS_KEY')
-				.'&Item='. $chapa 
-				.'&dep_orig='. $depOrigem 
-				.'&loc_orig='. $locOrigem 
-				.'&dep_dest='. $depDestino 
-				.'&loc_dest='. $locDestino 
-				.'&quantidade='. $quantidade 
-				.'&codEmitente='. env('TOTVS_COD_EMITENTE');
-
-			
-			// Chamar API TOTVS
-			dump($apiTotvs);
-		}
+		// return back();
 	}
 	
 	/**
