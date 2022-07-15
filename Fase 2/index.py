@@ -290,4 +290,3 @@ print_planos(planos)
 # send_totvs(planos)
 send_php(planos)
 # ----------
-# General error: 1366 Incorrect integer value: &#039;CORTE 1X&#039; for column &#039;logica_ardis&#039; at row 1 (SQL: insert into `ordens` (`plano_id`, `peca_id`, `comprimento_peca`, `largura_peca`, `espessura_peca`, `quantidade_programada`, `quantidade_produzida`, `metro_quadrado_bruto_peca`, `metro_quadrado_liquido_peca`, `metro_quadrado_liquido_total_peca`, `metro_cubico_liquido_total_peca`, `pecas_superproducao`, `metro_quadrado_superproducao`, `percentual_peca_plano`, `lote_id`, `logica_ardis`, `nivel`, `prioridade`, `percentual_produzido`, `data_embalagem`, `updated_at`, `created_at`) values (3, 6, 613, 260, 15, 32, 140, 5.331238676, 0.15938, 5.10016, 0.0765024, 1, 0.17, 13.09748, 18, CORTE 1X, 0, 0, 22.9, 2022-07-06, 2022-07-11 13:44:27, 2022-07-11 13:44:27))

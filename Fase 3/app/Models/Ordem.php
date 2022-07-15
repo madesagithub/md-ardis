@@ -70,43 +70,38 @@ class Ordem extends Model
 		# Item a ser movimentado estoque
 		$chapa = $this->plano->chapa->codigo;
 
+		# Depósito de origem
+		$depOrigem = 'FAB';
+
+		# Local destino
+		$locOrigem = '';
+
+		$fabrica = preg_replace('~[^A-Z]~', '', $this->plano->projeto->maquina->fabrica->nome);
+
 		if ($action == 'cancel') {
-			# Depósito de origem
-			$depOrigem = 'ALM';
-
-			# Local de origem
-			$fabrica = preg_replace('~[^A-Z]~', '', $this->plano->projeto->maquina->fabrica->nome);
-
-			if ($fabrica == 'FB') {
-				$locOrigem = 'ALMB-A';
-			} elseif ($fabrica == 'FV') {
-				$locOrigem = 'ALMV-A';
-			}
-
 			# dep_dest à deposito destino
-			$depDestino = 'FAB';
+			$depDestino = 'ALM';
 
-			# Local destino
-			$locDestino = '';
+			# Local de destino
+			if ($fabrica == 'FB') {
+				$locDestino = 'ALMB-A';
+			} elseif ($fabrica == 'FV') {
+				$locDestino = 'ALMV-A';
+			}
 
 		} elseif ($action == 'confirm') {
-			# Depósito de origem
-			$depOrigem = 'ALM';
 
-			# Local de origem
-			$fabrica = preg_replace('~[^A-Z]~', '', $this->plano->projeto->maquina->fabrica->nome);
-
-			if ($fabrica == 'FB') {
-				$locOrigem = 'ALMB-A';
-			} elseif ($fabrica == 'FV') {
-				$locOrigem = 'ALMV-A';
-			}
-
+			// ALTERAR PARA NOVA API TOTVS
+		
 			# dep_dest à deposito destino
 			$depDestino = 'FAB';
 
-			# Local destino
-			$locDestino = '';
+			# Local de destino
+			if ($fabrica == 'FB') {
+				$locDestino = 'ALMB-A';
+			} elseif ($fabrica == 'FV') {
+				$locDestino = 'ALMV-A';
+			}
 		}
 
 		# Quantidade deve ser na unidade de medida cadastrada no sistema

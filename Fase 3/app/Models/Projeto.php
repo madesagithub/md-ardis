@@ -74,6 +74,11 @@ class Projeto extends Model
 		return $this->belongsTo(Maquina::class);
 	}
 
+	public function deposito()
+	{
+		return $this->belongsTo(Ordem::class);
+	}
+
 	public function user()
 	{
 		return $this->belongsTo(User::class);

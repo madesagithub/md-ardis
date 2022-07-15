@@ -26,7 +26,7 @@
 				<div class="row mb-4 justify-content-between">
 					<div class="col-auto align-self-center">
 						<h4 class="h4 mb-0">
-							{{ $plano->numero }} &nbsp; {{ $plano->chapa->descricao }} &nbsp; {{ $plano->aproveitamento }}%	
+							{{ $plano->numero_layout }} &nbsp; {{ $plano->chapa->descricao }} &nbsp; {{ $plano->aproveitamento }}%	&nbsp; Qtd: {{ $plano->quantidade_chapa }}
 						</h4>
 					</div>
 
@@ -48,15 +48,11 @@
 						<div class="row justify-content-between">
 							<div class="col-auto align-self-center">
 								<span>
-									{{ $ordem->id }}
-								</span>
-								&nbsp;
-								<span>
 									{{ $ordem->peca->descricao }}
 								</span>
 								&nbsp;
 								<span>
-									{{ $ordem->quantidade_programada }}
+									Quantidade: {{ $ordem->quantidade_programada }}
 								</span>
 							</div>
 						</div>

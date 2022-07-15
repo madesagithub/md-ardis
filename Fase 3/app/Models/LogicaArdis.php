@@ -14,4 +14,9 @@ class LogicaArdis extends Model
 	protected $fillable = [
 		'nome',
 	];
+
+	public function ordens()
+	{
+		return $this->hasMany(Ordem::class);
+	}
 }
