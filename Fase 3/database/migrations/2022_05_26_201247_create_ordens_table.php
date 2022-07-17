@@ -44,7 +44,8 @@ return new class extends Migration
 			$table->integer('nivel');
 			$table->integer('prioridade');
 			$table->float('percentual_produzido');
-			$table->date('data_embalagem');
+			$table->date('data_embalagem')
+				->nullable();
 			$table->timestamps();
         });
     }

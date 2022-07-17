@@ -1,0 +1,1 @@
+<script src="{{ asset('vendor/bootstrap/dist/js/bootstrap.bundle.min.js') }}" ></script>

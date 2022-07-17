@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\ModelStatus\HasStatuses;
 
 class Ordem extends Model
 {
+	// use HasStatuses;
+
 	/**
      * The table associated with the model.
      *

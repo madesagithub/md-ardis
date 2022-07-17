@@ -2,23 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Deposito;
-use App\Models\Fabrica;
-use App\Models\Lote;
-use App\Models\Maquina;
-use App\Models\Chapa;
-use App\Models\FamiliaChapa;
-use App\Models\Ordem;
-use App\Models\Peca;
-use App\Models\Plano;
-use App\Models\Produto;
 use App\Models\Projeto;
-use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ProjetoController extends Controller
 {
+	public function cancelar($id)
+	{
+		$plano = Projeto::find($id);
+		$plano->cancelarTotvs();
+
+		// return back();
+	}
+
+	public function confirmar($id)
+	{
+		$plano = Projeto::find($id);
+		$plano->confirmarTotvs();
+
+		// return back();
+	}
+
     /**
      * Display a listing of the resource.
      *

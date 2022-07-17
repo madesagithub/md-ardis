@@ -4,19 +4,40 @@
 
 <!-- <hr> -->
 
-@foreach ($projetos as $projeto)
+ @foreach ($projetos as $projeto)
 <!-- Projeto -->
 <div class="card card-projeto mb-5">
 	<div class="card-body">
-		
+
 		<!-- Title - projeto -->
-		<div class="row text-center">
-			<h2 class="h2 mt-3 mb-2">
+		<div class="row text-center" type="button" data-bs-toggle="collapse" data-bs-target="#projetoInformacao{{ $projeto->id }}" aria-expanded="false" aria-controls="projetoInformacao{{ $projeto->id }}">
+			<h2 class="h2 mt-3 mb-4">
 				{{ $projeto->nome }}
 			</h2>
 		</div>
 
-		<hr class="mb-4">
+		<div class="collapse" id="projetoInformacao{{ $projeto->id }}">
+			<ul>
+				<li>{{ $projeto->nome }}</li>
+				<li>{{ $projeto->maquina->nome }}</li>
+				<li>{{ $projeto->deposito->nome }}</li>
+				<li>{{ $projeto->user->name }}</li>
+				<li>{{ $projeto->data_processamento }}</li>
+			</ul>
+
+			<div class="row mb-4 justify-content-center">
+				<div class="col-auto">
+					<a href="{{ route('projeto.cancelar', ['id' => $projeto->id]) }}" class="btn btn-danger ms-1">
+						Cancelar
+					</a>
+					<a href="{{ route('projeto.confirmar', ['id' => $projeto->id]) }}" class="btn btn-success ms-1">
+						Finalizar
+					</a>
+				</div>
+			</div>
+		</div>
+
+		<hr class="mt-0 mb-4">
 
 		@foreach ($projeto->planos as $plano)
 		<!-- Plano -->
@@ -26,21 +47,21 @@
 				<div class="row mb-4 justify-content-between">
 					<div class="col-auto align-self-center">
 						<h4 class="h4 mb-0">
-							{{ $plano->numero_layout }} &nbsp; {{ $plano->chapa->descricao }} &nbsp; {{ $plano->aproveitamento }}%	&nbsp; Qtd: {{ $plano->quantidade_chapa }}
+							{{ $plano->numero_layout }} &nbsp; {{ $plano->chapa->descricao }} &nbsp; {{ $plano->aproveitamento }}% &nbsp; Qtd: {{ $plano->quantidade_chapa }}
 						</h4>
 					</div>
 
 					<div class="col-auto">
-						<a href="{{ route('plano.cancelar', ['id' => $plano->id]) }}" class="btn btn-danger ms-1" >
+						<a href="{{ route('plano.cancelar', ['id' => $plano->id]) }}" class="btn btn-danger ms-1">
 							Cancelar
 						</a>
-						<a href="{{ route('plano.confirmar', ['id' => $plano->id]) }}" class="btn btn-success ms-1" >
+						<a href="{{ route('plano.confirmar', ['id' => $plano->id]) }}" class="btn btn-success ms-1">
 							Finalizar
 						</a>
 					</div>
 				</div>
 
-			
+
 				@foreach ($plano->ordens as $ordem)
 				<!-- Ordem -->
 				<div class="card card-peca mb-3">
@@ -62,7 +83,7 @@
 
 			</div>
 		</div>
-		@endforeach		
+		@endforeach
 	</div>
 </div>
 @endforeach

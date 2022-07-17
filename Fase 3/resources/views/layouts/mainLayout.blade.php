@@ -46,6 +46,7 @@
         <i class="fas fa-angle-up"></i>
     </a>
 
+	@include('layouts.partials.footer')
 
     @stack('footer-scripts')
 

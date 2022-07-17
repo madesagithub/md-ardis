@@ -76,7 +76,7 @@ class Projeto extends Model
 
 	public function deposito()
 	{
-		return $this->belongsTo(Ordem::class);
+		return $this->belongsTo(Deposito::class);
 	}
 
 	public function user()

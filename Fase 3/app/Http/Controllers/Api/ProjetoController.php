@@ -79,16 +79,18 @@ class ProjetoController extends Controller
 			}
 
 			// Lote
-			$lote = Lote::create([
-				'numero' => $data->lote,
-				'produto_id' => $produto->id,
-			]);
-
-			if (!$lote) {
-				$lote = Lote::firstWhere([
-					'numero', $data->lote,
-					'produto_id', $produto->id,
-				]);
+			if (!is_null($data->lote)) {
+				$lote = Lote::firstWhere('numero', $data->lote);
+				if (!$lote) {
+					$lote = Lote::create([
+						'numero' => $data->lote,
+						'produto_id' => $produto->id,
+					]);
+				}
+			} else {
+				$lote = new Lote();
+				$lote->id = null;
+				$lote->produto_id;
 			}
 
 			// Familia chapa
@@ -220,30 +222,31 @@ class ProjetoController extends Controller
 				['peca_id', $peca->id],
 			]);
 
-			$ordem = Ordem::create([
-				// 'ordem' => $data->ordem,	// Talvez precise
-				'plano_id' => $plano->id,
-				'peca_id' => $peca->id,
-				'comprimento_peca' => $data->comprimento_peca,
-				'largura_peca' => $data->largura_peca,
-				'espessura_peca' => $data->espessura_peca,
-				'quantidade_programada' => $data->quantidade_programada,
-				'quantidade_produzida' => $data->quantidade_produzida,
-				'metro_quadrado_bruto_peca' => $data->metro_quadrado_bruto_peca,
-				'metro_quadrado_liquido_peca' => $data->metro_quadrado_liquido_peca,
-				'metro_quadrado_liquido_total_peca' => $data->metro_quadrado_liquido_total_peca,
-				'metro_cubico_liquido_total_peca' => $data->metro_cubico_liquido_total_peca,
-				'pecas_superproducao' => $data->pecas_superproducao,
-				'metro_quadrado_superproducao' => $data->metro_quadrado_superproducao,
-				'percentual_peca_plano' => $data->percentual_peca_plano,
-				'lote_id' => $lote->id,
-				'logica_ardis_id' => $logicaArdis->id,
-				'nivel' => $data->nivel,
-				'prioridade' => $data->prioridade,
-				'percentual_produzido' => $data->percentual_produzido,
-				'data_embalagem' => Carbon::createFromFormat('d/m/y', $data->data_embalagem)->format('Y-m-d'),
-			]);
-
+			if (!$ordem) {
+				$ordem = Ordem::create([
+					// 'ordem' => $data->ordem,	// Talvez precise
+					'plano_id' => $plano->id,
+					'peca_id' => $peca->id,
+					'comprimento_peca' => $data->comprimento_peca,
+					'largura_peca' => $data->largura_peca,
+					'espessura_peca' => $data->espessura_peca,
+					'quantidade_programada' => $data->quantidade_programada,
+					'quantidade_produzida' => $data->quantidade_produzida,
+					'metro_quadrado_bruto_peca' => $data->metro_quadrado_bruto_peca,
+					'metro_quadrado_liquido_peca' => $data->metro_quadrado_liquido_peca,
+					'metro_quadrado_liquido_total_peca' => $data->metro_quadrado_liquido_total_peca,
+					'metro_cubico_liquido_total_peca' => $data->metro_cubico_liquido_total_peca,
+					'pecas_superproducao' => $data->pecas_superproducao,
+					'metro_quadrado_superproducao' => $data->metro_quadrado_superproducao,
+					'percentual_peca_plano' => $data->percentual_peca_plano,
+					'lote_id' => $lote->id,
+					'logica_ardis_id' => $logicaArdis->id,
+					'nivel' => $data->nivel,
+					'prioridade' => $data->prioridade,
+					'percentual_produzido' => $data->percentual_produzido,
+					'data_embalagem' => !empty($data->data_embalagem) ? Carbon::createFromFormat('d/m/y', $data->data_embalagem)->format('Y-m-d') : null,
+				]);
+			}
 		}
 
 		return response()->json([
