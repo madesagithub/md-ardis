@@ -9,16 +9,16 @@ class ProjetoController extends Controller
 {
 	public function cancelar($id)
 	{
-		$plano = Projeto::find($id);
-		$plano->cancelarTotvs();
+		$projeto = Projeto::find($id);
+		$projeto->cancelarTotvs();
 
 		// return back();
 	}
 
 	public function confirmar($id)
 	{
-		$plano = Projeto::find($id);
-		$plano->confirmarTotvs();
+		$projeto = Projeto::find($id);
+		$projeto->confirmarTotvs();
 
 		// return back();
 	}
