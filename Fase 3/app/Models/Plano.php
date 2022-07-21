@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\ModelStatus\HasStatuses;
 
 class Plano extends Model
 {
+	use HasStatuses;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -49,7 +52,7 @@ class Plano extends Model
 
 		// Verificar respostas do TOTVS
 		// $this->disable();
-		$this->atualizarStatus();
+		$this->setStatus(config('model-status')['status_model_constants']['CANCELADO']);
 	}
 
 	public function confirmarTotvs() {
@@ -58,8 +61,8 @@ class Plano extends Model
 		}
 
 		// Verificar respostas do TOTVS
-		$this->disable();
-		$this->atualizarStatus();
+		// $this->disable();
+		$this->setStatus(config('model-status')['status_model_constants']['FINALIZADO']);
 	}
 
 	public function atualizarStatus() {

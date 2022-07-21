@@ -7,7 +7,7 @@ use Spatie\ModelStatus\HasStatuses;
 
 class Ordem extends Model
 {
-	// use HasStatuses;
+	use HasStatuses;
 
 	/**
      * The table associated with the model.
@@ -54,6 +54,7 @@ class Ordem extends Model
 
 		if (!is_null($response) && $response->status == '200') {
 			$this->disable();
+			$this->setStatus(config('model-status')['status_model_constants']['CANCELADO']);
 		}
 	}
 
@@ -66,6 +67,7 @@ class Ordem extends Model
 
 		if (!is_null($response) && $response->status == '200') {
 			$this->disable();
+			$this->setStatus(config('model-status')['status_model_constants']['FINALIZADO']);
 		}
 	}
 

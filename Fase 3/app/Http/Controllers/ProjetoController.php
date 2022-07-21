@@ -40,8 +40,10 @@ class ProjetoController extends Controller
 			// 'ordem.peca',
 			'user',
 		)->get();
+		
+		$status = config('model-status')['status_model_constants'];
 
-		return view('pages.projeto.projetoIndex', compact('projetos'));
+		return view('pages.projeto.projetoIndex', compact('projetos', 'status'));
     }
 
     /**
@@ -73,7 +75,7 @@ class ProjetoController extends Controller
      */
     public function show(Projeto $projeto)
     {
-        //
+		return view('pages.projeto.projetoShow', compact('projeto'));
     }
 
     /**

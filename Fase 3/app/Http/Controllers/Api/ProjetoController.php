@@ -172,6 +172,8 @@ class ProjetoController extends Controller
 					)->format('Y-m-d H:i:s'),
 					'active' => 1,
 				]);
+
+				$projeto->setStatus(config('model-status')['status_model_constants']['PENDENTE']);
 			}
 
 			// Plano
@@ -199,6 +201,8 @@ class ProjetoController extends Controller
 					'cortes_n3' => $data->cortes_n3,
 					'active' => 1,
 				]);
+
+				$plano->setStatus(config('model-status')['status_model_constants']['PENDENTE']);
 			}
 
 			// Lógica Ardis
@@ -246,6 +250,8 @@ class ProjetoController extends Controller
 					'percentual_produzido' => $data->percentual_produzido,
 					'data_embalagem' => !empty($data->data_embalagem) ? Carbon::createFromFormat('d/m/y', $data->data_embalagem)->format('Y-m-d') : null,
 				]);
+
+				$ordem->setStatus(config('model-status')['status_model_constants']['PENDENTE']);
 			}
 		}
 

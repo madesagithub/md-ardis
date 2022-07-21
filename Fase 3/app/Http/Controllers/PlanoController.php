@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Plano;
 use Illuminate\Http\Request;
+use Spatie\ModelStatus\ModelStatusServiceProvider;
 
 class PlanoController extends Controller
 {
-    public function cancelar($id)
+	public function cancelar($id)
 	{
 		$plano = Plano::find($id);
-		$plano->cancelarTotvs();
+		// $plano->cancelarTotvs();
 
 		// return back();
 	}
@@ -20,6 +21,7 @@ class PlanoController extends Controller
 		$plano = Plano::find($id);
 		$plano->confirmarTotvs();
 
+		dd($plano->status);
 		// return back();
 	}
 	
