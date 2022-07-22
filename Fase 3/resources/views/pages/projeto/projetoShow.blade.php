@@ -12,6 +12,7 @@
 			</h2>
 		</div>
 
+		<!-- Data - projeto -->
 		<div class="collapse" id="projetoInformacao{{ $projeto->id }}">
 			<ul>
 				<li>{{ $projeto->nome }}</li>
@@ -21,6 +22,7 @@
 				<li>{{ $projeto->data_processamento }}</li>
 			</ul>
 
+			<!-- Buttons - projeto -->
 			<div class="row mb-4 justify-content-center">
 				<div class="col-auto">
 					<a href="{{ route('projeto.cancelar', ['id' => $projeto->id]) }}" class="btn btn-danger ms-1">
@@ -35,7 +37,9 @@
 
 		<hr class="mt-0 mb-4">
 
-		@foreach ($projeto->planos as $plano)
+		<!-- Planos ativos -->
+		<!-- Planos ativos -->
+		@foreach ($projeto->planos->where('active', true) as $plano)
 		<!-- Plano -->
 		<div class="card card-chapa mb-4">
 			<div class="card-body">
@@ -77,6 +81,40 @@
 				</div>
 				@endforeach
 
+			</div>
+		</div>
+		@endforeach
+
+		<!-- Planos desativados -->
+		@foreach ($projeto->planos->where('active', false) as $plano)
+		<!-- Plano -->
+		<div class="card card-chapa mb-4">
+			<div class="card-body">
+				<div class="row justify-content-between">
+					<div class="col-auto align-self-center">
+						<h4 class="h4 mb-0">
+							{{ $plano->numero_layout }} &nbsp; {{ $plano->chapa->descricao }} &nbsp; {{ $plano->aproveitamento }}% &nbsp; Qtd: {{ $plano->quantidade_chapa }}
+						</h4>
+					</div>
+					<div class="col-auto align-self-center">
+						@switch($plano->status)
+							@case('CANCELADO')
+								<p class="mb-0 font-weight-bold text-danger">
+							@break
+							@case('FINALIZADO')
+								<p class="mb-0 font-weight-bold text-success">
+							@break
+							@case('PENDENTE')
+								<p class="mb-0 font-weight-bold text-white">
+							@break
+							@case('PRODUZINDO')
+								<p class="mb-0 font-weight-bold text-warning">
+							@break
+						@endswitch
+						{{ $plano->status }}
+						</p>
+					</div>
+				</div>
 			</div>
 		</div>
 		@endforeach

@@ -22,9 +22,9 @@ class Ordem extends Model
      * @var array
      */
     protected $fillable = [
-		// 'ordem',
 		'plano_id',
 		'peca_id',
+		'produto_id',
 		'comprimento_peca',
 		'largura_peca',
 		'espessura_peca',
@@ -45,16 +45,19 @@ class Ordem extends Model
 		'data_embalagem',
 	];
 
+	public function iniciarProducao() {
+		$this->setStatus(Status::PRODUZINDO);
+	}
+
 	public function cancelarTotvs() {
 		$url = $this->getUrlApiTotvs('cancel');
 
 		// Chamar API TOTVS
-		dump($url);
 		$response = $this->callApi($url);
 
 		if (!is_null($response) && $response->status == '200') {
 			$this->disable();
-			$this->setStatus(config('model-status')['status_model_constants']['CANCELADO']);
+			$this->setStatus(Status::CANCELADO);
 		}
 	}
 
@@ -62,12 +65,11 @@ class Ordem extends Model
 		$url = $this->getUrlApiTotvs('confirm');
 
 		// Chamar API TOTVS
-		dump($url);
 		$response = $this->callApi($url);
 
 		if (!is_null($response) && $response->status == '200') {
 			$this->disable();
-			$this->setStatus(config('model-status')['status_model_constants']['FINALIZADO']);
+			$this->setStatus(Status::FINALIZADO);
 		}
 	}
 
@@ -154,6 +156,11 @@ class Ordem extends Model
 	public function peca()
 	{
 		return $this->belongsTo(Peca::class);
+	}
+
+	public function produto()
+	{
+		return $this->belongsTo(Produto::class);
 	}
 
 	public function lote()

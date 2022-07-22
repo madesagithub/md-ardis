@@ -4,6 +4,7 @@ use App\Models\LogicaArdis;
 use App\Models\Lote;
 use App\Models\Peca;
 use App\Models\Plano;
+use App\Models\Produto;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -23,6 +24,8 @@ return new class extends Migration
 			$table->foreignIdFor(Plano::class)
 				->constrained();
 			$table->foreignIdFor(Peca::class)
+				->constrained();
+			$table->foreignIdFor(Produto::class)
 				->constrained();
 			$table->integer('comprimento_peca');
 			$table->integer('largura_peca');

@@ -3,16 +3,25 @@
 namespace App\Http\Controllers;
 
 use App\Models\Projeto;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ProjetoController extends Controller
 {
+	public function start($id)
+	{
+		$projeto = Projeto::find($id);
+		$projeto->iniciarProducao();
+
+		return redirect()->route('projeto.show', $id);
+	}
+
 	public function cancelar($id)
 	{
 		$projeto = Projeto::find($id);
 		$projeto->cancelarTotvs();
 
-		// return back();
+		return redirect()->route('projeto.index');
 	}
 
 	public function confirmar($id)
@@ -20,7 +29,7 @@ class ProjetoController extends Controller
 		$projeto = Projeto::find($id);
 		$projeto->confirmarTotvs();
 
-		// return back();
+		return redirect()->route('projeto.index');
 	}
 
     /**
@@ -30,20 +39,24 @@ class ProjetoController extends Controller
      */
     public function index()
     {
-        $projetos = Projeto::all();
-        $projetos = Projeto::with('maquina')->get();
-
         $projetos = Projeto::with(
 			'maquina',
-			// 'chapa',
 			'planos',
-			// 'ordem.peca',
 			'user',
-		)->get();
+		)->active()->get();
 		
 		$status = config('model-status')['status_model_constants'];
 
-		return view('pages.projeto.projetoIndex', compact('projetos', 'status'));
+		$projetosAnteriores = Projeto::with(
+			'maquina',
+			'planos',
+			'user',
+		)->disabled()
+		->whereDate('created_at', '>=', Carbon::now()->subWeek(2)->startOfWeek())
+		->orderBy('created_at', 'desc')
+		->get();
+
+		return view('pages.projeto.projetoIndex', compact('projetos', 'projetosAnteriores', 'status'));
     }
 
     /**

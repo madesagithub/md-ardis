@@ -15,9 +15,14 @@ class Produto extends Model
 		'referencia',
 	];
 
+	public function ordens()
+	{
+		return $this->hasMany(Ordem::class);
+	}
+
 	public function pecas()
 	{
-		return $this->hasMany(Peca::class);
+		return $this->belongsToMany(Peca::class);
 	}
 
 	public function lotes()

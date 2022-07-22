@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('projeto.index');
 });
 
 // Logs
@@ -34,6 +34,7 @@ Route::controller(PlanoController::class)->group(function () {
 
 Route::resource('projeto', ProjetoController::class);
 Route::controller(ProjetoController::class)->group(function () {
+    Route::get('/projetos/start/{id}', 'start')->name('projeto.start');
     Route::get('/projetos/cancelar/{id}', 'cancelar')->name('projeto.cancelar');
     Route::get('/projetos/confirmar/{id}', 'confirmar')->name('projeto.confirmar');
 });

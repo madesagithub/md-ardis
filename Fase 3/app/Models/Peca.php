@@ -19,9 +19,9 @@ class Peca extends Model
 		'produto_id',
 	];
 
-	public function produto()
+	public function produtos()
 	{
-		return $this->belongsTo(Produto::class);
+		return $this->belongsToMany(Produto::class);
 	}
 	
 	public function ordens()

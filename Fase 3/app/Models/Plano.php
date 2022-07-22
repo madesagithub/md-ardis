@@ -33,6 +33,16 @@ class Plano extends Model
 		'active'
 	];
 
+	public function scopeActive($query)
+	{
+		return $query->where('active', true);
+	}
+
+	public function scopeDisabled($query)
+	{
+		return $query->where('active', false);
+	}
+
 	public function enable()
 	{
 		$this->active = true;
@@ -45,14 +55,22 @@ class Plano extends Model
 		$this->save();
 	}
 
+	public function iniciarProducao() {
+		$ordens = $this->ordens->where('status', Status::PENDENTE);
+		foreach ($ordens as $ordem) {
+			$ordem->iniciarProducao();
+		}
+		$this->setStatus(Status::PRODUZINDO);
+	}
+
 	public function cancelarTotvs() {
 		foreach ($this->ordens as $ordem) {
 			$ordem->cancelarTotvs();
 		}
 
 		// Verificar respostas do TOTVS
-		// $this->disable();
-		$this->setStatus(config('model-status')['status_model_constants']['CANCELADO']);
+		$this->disable();
+		$this->setStatus(Status::CANCELADO);
 	}
 
 	public function confirmarTotvs() {
@@ -61,8 +79,8 @@ class Plano extends Model
 		}
 
 		// Verificar respostas do TOTVS
-		// $this->disable();
-		$this->setStatus(config('model-status')['status_model_constants']['FINALIZADO']);
+		$this->disable();
+		$this->setStatus(Status::FINALIZADO);
 	}
 
 	public function atualizarStatus() {

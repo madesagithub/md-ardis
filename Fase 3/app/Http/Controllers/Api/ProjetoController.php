@@ -15,6 +15,7 @@ use App\Models\Peca;
 use App\Models\Plano;
 use App\Models\Produto;
 use App\Models\Projeto;
+use App\Models\Status;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -135,8 +136,6 @@ class ProjetoController extends Controller
 			// Peca
 			$peca = Peca::firstWhere([
 				['codigo', $data->codigo_peca],
-				['produto_id', $produto->id],
-				// ['chapa_id', $chapaCadastro->id]
 			]);
 
 			if (!$peca) {
@@ -148,6 +147,8 @@ class ProjetoController extends Controller
 					'produto_id' => $produto->id,		// Tabela pivô
 					'chapa_id' => $chapaCadastro->id,	// Tabela pivô
 				]);
+
+				$peca->produtos()->attach($produto);
 			}
 
 			// Deposito
@@ -173,7 +174,7 @@ class ProjetoController extends Controller
 					'active' => 1,
 				]);
 
-				$projeto->setStatus(config('model-status')['status_model_constants']['PENDENTE']);
+				$projeto->setStatus(Status::PENDENTE);
 			}
 
 			// Plano
@@ -202,7 +203,7 @@ class ProjetoController extends Controller
 					'active' => 1,
 				]);
 
-				$plano->setStatus(config('model-status')['status_model_constants']['PENDENTE']);
+				$plano->setStatus(Status::PENDENTE);
 			}
 
 			// Lógica Ardis
@@ -221,7 +222,6 @@ class ProjetoController extends Controller
 
 			// Ordem
 			$ordem = Ordem::firstWhere([
-				// ['numero', $data->numero_ordem],
 				['plano_id', $plano->id],
 				['peca_id', $peca->id],
 			]);
@@ -231,6 +231,7 @@ class ProjetoController extends Controller
 					// 'ordem' => $data->ordem,	// Talvez precise
 					'plano_id' => $plano->id,
 					'peca_id' => $peca->id,
+					'produto_id' => $produto->id,
 					'comprimento_peca' => $data->comprimento_peca,
 					'largura_peca' => $data->largura_peca,
 					'espessura_peca' => $data->espessura_peca,
@@ -251,7 +252,7 @@ class ProjetoController extends Controller
 					'data_embalagem' => !empty($data->data_embalagem) ? Carbon::createFromFormat('d/m/y', $data->data_embalagem)->format('Y-m-d') : null,
 				]);
 
-				$ordem->setStatus(config('model-status')['status_model_constants']['PENDENTE']);
+				$ordem->setStatus(Status::PENDENTE);
 			}
 		}
 

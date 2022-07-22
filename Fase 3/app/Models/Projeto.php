@@ -35,6 +35,16 @@ class Projeto extends Model
 		// 'user'
 	];
 
+	public function scopeActive($query)
+	{
+		return $query->where('active', true);
+	}
+
+	public function scopeDisabled($query)
+	{
+		return $query->where('active', false);
+	}
+
 	public function enable()
 	{
 		$this->active = true;
@@ -47,6 +57,14 @@ class Projeto extends Model
 		$this->save();
 	}
 
+	public function iniciarProducao() {
+		$planos = $this->planos->where('status', Status::PENDENTE);
+		foreach ($planos as $plano) {
+			$plano->iniciarProducao();
+		}
+		$this->setStatus(Status::PRODUZINDO);
+	}
+
 	public function cancelarTotvs()
 	{
 		foreach ($this->planos as $plano) {
@@ -55,18 +73,18 @@ class Projeto extends Model
 
 		// Verificar respostas do TOTVS
 		$this->disable();
-		$this->setStatus(config('model-status')['status_model_constants']['CANCELADO']);
+		$this->setStatus(Status::CANCELADO);
 	}
 
 	public function confirmarTotvs()
 	{
 		foreach ($this->planos as $plano) {
-			$plano->cancelarTotvs();
+			$plano->confirmarTotvs();
 		}
 
 		// Verificar respostas do TOTVS
 		$this->disable();
-		$this->setStatus(config('model-status')['status_model_constants']['FINALIZADO']);
+		$this->setStatus(Status::FINALIZADO);
 	}
 
 	public function planos()
