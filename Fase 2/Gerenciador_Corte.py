@@ -6,6 +6,15 @@ import socket
 import time
 import requests
 
+
+# CONSTANTES
+# --------------------------------------------------
+PATH_NOVOS = r"F:\Automação\ARDIS\Gerenciador Corte\Data\Novos"
+PATH_NOVOS = r"Relatórios"
+
+PATH_PRODUZIDOS = r"F:\Automação\ARDIS\Gerenciador Corte\Data\Produzidos"
+
+
 # --------------------------------------------------
 # Varredura de arquivo em busca das informações de planos
 def get_planos(filename):
@@ -259,6 +268,45 @@ def send_php(planos):
 	print(post.status_code)
 
 
+def get_fabrica(file):
+
+	with open(file, 'r', encoding='latin-1') as file_csv:
+
+		csv_reader = csv.DictReader(file_csv, delimiter=';')
+
+		# Remove espaços e torna minusculo
+		headers = [head.strip().lower() for head in csv_reader.fieldnames]
+		csv_reader.fieldnames = headers
+
+		file_csv.readline()
+		for row in csv_reader:
+
+			# Remove espaços, % e asteriscos
+			row = dict((k, v.strip()) for k, v in row.items())
+			row = dict((k, v.replace('%', '')) for k, v in row.items())
+			row = dict((k, v.replace('*****', '100')) for k, v in row.items())
+
+			if row['tipo dado'] == 'DATA_PEÇA':
+
+				fabrica = row['unidade'].title()
+				print(fabrica)
+				break
+
+	return fabrica
+
+
+# --------------------------------------------------
+# Mover arquivo
+def move_file(file):
+	fabrica = get_fabrica(file)
+
+	# fabrica = str(plano['fabrica']).split()
+	fabrica = [value[0].upper() for value in fabrica]
+	fabrica = ''.join(fabrica)
+
+	os.replace(file, f"{PATH_PRODUZIDOS}\{fabrica}\{file}")
+
+
 # --------------------------------------------------
 # Imprime os planos em formato json
 def print_planos(planos):
@@ -271,17 +319,10 @@ def print_planos(planos):
 # --------------------------------------------------
 # Main
 
-# path = 'Relatórios'
-# filename = f'{path}/29062022_070710_300622 - 12_FV_data.csv'
-
-# path = 'F:\Automação\ARDIS\Data\FV'
-# path = 'F:\Automação\ARDIS\Gerenciador Corte\Data\Novos'
-path = r"F:\Automação\ARDIS\Gerenciador Corte\Data\Novos"
-
-os.chdir(path)
+os.chdir(PATH_NOVOS)
 
 # Get files list
-files = os.listdir(path)
+files = os.listdir(PATH_NOVOS)
 files = [file for file in files if file.endswith('.csv')]
 
 # Get the last file
@@ -289,6 +330,7 @@ latest_file = max(files, key=os.path.getctime)
 
 # ----------
 planos = get_planos(latest_file)
+move_file(latest_file)
 print_planos(planos)
 # send_totvs(planos)
 send_php(planos)
