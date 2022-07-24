@@ -10,9 +10,12 @@ import requests
 # CONSTANTES
 # --------------------------------------------------
 PATH_NOVOS = r"F:\Automação\ARDIS\Gerenciador Corte\Data\Novos"
-PATH_NOVOS = r"Relatórios"
+# PATH_NOVOS = f"{os.getcwd()}/Relatórios"
 
 PATH_PRODUZIDOS = r"F:\Automação\ARDIS\Gerenciador Corte\Data\Produzidos"
+
+# API_PHP = 'http://' + socket.gethostbyname(socket.gethostname()) + '/md-ardis/Fase%203/public/api/projeto'
+API_PHP = 'http://10.1.1.39:8080/md-ardis/Fase%203/public/api/projeto'
 
 
 # --------------------------------------------------
@@ -62,7 +65,7 @@ def get_planos(filename):
 			# m² líquido total peça
 			# m³ líquido total peça
 			# m² bruto peça
-			# Quantidade produzida
+			# Qupublic antidade produzida
 			# Peças superprodução
 			# m² superprodução
 			# Data embalagem
@@ -247,27 +250,24 @@ def send_totvs(planos):
 
 
 # --------------------------------------------------
-# Cadastrar no sistema de controle de chapas (php)
+# Cadastrar npublic o sistema de controle de chapas (php)
 # Enviar para API
 def send_php(planos):
 	# Converter dicionario em json
 	planos = json.dumps(planos, indent = 4)
 
-	# ip_address = socket.gethostbyname(socket.gethostname())
-	# api_endpoint = 'http://' + ip_address + '/md-ardis/Fase%203/public/api/projeto'
-
-	ip_address = '10.1.1.39'
-	api_endpoint = 'http://' + ip_address + ':8080/md-ardis/Fase%203/public/api/projeto'
 	api_headers = {
 		'Content-Type': 'application/json',
 	}
 
-	post = requests.post(url=api_endpoint, headers=api_headers, json=planos)
+	post = requests.post(url=API_PHP, headers=api_headers, json=planos)
 	# print(post.json())
 	print(post.content)
 	print(post.status_code)
 
 
+# --------------------------------------------------
+# Retorna a fábrica do projeto
 def get_fabrica(file):
 
 	with open(file, 'r', encoding='latin-1') as file_csv:
@@ -289,7 +289,9 @@ def get_fabrica(file):
 			if row['tipo dado'] == 'DATA_PEÇA':
 
 				fabrica = row['unidade'].title()
-				print(fabrica)
+				fabrica = str(fabrica).split()
+				fabrica = [value[0].upper() for value in fabrica]
+				fabrica = ''.join(fabrica)
 				break
 
 	return fabrica
@@ -299,11 +301,8 @@ def get_fabrica(file):
 # Mover arquivo
 def move_file(file):
 	fabrica = get_fabrica(file)
-
-	# fabrica = str(plano['fabrica']).split()
-	fabrica = [value[0].upper() for value in fabrica]
-	fabrica = ''.join(fabrica)
-
+	
+	# os.replace(file, f"{fabrica}/{file}")
 	os.replace(file, f"{PATH_PRODUZIDOS}\{fabrica}\{file}")
 
 
@@ -331,8 +330,8 @@ latest_file = max(files, key=os.path.getctime)
 # ----------
 planos = get_planos(latest_file)
 move_file(latest_file)
-print_planos(planos)
+# print_planos(planos)
 # send_totvs(planos)
 send_php(planos)
-time.sleep(5)
+time.sleep(3)
 # ----------

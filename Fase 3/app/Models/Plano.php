@@ -45,14 +45,18 @@ class Plano extends Model
 
 	public function enable()
 	{
-		$this->active = true;
-		$this->save();
+		if (!$this->active) {
+			$this->active = true;
+			$this->save();
+		}
 	}
 
 	public function disable()
 	{
-		$this->active = false;
-		$this->save();
+		if ($this->active) {
+			$this->active = false;
+			$this->save();
+		}
 	}
 
 	public function iniciarProducao() {
@@ -64,32 +68,53 @@ class Plano extends Model
 	}
 
 	public function cancelarTotvs() {
-		foreach ($this->ordens as $ordem) {
+		$ordens = $this->ordens->where('status', Status::PRODUZINDO);
+		foreach ($ordens as $ordem) {
 			$ordem->cancelarTotvs();
 		}
 
 		// Verificar respostas do TOTVS
-		$this->disable();
-		$this->setStatus(Status::CANCELADO);
+		$this->atualizarStatus();
 	}
-
+	
 	public function confirmarTotvs() {
-		foreach ($this->ordens as $ordem) {
+		$ordens = $this->ordens->where('status', Status::PRODUZINDO);
+		foreach ($ordens as $ordem) {
 			$ordem->confirmarTotvs();
 		}
 
 		// Verificar respostas do TOTVS
-		$this->disable();
-		$this->setStatus(Status::FINALIZADO);
+		$this->atualizarStatus();
 	}
 
 	public function atualizarStatus() {
-		$array = $this->ordens->pluck('status')->toArray();
+		$arrayStatus = $this->ordens->pluck('status')->toArray();
 
-		if (in_array('CANCELADO', $array) || in_array('EM PROCESSAMENTO', $array)) {
+		if (in_array(Status::PENDENTE, $arrayStatus)) {
 			$this->enable();
+			if ($this->status != Status::PENDENTE) {
+				$this->setStatus(Status::PENDENTE);
+			}
+		} elseif (in_array(Status::PRODUZINDO, $arrayStatus)) {
+			$this->enable();
+			if ($this->status != Status::PRODUZINDO) {
+				$this->setStatus(Status::PRODUZINDO);
+			}
+		} elseif (in_array(Status::CANCELADO, $arrayStatus)) {
+			$this->disable();
+			if ($this->status != Status::CANCELADO) {
+				$this->setStatus(Status::CANCELADO);
+			}
+		} elseif (in_array(Status::ERRO, $arrayStatus)) {
+			$this->disable();
+			if ($this->status != Status::ERRO) {
+				$this->setStatus(Status::ERRO);
+			}
 		} else {
 			$this->disable();
+			if ($this->status != Status::FINALIZADO) {
+				$this->setStatus(Status::FINALIZADO);
+			}
 		}
 	}
 

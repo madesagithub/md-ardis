@@ -58,6 +58,8 @@ class Ordem extends Model
 		if (!is_null($response) && $response->status == '200') {
 			$this->disable();
 			$this->setStatus(Status::CANCELADO);
+		} else {
+			$this->setStatus(Status::ERRO, $response);
 		}
 	}
 
@@ -70,6 +72,8 @@ class Ordem extends Model
 		if (!is_null($response) && $response->status == '200') {
 			$this->disable();
 			$this->setStatus(Status::FINALIZADO);
+		} else {
+			$this->setStatus(Status::ERRO, $response);
 		}
 	}
 

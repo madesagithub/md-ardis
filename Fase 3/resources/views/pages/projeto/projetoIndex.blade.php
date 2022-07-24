@@ -6,16 +6,19 @@
 	<div class="col-md-4">
 		<div class="card text-white bg-dark mb-3">
 			@switch($projeto->status)
-				@case($status['CANCELADO'])
-				<div class="card-header text-danger border-danger">
+				@case(App\Models\Status::CANCELADO)
+					<div class="card-header text-danger border-danger">
 				@break
-				@case($status['FINALIZADO'])
+				@case(App\Models\Status::ERRO)
+					<div class="card-header text-danger border-danger">
+				@break
+				@case(App\Models\Status::FINALIZADO)
 					<div class="card-header text-success border-success">
 				@break
-				@case($status['PENDENTE'])
+				@case(App\Models\Status::PENDENTE)
 					<div class="card-header text-white border-white">
 				@break
-				@case($status['PRODUZINDO'])
+				@case(App\Models\Status::PRODUZINDO)
 					<div class="card-header text-warning border-warning">
 				@break
 			@endswitch
@@ -32,11 +35,11 @@
 				</ul>
 			</div>
 			<div class="card-footer align-self-end">
-				@if($projeto->status == $status['PENDENTE'])
+				@if($projeto->status == App\Models\Status::PENDENTE)
 				<a href="{{ route('projeto.start', $projeto) }}" class="btn btn-outline-light">
 					Iniciar
 				</a>
-				@elseif($projeto->status == $status['PRODUZINDO'])
+				@elseif($projeto->status == App\Models\Status::PRODUZINDO)
 				<a href="{{ route('projeto.show', $projeto) }}" class="btn btn-outline-light">
 					Visualizar
 				</a>
@@ -54,16 +57,19 @@
 	<div class="col-md-4">
 		<div class="card text-white bg-dark mb-3">
 			@switch($projeto->status)
-				@case($status['CANCELADO'])
-				<div class="card-header text-danger border-danger">
+				@case(App\Models\Status::CANCELADO)
+					<div class="card-header text-danger border-danger">
 				@break
-				@case($status['FINALIZADO'])
+				@case(App\Models\Status::ERRO)
+					<div class="card-header text-danger border-danger">
+				@break
+				@case(App\Models\Status::FINALIZADO)
 					<div class="card-header text-success border-success">
 				@break
-				@case($status['PENDENTE'])
+				@case(App\Models\Status::PENDENTE)
 					<div class="card-header text-white border-white">
 				@break
-				@case($status['PRODUZINDO'])
+				@case(App\Models\Status::PRODUZINDO)
 					<div class="card-header text-warning border-warning">
 				@break
 			@endswitch
@@ -80,7 +86,7 @@
 				</ul>
 			</div>
 			<div class="card-footer align-self-end">
-			@if($projeto->status == $status['PENDENTE'])
+			@if($projeto->status == App\Models\Status::PENDENTE)
 				<a href="{{ route('projeto.start', $projeto) }}" class="btn btn-outline-light">
 					Iniciar
 				</a>

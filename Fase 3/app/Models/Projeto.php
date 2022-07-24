@@ -67,24 +67,45 @@ class Projeto extends Model
 
 	public function cancelarTotvs()
 	{
-		foreach ($this->planos as $plano) {
+		$planos = $this->planos->where('status', Status::PRODUZINDO);
+		foreach ($planos as $plano) {
 			$plano->cancelarTotvs();
 		}
 
 		// Verificar respostas do TOTVS
-		$this->disable();
-		$this->setStatus(Status::CANCELADO);
+		$this->atualizarStatus();
 	}
 
 	public function confirmarTotvs()
 	{
-		foreach ($this->planos as $plano) {
+		$planos = $this->planos->where('status', Status::PRODUZINDO);
+		foreach ($planos as $plano) {
 			$plano->confirmarTotvs();
 		}
 
 		// Verificar respostas do TOTVS
-		$this->disable();
-		$this->setStatus(Status::FINALIZADO);
+		$this->atualizarStatus();
+	}
+
+	public function atualizarStatus() {
+		$arrayStatus = $this->planos->pluck('status')->toArray();
+
+		if (in_array(Status::PENDENTE, $arrayStatus)) {
+			$this->enable();
+			$this->setStatus(Status::PENDENTE);
+		} elseif (in_array(Status::PRODUZINDO, $arrayStatus)) {
+			$this->enable();
+			$this->setStatus(Status::PRODUZINDO);
+		} elseif (in_array(Status::CANCELADO, $arrayStatus)) {
+			$this->disable();
+			$this->setStatus(Status::CANCELADO);
+		} elseif (in_array(Status::ERRO, $arrayStatus)) {
+			$this->disable();
+			$this->setStatus(Status::ERRO);
+		} else {
+			$this->disable();
+			$this->setStatus(Status::FINALIZADO);
+		}
 	}
 
 	public function planos()

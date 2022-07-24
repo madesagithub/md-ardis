@@ -98,16 +98,19 @@
 					</div>
 					<div class="col-auto align-self-center">
 						@switch($plano->status)
-							@case('CANCELADO')
+							@case(App\Models\Status::CANCELADO)
 								<p class="mb-0 font-weight-bold text-danger">
 							@break
-							@case('FINALIZADO')
+							@case(App\Models\Status::ERRO)
+								<p class="mb-0 font-weight-bold text-danger">
+							@break
+							@case(App\Models\Status::FINALIZADO)
 								<p class="mb-0 font-weight-bold text-success">
 							@break
-							@case('PENDENTE')
+							@case(App\Models\Status::PENDENTE)
 								<p class="mb-0 font-weight-bold text-white">
 							@break
-							@case('PRODUZINDO')
+							@case(App\Models\Status::PRODUZINDO)
 								<p class="mb-0 font-weight-bold text-warning">
 							@break
 						@endswitch

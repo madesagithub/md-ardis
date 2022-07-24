@@ -45,8 +45,6 @@ class ProjetoController extends Controller
 			'user',
 		)->active()->get();
 		
-		$status = config('model-status')['status_model_constants'];
-
 		$projetosAnteriores = Projeto::with(
 			'maquina',
 			'planos',
@@ -56,7 +54,7 @@ class ProjetoController extends Controller
 		->orderBy('created_at', 'desc')
 		->get();
 
-		return view('pages.projeto.projetoIndex', compact('projetos', 'projetosAnteriores', 'status'));
+		return view('pages.projeto.projetoIndex', compact('projetos', 'projetosAnteriores'));
     }
 
     /**
