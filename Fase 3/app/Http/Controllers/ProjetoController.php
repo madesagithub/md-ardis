@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Projeto;
+use App\Models\Status;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -44,6 +45,21 @@ class ProjetoController extends Controller
 			'planos',
 			'user',
 		)->active()->get();
+
+		// Ordenar projetos pelo status
+		$projetos = $projetos->sortBy(function($projeto) {
+			if ($projeto->status == Status::PRODUZINDO) {
+				return 0;
+			} elseif ($projeto->status == Status::PENDENTE) {
+				return 1;
+			} elseif ($projeto->status == Status::FINALIZADO) {
+				return 2;
+			} elseif ($projeto->status == Status::CANCELADO) {
+				return 3;
+			} else {
+				return 4;
+			}
+		});
 		
 		$projetosAnteriores = Projeto::with(
 			'maquina',
