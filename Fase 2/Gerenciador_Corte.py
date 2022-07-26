@@ -12,7 +12,7 @@ import requests
 PATH_NOVOS = r"F:\Automação\ARDIS\Gerenciador Corte\Data\Novos"
 # PATH_NOVOS = f"{os.getcwd()}/Relatórios"
 
-PATH_PRODUZIDOS = r"F:\Automação\ARDIS\Gerenciador Corte\Data\Produzidos"
+PATH_PRODUZIDOS = r"F:\Automação\ARDIS\Gerenciador Corte\Data\Processados"
 
 # API_PHP = 'http://' + socket.gethostbyname(socket.gethostname()) + '/md-ardis/Fase%203/public/api/projeto'
 API_PHP = 'http://10.1.1.39:8080/md-ardis/Fase%203/public/api/projeto'
@@ -330,7 +330,7 @@ latest_file = max(files, key=os.path.getctime)
 # ----------
 planos = get_planos(latest_file)
 move_file(latest_file)
-# print_planos(planos)
+print_planos(planos)
 # send_totvs(planos)
 send_php(planos)
 time.sleep(3)
