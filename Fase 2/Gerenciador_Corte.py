@@ -1,11 +1,13 @@
 from os import walk
 import csv
 import json
+import logging
 import os
 import socket
+import sys
 import time
+import traceback
 import requests
-
 
 # CONSTANTES
 # --------------------------------------------------
@@ -13,10 +15,26 @@ PATH_NOVOS = r"F:\Automação\ARDIS\Gerenciador Corte\Data\Novos"
 # PATH_NOVOS = f"{os.getcwd()}/Relatórios"
 
 PATH_PRODUZIDOS = r"F:\Automação\ARDIS\Gerenciador Corte\Data\Processados"
+PATH_EXECUTAVEIS = r"F:\Automação\ARDIS\Gerenciador Corte\Executaveis"
+PATH_LOGS = f"{PATH_EXECUTAVEIS}"
 
 # API_PHP = 'http://' + socket.gethostbyname(socket.gethostname()) + '/md-ardis/Fase%203/public/api/projeto'
 API_PHP = 'http://10.1.1.39:8080/md-ardis/Fase%203/public/api/projeto'
 
+
+# Configuração de Logs
+# --------------------------------------------------
+logging.basicConfig(
+	level=logging.INFO,
+	format='%(asctime)s :: %(levelname)s :: %(message)s',
+	filename=f'{PATH_LOGS}\erros_python.log')
+
+# log uncaught exceptions
+def log_exceptions(type, value, tb):
+	logging.exception(''.join((traceback.format_exception(type, value, tb))))
+	sys.__excepthook__(type, value, tb) # calls default excepthook
+
+sys.excepthook = log_exceptions
 
 # --------------------------------------------------
 # Varredura de arquivo em busca das informações de planos
@@ -91,8 +109,7 @@ def get_planos(filename):
 			row = dict((k, v.replace('%', '')) for k, v in row.items())
 			row = dict((k, v.replace('*****', '100')) for k, v in row.items())
 
-			if row['tipo dado'] == 'DATA_PEÇA':
-
+			if row['tipo dado'] == 'DATA_PECA':
 				# Dados do projeto
 				cabecalho = {
 					'nome_arquivo'      : row['nome arquivo data'].upper(),
@@ -218,8 +235,7 @@ def send_totvs(planos):
 		dep_origem = 'ALM'
 
 		# Local de origem
-		fabrica = str(plano['fabrica']).split()
-		fabrica = [value[0].upper() for value in fabrica]
+		fabrica = str(plano['fabrica']).upper().split()
 		fabrica = ''.join(fabrica)
 
 		if fabrica == 'FB':
@@ -246,6 +262,7 @@ def send_totvs(planos):
 
 		# response = requests.get(api)
 		# response.content
+		# logging.info(response.content)
 		print(api_totvs)
 
 
@@ -261,6 +278,7 @@ def send_php(planos):
 	}
 
 	post = requests.post(url=API_PHP, headers=api_headers, json=planos)
+	logging.info(post.text)
 	# print(post.json())
 	print(post.content)
 	print(post.status_code)
@@ -286,11 +304,9 @@ def get_fabrica(file):
 			row = dict((k, v.replace('%', '')) for k, v in row.items())
 			row = dict((k, v.replace('*****', '100')) for k, v in row.items())
 
-			if row['tipo dado'] == 'DATA_PEÇA':
-
-				fabrica = row['unidade'].title()
+			if row['tipo dado'] == 'DATA_PECA':
+				fabrica = row['unidade'].upper()
 				fabrica = str(fabrica).split()
-				fabrica = [value[0].upper() for value in fabrica]
 				fabrica = ''.join(fabrica)
 				break
 
@@ -301,9 +317,13 @@ def get_fabrica(file):
 # Mover arquivo
 def move_file(file):
 	fabrica = get_fabrica(file)
-	
-	# os.replace(file, f"{fabrica}/{file}")
-	os.replace(file, f"{PATH_PRODUZIDOS}\{fabrica}\{file}")
+
+	new_file = f"{PATH_PRODUZIDOS}\{fabrica}\{file}"
+	try:
+		os.replace(file, new_file)
+		logging.info(f"{file} -> {new_file}")
+	except:
+		logging.info(f"Sem permissão para mover arquivo: {file} -> {new_file}")
 
 
 # --------------------------------------------------
@@ -330,7 +350,7 @@ latest_file = max(files, key=os.path.getctime)
 # ----------
 planos = get_planos(latest_file)
 move_file(latest_file)
-print_planos(planos)
+# print_planos(planos)
 # send_totvs(planos)
 send_php(planos)
 time.sleep(3)
