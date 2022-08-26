@@ -17,4 +17,5 @@
 
 <!-- Bootstrap -->
 <link rel="stylesheet" href="{{ asset('vendor/bootstrap/dist/css/bootstrap.min.css') }}">
+<link rel="stylesheet" href="{{ asset('vendor/bootstrap-icons/font/bootstrap-icons.css') }}">
 <link rel="stylesheet" href="{{ asset('css/main-layout.css') }}">

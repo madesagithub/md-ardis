@@ -16,4 +16,6 @@ mix.js('resources/js/app.js', 'public/js')
         //
     ])
     // Bootstrap
-    .copyDirectory('node_modules/bootstrap', 'public/vendor/bootstrap');
+    .copyDirectory('node_modules/bootstrap', 'public/vendor/bootstrap')
+    // Bootstrap Icons
+    .copyDirectory('node_modules/bootstrap-icons', 'public/vendor/bootstrap-icons');

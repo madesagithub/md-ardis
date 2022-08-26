@@ -22,7 +22,16 @@
 					<div class="card-header text-warning border-warning">
 				@break
 			@endswitch
-			{{ ucfirst(strtolower($projeto->status)) }}</div>
+				<div class="d-flex justify-content-between">
+					<div>
+						{{ ucfirst(strtolower($projeto->status)) }}
+					</div>
+					<div>
+						2h 15min
+						<i class="bi bi-clock"></i>
+					</div>
+				</div>
+			</div>
 			<div class="card-body">
 				<h5 class="card-title mb-4">{{ $projeto->nome }}</h5>
 				<ul class="mb-0">
