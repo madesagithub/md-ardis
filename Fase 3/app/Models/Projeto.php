@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\ModelStatus\HasStatuses;
 
@@ -55,6 +56,29 @@ class Projeto extends Model
 	{
 		$this->active = false;
 		$this->save();
+	}
+
+	public function getTempoProducao() {
+		dump($this->status);
+		switch ($this->status) {
+			case(Status::PRODUZINDO):
+				// $time = Carbon::now() - $this->status()->created_at;
+				$duration = Carbon::now()->diffForHumans($this->status()->created_at);
+
+				break;
+			case(Status::FINALIZADO):
+				$start = $this->status()->firstWhere('name', Status::PRODUZINDO)->created_at;
+				$finish = $this->status()->created_at;
+
+				$duration = $finish->diffForHumans($start);
+				break;
+			case(Status::CANCELADO):
+				break;
+			default:
+				$duration = null;
+		}
+		dd($duration);
+		return $duration;
 	}
 
 	public function iniciarProducao() {

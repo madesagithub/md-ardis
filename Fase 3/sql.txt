@@ -1,0 +1,12 @@
+ordem
+peca
+quantidade
+chapa(cadastro)
+chapa(utilizada)
+data
+
+
+SELECT projetos.nome, pecas.codigo, projetos.data_processamento
+FROM projetos
+JOIN planos ON planos.projeto_id = projetos.id
+JOIN chapas ON planos.chapa_id = chapas.id

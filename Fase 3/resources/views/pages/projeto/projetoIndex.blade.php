@@ -26,10 +26,12 @@
 					<div>
 						{{ ucfirst(strtolower($projeto->status)) }}
 					</div>
+					@if ($projeto->status == App\Models\Status::PRODUZINDO || $projeto->status == App\Models\Status::FINALIZADO)
 					<div>
 						2h 15min
 						<i class="bi bi-clock"></i>
 					</div>
+					@endif
 				</div>
 			</div>
 			<div class="card-body">
