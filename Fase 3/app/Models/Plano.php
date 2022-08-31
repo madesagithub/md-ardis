@@ -67,23 +67,21 @@ class Plano extends Model
 		$this->setStatus(Status::PRODUZINDO);
 	}
 
-	public function cancelarTotvs() {
+	public function cancelar() {
 		$ordens = $this->ordens->where('status', Status::PRODUZINDO);
 		foreach ($ordens as $ordem) {
-			$ordem->cancelarTotvs();
+			$ordem->cancelar();
 		}
 
-		// Verificar respostas do TOTVS
 		$this->atualizarStatus();
 	}
 	
-	public function confirmarTotvs() {
+	public function confirmar() {
 		$ordens = $this->ordens->where('status', Status::PRODUZINDO);
 		foreach ($ordens as $ordem) {
-			$ordem->confirmarTotvs();
+			$ordem->confirmar();
 		}
 
-		// Verificar respostas do TOTVS
 		$this->atualizarStatus();
 	}
 
@@ -116,6 +114,8 @@ class Plano extends Model
 				$this->setStatus(Status::FINALIZADO);
 			}
 		}
+
+		$this->projeto->atualizarStatus();
 	}
 
 	public function ordens()

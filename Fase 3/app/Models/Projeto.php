@@ -95,25 +95,23 @@ class Projeto extends Model
 		$this->setStatus(Status::PRODUZINDO);
 	}
 
-	public function cancelarTotvs()
+	public function cancelar()
 	{
 		$planos = $this->planos->where('status', Status::PRODUZINDO);
 		foreach ($planos as $plano) {
-			$plano->cancelarTotvs();
+			$plano->cancelar();
 		}
 
-		// Verificar respostas do TOTVS
 		$this->atualizarStatus();
 	}
 
-	public function confirmarTotvs()
+	public function confirmar()
 	{
 		$planos = $this->planos->where('status', Status::PRODUZINDO);
 		foreach ($planos as $plano) {
-			$plano->confirmarTotvs();
+			$plano->confirmar();
 		}
 
-		// Verificar respostas do TOTVS
 		$this->atualizarStatus();
 	}
 

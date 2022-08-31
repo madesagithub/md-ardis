@@ -20,7 +20,7 @@ class ProjetoController extends Controller
 	public function cancelar($id)
 	{
 		$projeto = Projeto::find($id);
-		$projeto->cancelarTotvs();
+		$projeto->cancelar();
 
 		return redirect()->route('projeto.index');
 	}
@@ -28,7 +28,7 @@ class ProjetoController extends Controller
 	public function confirmar($id)
 	{
 		$projeto = Projeto::find($id);
-		$projeto->confirmarTotvs();
+		$projeto->confirmar();
 
 		return redirect()->route('projeto.index');
 	}

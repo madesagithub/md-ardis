@@ -11,7 +11,7 @@ class PlanoController extends Controller
 	public function cancelar($id)
 	{
 		$plano = Plano::find($id);
-		$plano->cancelarTotvs();
+		$plano->cancelar();
 
 		return back();
 	}
@@ -19,7 +19,7 @@ class PlanoController extends Controller
 	public function confirmar($id)
 	{
 		$plano = Plano::find($id);
-		$plano->confirmarTotvs();
+		$plano->confirmar();
 
 		return back();
 	}

@@ -49,32 +49,52 @@ class Ordem extends Model
 		$this->setStatus(Status::PRODUZINDO);
 	}
 
+	public function cancelar() {
+		if (env('TOTVS_ENABLE') === true) {
+			$response = $this->cancelarTotvs();
+
+			if (!is_null($response) && $response->status == '200') {
+				// $this->disable();
+				$this->setStatus(Status::CANCELADO);
+			} else {
+				$this->setStatus(Status::ERRO, $response);
+			}
+		} else {
+			// $this->disable();
+			$this->setStatus(Status::CANCELADO);
+		}
+	}
+
 	public function cancelarTotvs() {
 		$url = $this->getUrlApiTotvs('cancel');
 
-		// Chamar API TOTVS
 		$response = $this->callApi($url);
 
-		if (!is_null($response) && $response->status == '200') {
-			$this->disable();
-			$this->setStatus(Status::CANCELADO);
+		return $response;
+	}
+
+	public function confirmar() {
+		if (env('TOTVS_ENABLE') === true) {
+			$response = $this->confirmarTotvs();
+
+			if (!is_null($response) && $response->status == '200') {
+				// $this->disable();
+				$this->setStatus(Status::FINALIZADO);
+			} else {
+				$this->setStatus(Status::ERRO, $response);
+			}
 		} else {
-			$this->setStatus(Status::ERRO, $response);
+			// $this->disable();
+			$this->setStatus(Status::FINALIZADO);
 		}
 	}
 
 	public function confirmarTotvs() {
 		$url = $this->getUrlApiTotvs('confirm');
 
-		// Chamar API TOTVS
 		$response = $this->callApi($url);
 
-		if (!is_null($response) && $response->status == '200') {
-			$this->disable();
-			$this->setStatus(Status::FINALIZADO);
-		} else {
-			$this->setStatus(Status::ERRO, $response);
-		}
+		return $response;
 	}
 
 	public function getUrlApiTotvs($action) {

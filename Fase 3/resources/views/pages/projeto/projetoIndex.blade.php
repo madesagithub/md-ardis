@@ -28,13 +28,12 @@
 					</div>
 					@if ($projeto->status == App\Models\Status::PRODUZINDO || $projeto->status == App\Models\Status::FINALIZADO)
 					<div>
-						2h 15min
-						<i class="bi bi-clock"></i>
+						{{ Carbon\CarbonInterval::make($projeto->getTempoProducao())->locale('pt')->forHumans(['short' => true]) }}&ensp;<i class="bi bi-clock"></i>
 					</div>
 					@endif
 				</div>
 			</div>
-			<div class="card-body">
+			<div class="card-body">	
 				<h5 class="card-title mb-4">{{ $projeto->nome }}</h5>
 				<ul class="mb-0">
 					<li>{{ $projeto->nome }}</li>
