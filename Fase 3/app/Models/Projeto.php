@@ -58,26 +58,32 @@ class Projeto extends Model
 		$this->save();
 	}
 
+	/**
+	 * Retorna o tempo de produção do projeto
+	 *
+	 * @return duration
+	 */
 	public function getTempoProducao() {
-		dump($this->status);
 		switch ($this->status) {
 			case(Status::PRODUZINDO):
-				// $time = Carbon::now() - $this->status()->created_at;
-				$duration = Carbon::now()->diffForHumans($this->status()->created_at);
-
+				$start = $this->status()->created_at;
+				$finish = Carbon::now();
 				break;
 			case(Status::FINALIZADO):
 				$start = $this->status()->firstWhere('name', Status::PRODUZINDO)->created_at;
 				$finish = $this->status()->created_at;
-
-				$duration = $finish->diffForHumans($start);
 				break;
 			case(Status::CANCELADO):
+				$start = $this->status()->firstWhere('name', Status::PRODUZINDO)->created_at;
+				$finish = $this->status()->firstWhere('name', Status::CANCELADO)->created_at;
 				break;
 			default:
 				$duration = null;
 		}
-		dd($duration);
+		
+		$duration = $finish->diff($start);
+		// dd($duration);
+
 		return $duration;
 	}
 

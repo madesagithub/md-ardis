@@ -38,7 +38,6 @@
 		<hr class="mt-0 mb-4">
 
 		<!-- Planos ativos -->
-		<!-- Planos ativos -->
 		@foreach ($projeto->planos->where('active', true) as $plano)
 		<!-- Plano -->
 		<div class="card card-chapa mb-4">

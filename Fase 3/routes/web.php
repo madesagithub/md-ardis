@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ChapaController;
+use App\Http\Controllers\ConfigController;
 use App\Http\Controllers\PecaController;
 use App\Http\Controllers\MaquinaController;
 use App\Http\Controllers\OrdemController;
@@ -26,12 +27,14 @@ Route::get('/', function () {
 // Logs
 Route::get('logs', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index']);
 
+// Planos
 Route::resource('plano', PlanoController::class);
 Route::controller(PlanoController::class)->group(function () {
     Route::get('/planos/cancelar/{id}', 'cancelar')->name('plano.cancelar');
     Route::get('/planos/confirmar/{id}', 'confirmar')->name('plano.confirmar');
 });
 
+// Projetos
 Route::resource('projeto', ProjetoController::class);
 Route::controller(ProjetoController::class)->group(function () {
     Route::get('/projetos/start/{id}', 'start')->name('projeto.start');
@@ -43,3 +46,4 @@ Route::resource('peca', PecaController::class);
 Route::resource('chapa', ChapaController::class);
 Route::resource('maquina', MaquinaController::class);
 Route::resource('ordem', OrdemController::class);
+Route::resource('config', ConfigController::class);

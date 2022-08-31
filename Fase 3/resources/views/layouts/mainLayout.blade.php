@@ -25,6 +25,16 @@
                 <!-- Begin Page Content -->
                 <div class="container-xl mb-5 pb-5">
 
+					@hasSection('page-title')
+					<div class="row">
+						<div class="col mb-4">
+							<h2 class="h2">
+								@yield('page-title')
+							</h2>
+						</div>
+					</div>
+					@endif
+
                     @yield('page-content')
 
                 </div>
