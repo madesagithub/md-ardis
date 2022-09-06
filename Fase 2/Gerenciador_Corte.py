@@ -11,15 +11,22 @@ import requests
 
 # CONSTANTES
 # --------------------------------------------------
-PATH_NOVOS = r"F:\Automação\ARDIS\Gerenciador Corte\Data\Novos"
+PATH_NOVOS = r"F:\Automação\ARDIS\Gerenciador Corte\Data\Novos"					# Fabrica
 # PATH_NOVOS = f"{os.getcwd()}/Relatórios"
 
-PATH_PRODUZIDOS = r"F:\Automação\ARDIS\Gerenciador Corte\Data\Processados"
-PATH_EXECUTAVEIS = r"F:\Automação\ARDIS\Gerenciador Corte\Executaveis"
-PATH_LOGS = f"{PATH_EXECUTAVEIS}"
+PATH_PRODUZIDOS = r"F:\Automação\ARDIS\Gerenciador Corte\Data\Processados"		# Fabrica
+PATH_EXECUTAVEIS = r"F:\Automação\ARDIS\Gerenciador Corte\Executaveis"			# Fabrica
+PATH_LOGS = f"{PATH_EXECUTAVEIS}"												# Fabrica
 
+API_PHP = 'http://10.1.1.86:8080/md-ardis/Fase%203/public/api/projeto'			# Fabrica
 # API_PHP = 'http://' + socket.gethostbyname(socket.gethostname()) + '/md-ardis/Fase%203/public/api/projeto'
-API_PHP = 'http://10.1.1.39:8080/md-ardis/Fase%203/public/api/projeto'
+
+
+# Como compilar para .exe
+# --------------------------------------------------
+# No terminal
+# cd '.\Fase 2\'
+# C:\Users\t.flach\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\Scripts\pyinstaller.exe --onefile Gerenciador_Corte.py
 
 
 # Configuração de Logs
