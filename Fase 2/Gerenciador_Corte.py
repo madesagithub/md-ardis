@@ -21,6 +21,15 @@ PATH_LOGS = f"{PATH_EXECUTAVEIS}"												# Fabrica
 API_PHP = 'http://10.1.1.86:8080/md-ardis/Fase%203/public/api/projeto'			# Fabrica
 # API_PHP = 'http://' + socket.gethostbyname(socket.gethostname()) + '/md-ardis/Fase%203/public/api/projeto'
 
+# API
+# --------------------------------------------------
+BASE = 'MD-PROT'
+CHAVE = '128964ard'
+DEP_ORIGEM = 'ALM'
+DEP_DESTINO = 'FAB'
+LOC_DESTINO = ''
+COD_EMITENTE = str(138449)
+API_TOTVS = 'http://192.168.0.26:8888/scripts/cgiip.exe/WService='+ BASE +'/rsapi/rsapi015web?codChave=' + CHAVE
 
 # Como compilar para .exe
 # --------------------------------------------------
@@ -230,16 +239,16 @@ def get_planos(filename):
 def send_totvs(planos):
 	for plano in planos:
 		# MD-PROT - Sinaliza que a operação será feita na base de PROTÓTIPO
-		base = 'MD-PROT'
+		base = BASE
 
 		# Chave da operação, necessária para o servidor aceitar a conexão
-		cod_chave = '128964ard'
+		cod_chave = BASE
 
 		# Item a ser movimentado estoque
 		chapa = str(plano['codigo_chapa_usado'])
 
 		# Depósito de origem
-		dep_origem = 'ALM'
+		dep_origem = DEP_ORIGEM
 
 		# Local de origem
 		fabrica = str(plano['fabrica']).upper().split()
@@ -251,21 +260,21 @@ def send_totvs(planos):
 			loc_origem = 'ALMV-A'
 
 		# dep_dest à deposito destino
-		dep_destino = 'FAB'
+		dep_destino = DEP_DESTINO
 
 		# Local destino
-		loc_destino = ''
+		loc_destino = LOC_DESTINO
 
 		# Quantidade deve ser na unidade de medida cadastrada no sistema
 		quantidade = str(plano['metro_quadrado_bruto_peca']).replace('.', ',')
 
 		# Emitente ARDIS
-		cod_emitente = str(138449)
+		cod_emitente = COD_EMITENTE
 
 		# ----------
 
 		# Api para comunicação com o TOTVS
-		api_totvs = 'http://192.168.0.26:8888/scripts/cgiip.exe/WService='+ base +'/rsapi/rsapi015web?codChave='+ cod_chave +'&Item='+ chapa +'&dep_orig='+ dep_origem +'&loc_orig='+ loc_origem +'&dep_dest='+ dep_destino +'&loc_dest='+ loc_destino +'&quantidade='+ quantidade +'&codEmitente=' + cod_emitente
+		api_totvs = API_TOTVS + '?codChave='+ cod_chave +'&Item='+ chapa +'&dep_orig='+ dep_origem +'&loc_orig='+ loc_origem +'&dep_dest='+ dep_destino +'&loc_dest='+ loc_destino +'&quantidade='+ quantidade +'&codEmitente=' + cod_emitente
 
 		# response = requests.get(api)
 		# response.content
@@ -356,9 +365,10 @@ latest_file = max(files, key=os.path.getctime)
 
 # ----------
 planos = get_planos(latest_file)
-move_file(latest_file)
 # print_planos(planos)
+
 # send_totvs(planos)
 send_php(planos)
+move_file(latest_file)
 time.sleep(3)
 # ----------

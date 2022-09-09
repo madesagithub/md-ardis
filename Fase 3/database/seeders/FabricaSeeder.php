@@ -16,11 +16,11 @@ class FabricaSeeder extends Seeder
     public function run()
     {
         $fabrica = Fabrica::create([
-			'nome' => 'Fábrica Vermelha'
+			'nome' => 'FV'
 		]);
 
 		$fabrica = Fabrica::create([
-			'nome' => 'Fábrica Branca'
+			'nome' => 'FB'
 		]);
     }
 }
