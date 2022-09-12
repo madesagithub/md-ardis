@@ -53,11 +53,16 @@ class Ordem extends Model
 		if (env('TOTVS_ENABLE') === true) {
 			$response = $this->cancelarTotvs();
 
-			if (!is_null($response) && $response->status == '200') {
-				// $this->disable();
-				$this->setStatus(Status::CANCELADO);
+			if (!is_null($response)) {
+				if ($response['retorno'] == 'OK') {
+					// $this->disable();
+					$this->setStatus(Status::CANCELADO);
+				} else {
+					$erros = $this->getErros($response);
+					$this->setStatus(Status::ERRO, $erros);
+				}
 			} else {
-				$this->setStatus(Status::ERRO, $response);
+				$this->setStatus(Status::ERRO, 'Invalid API address');
 			}
 		} else {
 			// $this->disable();
@@ -78,14 +83,16 @@ class Ordem extends Model
 			$response = $this->confirmarTotvs();
 
 			// if (!is_null($response) && $response->status == '200') {
-			if (!is_null($response) && $response['retorno'] == 'OK') {
-				// $this->disable();
-				$this->setStatus(Status::FINALIZADO);
+			if (!is_null($response)) {
+				if ($response['retorno'] == 'OK') {
+					// $this->disable();
+					$this->setStatus(Status::FINALIZADO);
+				} else {
+					$erros = $this->getErros($response);
+					$this->setStatus(Status::ERRO, $erros);
+				}
 			} else {
-				$erros = implode('; ', array_map(function ($entry) {
-						return ($entry[key($entry)]);
-					}, $response['erros']['erro']));
-				$this->setStatus(Status::ERRO, $erros);
+				$this->setStatus(Status::ERRO, 'Invalid API address');
 			}
 		} else {
 			// $this->disable();
@@ -180,19 +187,18 @@ class Ordem extends Model
 		$xml = simplexml_load_string(curl_exec($ch));
 		$json = json_encode($xml);
 		$response = json_decode($json,TRUE);
-
-		dump(json_encode($response['erros']['erro']));
-		dd(implode('; ', array_map(function ($entry) {
-			return ($entry[key($entry)]);
-		  }, $response['erros']['erro'])));
 		curl_close($ch);
+
+		// dd(implode('; ', array_map(function ($entry) {
+		// 	return ($entry[key($entry)]);
+		//   }, $response['erros']['erro'])));
 		return $response;
 	}
 
 	public function getErros(array $entry)
 	{
 		$erros = implode('; ', array_map(function ($input) {
-				return ($input[key($input)])
+				return ($input[key($input)]);
 			}, $entry['erros']['erro']));
 
 		return $erros;

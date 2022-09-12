@@ -14,3 +14,15 @@
 - [x] API receber dados de projetos do Ardis. [php]
 - [ ] Sistema para usuário registrar o corte de chapas. [php] 
 - [ ] Após o usuário dar baixa para finalizar processo, movimentar chapas (ardis -> fábrica) (retorno de peças: fabrica -> deposito)
+
+## Movimentações API
+- Fase 2 [python]:
+	- ALM -> ARDISB ou 
+	- ALM -> ARDISV
+- Fase 3 [php]:
+	- Confirmar:
+		- ARDISB -> FAB ou
+		- ARDISV -> FAB
+	- Cancelar:
+		- ARDISB -> ALMB-A ou
+		- ARDISV -> ALMV-A
