@@ -144,11 +144,12 @@ class Ordem extends Model
 			$depDestino = 'FAB';
 
 			# Local de destino
-			$locDestino = 'ALMB-A';
+			$locDestino = '';
 		}
 
 		# Quantidade deve ser na unidade de medida cadastrada no sistema
 		$quantidade = $this->metro_quadrado_bruto_peca;
+		$quantidade = str_replace('.', ',', str($quantidade));
 
 		# Api para comunicação com o TOTVS
 		$apiTotvs = env('TOTVS_API') 
@@ -194,10 +195,14 @@ class Ordem extends Model
 
 	public function getErros(array $entry)
 	{
-		$erros = implode('; ', array_map(function ($input) {
+		if (count($entry['erros']['erro']) > 1) {
+			$erros = implode('; ', array_map(function ($input) {
 				return ($input[key($input)]);
 			}, $entry['erros']['erro']));
-
+		} else {
+			$erros = $entry['erros']['erro']['mensagem'];
+		}
+	
 		return $erros;
 	}
 
