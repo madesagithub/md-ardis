@@ -116,16 +116,20 @@ class Ordem extends Model
 		$chapa = $this->plano->chapa->codigo;
 
 		# Depósito de origem
-		$depOrigem = 'FAB';
-
-		# Local destino
-		$locOrigem = '';
+		$depOrigem = 'ALM';
 
 		// $fabrica = preg_replace('~[^A-Z]~', '', $this->plano->projeto->maquina->fabrica->nome);
 		$fabrica = $this->plano->projeto->maquina->fabrica->nome;
 
+		# Local origem
+		if ($fabrica == 'FB') {
+			$locOrigem = 'ARDISB';
+		} elseif ($fabrica == 'FV') {
+			$locOrigem = 'ARDISV';
+		}
+
 		if ($action == 'cancel') {
-			# dep_dest à deposito destino
+			# Deposito destino
 			$depDestino = 'ALM';
 
 			# Local de destino
@@ -136,18 +140,11 @@ class Ordem extends Model
 			}
 
 		} elseif ($action == 'confirm') {
-
-			// ALTERAR PARA NOVA API TOTVS
-		
-			# dep_dest à deposito destino
+			# Deposito destino
 			$depDestino = 'FAB';
 
 			# Local de destino
-			if ($fabrica == 'FB') {
-				$locDestino = 'ALMB-A';
-			} elseif ($fabrica == 'FV') {
-				$locDestino = 'ALMV-A';
-			}
+			$locDestino = 'ALMB-A';
 		}
 
 		# Quantidade deve ser na unidade de medida cadastrada no sistema

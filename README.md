@@ -17,12 +17,24 @@
 
 ## Movimentações API
 - Fase 2 [python]:
-	- ALM -> ARDISB ou 
-	- ALM -> ARDISV
+	- Branca
+		- Deposito: ALM -> ALM
+		- Local: ALMB-A -> ARDISB
+	- Vermelha
+		- Deposito: ALM -> ALM
+		- Local: ALMV-A -> ARDISV
 - Fase 3 [php]:
 	- Confirmar:
-		- ARDISB -> FAB ou
-		- ARDISV -> FAB
+		- Branca:
+			- Deposito: ALM -> FAB
+			- Local: ARDISB ->
+		- Vermelha:
+			- Deposito: ALM -> FAB
+			- Local: ARDISV ->
 	- Cancelar:
-		- ARDISB -> ALMB-A ou
-		- ARDISV -> ALMV-A
+		- Branca:
+			- Deposito: ALM -> ALM
+			- Local: ARDISB -> ALMB-A
+		- Vermelha:
+			- Deposito: ALM -> ALM
+			- Local: ARDISV -> ALMV-A
