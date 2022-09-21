@@ -26,6 +26,7 @@ API_PHP = 'http://10.1.1.86:8080/md-ardis/Fase%203/public/api/projeto'			# Fabri
 BASE = 'MD-PROT'
 CHAVE = '128964ard'
 DEP_ORIGEM = 'ALM'
+LOC_ORIGEM = ''
 DEP_DESTINO = 'FAB'
 LOC_DESTINO = ''
 COD_EMITENTE = str(138449)
@@ -166,18 +167,18 @@ def get_planos(filename):
 				}
 
 				peca = {
-					'codigo_peca'                      : int(row['código peça erp']) if row['código peça erp'].isdigit() else row['código peça erp'],
-					'descricao_peca'                   : row['descrição peça 2'] if row['descrição peça 2'] else row['descrição da peça'],
-					'comprimento_peca_final'           : int(row['comprimento peça final']) if row['comprimento peça final'].isdigit() else 0,
-					'largura_peca_final'               : int(row['largura peça final']) if row['largura peça final'].isdigit() else 0,
+					'codigo_peca'                : int(row['código peça erp']) if row['código peça erp'].isdigit() else row['código peça erp'],
+					'descricao_peca'             : row['descrição peça 2'] if row['descrição peça 2'] else row['descrição da peça'],
+					'comprimento_peca_final'     : int(row['comprimento peça final']) if row['comprimento peça final'].isdigit() else 0,
+					'largura_peca_final'         : int(row['largura peça final']) if row['largura peça final'].isdigit() else 0,
 				}
 
 				produto ={
-					'referencia_item'                  : row['referência do item'],
+					'referencia_item'            : row['referência do item'],
 				}
 
 				lote = {
-					'lote'                             : int(row['lote']) if row['lote'].isdigit() else row['lote'],
+					'lote'                       : int(row['lote']) if row['lote'].isdigit() else row['lote'],
 				}
 
 				# Alterar para material?
@@ -239,10 +240,10 @@ def get_planos(filename):
 def send_totvs(planos):
 	for plano in planos:
 		# MD-PROT - Sinaliza que a operação será feita na base de PROTÓTIPO
-		base = BASE
+		# base = BASE
 
 		# Chave da operação, necessária para o servidor aceitar a conexão
-		cod_chave = BASE
+		cod_chave = CHAVE
 
 		# Item a ser movimentado estoque
 		chapa = str(plano['codigo_chapa_usado'])
@@ -254,10 +255,13 @@ def send_totvs(planos):
 		fabrica = str(plano['fabrica']).upper().split()
 		fabrica = ''.join(fabrica)
 
-		if fabrica == 'FB':
-			loc_origem = 'ALMB-A'
-		elif fabrica == 'FV':
-			loc_origem = 'ALMV-A'
+		if LOC_ORIGEM == '':
+			if fabrica == 'FB':
+				loc_origem = 'ALMB-A'
+			elif fabrica == 'FV':
+				loc_origem = 'ALMV-A'
+		else:
+			loc_origem = LOC_ORIGEM
 
 		# dep_dest à deposito destino
 		dep_destino = DEP_DESTINO
@@ -370,5 +374,5 @@ planos = get_planos(latest_file)
 # send_totvs(planos)
 send_php(planos)
 move_file(latest_file)
-time.sleep(3)
+time.sleep(5)
 # ----------
