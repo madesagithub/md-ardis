@@ -40,11 +40,17 @@ class ProjetoController extends Controller
      */
     public function index()
     {
+		// Projetos atuais
         $projetos = Projeto::with(
 			'maquina',
 			'planos',
 			'user',
 		)->active()->get();
+
+		// Ordenar por data de status
+		$projetos = $projetos->sortByDesc(function ($item) {
+			return $item->status()->created_at;
+		});
 
 		// Ordenar projetos pelo status
 		$projetos = $projetos->sortBy(function($projeto) {
@@ -61,14 +67,21 @@ class ProjetoController extends Controller
 			}
 		});
 		
+		// Projetos já finalizado
 		$projetosAnteriores = Projeto::with(
 			'maquina',
 			'planos',
 			'user',
 		)->disabled()
-		->whereDate('created_at', '>=', Carbon::now()->subWeek(2)->startOfWeek())
-		->orderBy('created_at', 'desc')
+		->whereHas('statuses', function ($query) {
+			$query->where('created_at', '>=', Carbon::now()->subWeek(2)->startOfWeek());
+		})
 		->get();
+
+		// Ordenar por data de status
+		$projetosAnteriores = $projetosAnteriores->sortByDesc(function ($item) {
+			return $item->status()->created_at;
+		});
 
 		return view('pages.projeto.projetoIndex', compact('projetos', 'projetosAnteriores'));
     }

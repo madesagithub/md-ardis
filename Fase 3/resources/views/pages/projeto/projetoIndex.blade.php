@@ -83,7 +83,17 @@
 					<div class="card-header text-warning border-warning">
 				@break
 			@endswitch
-			{{ ucfirst(strtolower($projeto->status)) }}</div>
+				<div class="d-flex justify-content-between">
+					<div>
+						{{ ucfirst(strtolower($projeto->status)) }}
+					</div>
+					@if ($projeto->status == App\Models\Status::PRODUZINDO || $projeto->status == App\Models\Status::FINALIZADO)
+					<div>
+						{{ Carbon\CarbonInterval::make($projeto->getTempoProducao())->locale('pt')->forHumans(['short' => true]) }}&ensp;<i class="bi bi-clock"></i>
+					</div>
+					@endif
+				</div>
+			</div>
 			<div class="card-body">
 				<h5 class="card-title mb-4">{{ $projeto->nome }}</h5>
 				<ul class="mb-0">

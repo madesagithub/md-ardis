@@ -128,7 +128,14 @@ class Ordem extends Model
 			$locOrigem = 'ARDISV';
 		}
 
-		if ($action == 'cancel') {
+		if ($action == 'confirm') {
+			# Deposito destino
+			$depDestino = 'FAB';
+
+			# Local de destino
+			$locDestino = '';
+
+		} elseif ($action == 'cancel') {
 			# Deposito destino
 			$depDestino = 'ALM';
 
@@ -138,13 +145,6 @@ class Ordem extends Model
 			} elseif ($fabrica == 'FV') {
 				$locDestino = 'ALMV-A';
 			}
-
-		} elseif ($action == 'confirm') {
-			# Deposito destino
-			$depDestino = 'FAB';
-
-			# Local de destino
-			$locDestino = '';
 		}
 
 		# Quantidade deve ser na unidade de medida cadastrada no sistema
