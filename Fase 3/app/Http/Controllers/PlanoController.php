@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Plano;
+use App\Models\Status;
 use Illuminate\Http\Request;
 use Spatie\ModelStatus\ModelStatusServiceProvider;
 
@@ -13,7 +14,21 @@ class PlanoController extends Controller
 		$plano = Plano::find($id);
 		$plano->cancelar();
 
-		return back();
+		if ($plano->status == Status::CANCELADO) {
+			$alert['icon'] = 'warning';
+			$alert['title'] = 'Cancelado!';
+			$alert['text'] = 'Plano cancelado';
+		} elseif ($plano->status == Status::ERRO) {
+			$alert['icon'] = 'error';
+			$alert['title'] = 'Erro!';
+			$alert['text'] = 'Um erro ocorreu';
+		}
+
+		if (isset($alert)) {
+			return redirect()->route('projeto.show', $plano->projeto->id)->with('alert', $alert);
+		} else {
+			return redirect()->route('projeto.show', $plano->projeto->id);
+		}
 	}
 
 	public function confirmar($id)
@@ -21,7 +36,21 @@ class PlanoController extends Controller
 		$plano = Plano::find($id);
 		$plano->confirmar();
 
-		return back();
+		if ($plano->status == Status::FINALIZADO) {
+			$alert['icon'] = 'success';
+			$alert['title'] = 'Finalizado!';
+			$alert['text'] = 'Plano finalizado com sucesso';
+		} elseif ($plano->status == Status::ERRO) {
+			$alert['icon'] = 'error';
+			$alert['title'] = 'Erro!';
+			$alert['text'] = 'Um erro ocorreu';
+		}
+
+		if (isset($alert)) {
+			return redirect()->route('projeto.show', $plano->projeto->id)->with('alert', $alert);
+		} else {
+			return redirect()->route('projeto.show', $plano->projeto->id);
+		}
 	}
 	
 	/**

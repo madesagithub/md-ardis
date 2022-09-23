@@ -19,3 +19,6 @@
 <link rel="stylesheet" href="{{ asset('vendor/bootstrap/dist/css/bootstrap.min.css') }}">
 <link rel="stylesheet" href="{{ asset('vendor/bootstrap-icons/font/bootstrap-icons.css') }}">
 <link rel="stylesheet" href="{{ asset('css/main-layout.css') }}">
+
+<!-- Fontawesome -->
+<link rel="stylesheet" href="{{ asset('vendor/fontawesome/css/all.min.css') }}">

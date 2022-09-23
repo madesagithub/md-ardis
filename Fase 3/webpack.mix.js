@@ -18,4 +18,8 @@ mix.js('resources/js/app.js', 'public/js')
     // Bootstrap
     .copyDirectory('node_modules/bootstrap', 'public/vendor/bootstrap')
     // Bootstrap Icons
-    .copyDirectory('node_modules/bootstrap-icons', 'public/vendor/bootstrap-icons');
+    .copyDirectory('node_modules/bootstrap-icons', 'public/vendor/bootstrap-icons')
+    // Fontwasome
+    .copyDirectory('node_modules/@fortawesome/fontawesome-free', 'public/vendor/fontawesome')
+    // SweetAlert2
+    .copyDirectory('node_modules/sweetalert2', 'public/vendor/sweetalert2');

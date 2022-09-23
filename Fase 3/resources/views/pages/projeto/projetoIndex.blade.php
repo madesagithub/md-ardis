@@ -44,16 +44,18 @@
 					<li>{{ $projeto->data_processamento }}</li>
 				</ul>
 			</div>
-			<div class="card-footer align-self-end">
-				@if($projeto->status == App\Models\Status::PENDENTE)
-				<a href="{{ route('projeto.start', $projeto) }}" class="btn btn-outline-light">
-					Iniciar
-				</a>
-				@elseif($projeto->status == App\Models\Status::PRODUZINDO)
-				<a href="{{ route('projeto.show', $projeto) }}" class="btn btn-outline-light">
-					Visualizar
-				</a>
-				@endif
+			<div class="card-footer">
+				<div class="d-flex justify-content-end">
+					@if($projeto->status == App\Models\Status::PENDENTE)
+					<a href="{{ route('projeto.start', $projeto) }}" class="btn btn-outline-light">
+						Iniciar
+					</a>
+					@elseif($projeto->status == App\Models\Status::PRODUZINDO)
+					<a href="{{ route('projeto.show', $projeto) }}" class="btn btn-outline-light">
+						Visualizar
+					</a>
+					@endif
+				</div>
 			</div>
 		</div>
 	</div>
@@ -105,16 +107,23 @@
 					<li>{{ $projeto->data_processamento }}</li>
 				</ul>
 			</div>
-			<div class="card-footer align-self-end">
-			@if($projeto->status == App\Models\Status::PENDENTE)
-				<a href="{{ route('projeto.start', $projeto) }}" class="btn btn-outline-light">
-					Iniciar
-				</a>
-				@else
-				<a href="{{ route('projeto.show', $projeto) }}" class="btn btn-outline-light">
-					Visualizar
-				</a>
-				@endif
+
+			<div class="card-footer">
+				<div class="d-flex justify-content-end">
+					@if($projeto->status == App\Models\Status::PENDENTE)
+					<a href="{{ route('projeto.start', $projeto) }}">
+						<button type="button" class="btn btn-outline-light">
+							Iniciar
+						</button>
+					</a>
+					@else
+					<a href="{{ route('projeto.show', $projeto) }}" class="btn btn-outline-light">
+						<button type="button" class="btn btn-outline-light">
+							Visualizar
+						</button>
+					</a>
+					@endif
+				</div>
 			</div>
 		</div>
 	</div>

@@ -82,7 +82,6 @@ class Projeto extends Model
 		}
 		
 		$duration = $finish->diff($start);
-		// dd($duration);
 
 		return $duration;
 	}
@@ -120,19 +119,29 @@ class Projeto extends Model
 
 		if (in_array(Status::PENDENTE, $arrayStatus)) {
 			$this->enable();
-			$this->setStatus(Status::PENDENTE);
+			if ($this->status != Status::PENDENTE) {
+				$this->setStatus(Status::PENDENTE);
+			}
 		} elseif (in_array(Status::PRODUZINDO, $arrayStatus)) {
 			$this->enable();
-			$this->setStatus(Status::PRODUZINDO);
+			if ($this->status != Status::PRODUZINDO) {
+				$this->setStatus(Status::PRODUZINDO);
+			}
 		} elseif (in_array(Status::CANCELADO, $arrayStatus)) {
 			$this->disable();
-			$this->setStatus(Status::CANCELADO);
+			if ($this->status != Status::CANCELADO){
+				$this->setStatus(Status::CANCELADO);
+			}
 		} elseif (in_array(Status::ERRO, $arrayStatus)) {
 			$this->disable();
-			$this->setStatus(Status::ERRO);
+			if ($this->status != Status::ERRO) {
+				$this->setStatus(Status::ERRO);
+			}
 		} else {
 			$this->disable();
-			$this->setStatus(Status::FINALIZADO);
+			if ($this->status != Status::FINALIZADO) {
+				$this->setStatus(Status::FINALIZADO);
+			}
 		}
 	}
 

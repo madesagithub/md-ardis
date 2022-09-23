@@ -10,6 +10,28 @@ use Illuminate\Http\Request;
 
 class OrdemController extends Controller
 {
+	public function cancelar($id)
+	{
+		$ordem = Ordem::find($id);
+		$ordem->cancelar();
+
+		// Atualizar status do plano / projeto
+		$ordem->plano->atualizarStatus();
+
+		return redirect()->back();
+	}
+
+	public function confirmar($id)
+	{
+		$ordem = Ordem::find($id);
+		$ordem->confirmar();
+
+		// Atualizar status do plano / projeto
+		$ordem->plano->atualizarStatus();
+
+		return redirect()->back();
+	}
+
     /**
      * Display a listing of the resource.
      *

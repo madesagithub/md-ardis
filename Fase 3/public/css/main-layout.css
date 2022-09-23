@@ -4,6 +4,11 @@ body {
     /* background-color: var(--bs-body-color); */
 }
 
+body.swal2-shown>[aria-hidden="true"] {
+    transition: 0.1s filter;
+    filter: blur(10px);
+}
+
 .card-projeto {
     background-color: var(--bs-gray-900)
 }

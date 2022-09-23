@@ -82,7 +82,6 @@ class Ordem extends Model
 		if (env('TOTVS_ENABLE') === true) {
 			$response = $this->confirmarTotvs();
 
-			// if (!is_null($response) && $response->status == '200') {
 			if (!is_null($response)) {
 				if ($response['retorno'] == 'OK') {
 					// $this->disable();
@@ -91,6 +90,7 @@ class Ordem extends Model
 					$erros = $this->getErros($response);
 					$this->setStatus(Status::ERRO, $erros);
 				}
+				// dd($response);
 			} else {
 				$this->setStatus(Status::ERRO, 'Invalid API address');
 			}

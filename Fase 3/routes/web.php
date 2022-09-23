@@ -42,8 +42,14 @@ Route::controller(ProjetoController::class)->group(function () {
     Route::get('/projetos/confirmar/{id}', 'confirmar')->name('projeto.confirmar');
 });
 
+// Ordem
+Route::resource('ordem', OrdemController::class);
+Route::controller(OrdemController::class)->group(function () {
+    Route::get('/ordem/cancelar/{id}', 'cancelar')->name('ordem.cancelar');
+    Route::get('/ordem/confirmar/{id}', 'confirmar')->name('ordem.confirmar');
+});
+
 Route::resource('peca', PecaController::class);
 Route::resource('chapa', ChapaController::class);
 Route::resource('maquina', MaquinaController::class);
-Route::resource('ordem', OrdemController::class);
 Route::resource('config', ConfigController::class);
