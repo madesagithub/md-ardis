@@ -153,6 +153,7 @@ class Ordem extends Model
 
 		# Api para comunicação com o TOTVS
 		$apiTotvs = env('TOTVS_API') 
+			.'/WService='. env('TOTVS_BASE') .'/rsapi/rsapi015web'
 			.'?codChave='. env('TOTVS_KEY')
 			.'&Item='. $chapa 
 			.'&dep_orig='. $depOrigem 
