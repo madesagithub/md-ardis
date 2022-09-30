@@ -15,6 +15,7 @@ use App\Models\Peca;
 use App\Models\Plano;
 use App\Models\Produto;
 use App\Models\Projeto;
+use App\Models\Retalho;
 use App\Models\Status;
 use App\Models\User;
 use Carbon\Carbon;
@@ -41,6 +42,7 @@ class ProjetoController extends Controller
 	public function store(Request $request)
 	{
 		foreach (json_decode($request->input()[0]) as $data) {
+			$isRetalho = false;
 
 			// Fábrica
 			$fabrica = Fabrica::firstWhere('nome', $data->fabrica);
@@ -72,26 +74,16 @@ class ProjetoController extends Controller
 			}
 
 			// Produto
-			$produto = Produto::firstWhere('referencia', $data->referencia_item);
-			if (!$produto) {
-				$produto = Produto::create([
-					'referencia' => $data->referencia_item,
-				]);
-			}
+			if (is_null($data->referencia_item)) {
+				$isRetalho = true;
+			} else {
+				$produto = Produto::firstWhere('referencia', $data->referencia_item);
 
-			// Lote
-			if (!is_null($data->lote)) {
-				$lote = Lote::firstWhere('numero', $data->lote);
-				if (!$lote) {
-					$lote = Lote::create([
-						'numero' => $data->lote,
-						'produto_id' => $produto->id,
+				if (!$produto) {
+					$produto = Produto::create([
+						'referencia' => $data->referencia_item,
 					]);
 				}
-			} else {
-				$lote = new Lote();
-				$lote->id = null;
-				$lote->produto_id;
 			}
 
 			// Familia chapa
@@ -125,30 +117,39 @@ class ProjetoController extends Controller
 			}
 
 			// Chapa
-			$chapaCadastro = Chapa::firstWhere('codigo', $data->codigo_chapa_cadastro);
-			if (!$chapaCadastro) {
-				$chapaCadastro = Chapa::create([
-					'codigo' => $data->codigo_chapa_cadastro,
-					'familia_id' => $familiaChapa->id,
-				]);
+			if (is_null($data->codigo_chapa_cadastro)) {
+				$isRetalho = true;
+			} else {
+				$chapaCadastro = Chapa::firstWhere('codigo', $data->codigo_chapa_cadastro);
+
+				if (!$chapaCadastro) {
+					$chapaCadastro = Chapa::create([
+						'codigo' => $data->codigo_chapa_cadastro,
+						'familia_id' => $familiaChapa->id,
+					]);
+				}
 			}
 
 			// Peca
-			$peca = Peca::firstWhere([
-				['codigo', $data->codigo_peca],
-			]);
+			if (is_null($data->codigo_peca)) {
+				$isRetalho = true;
+			} else {
+				$peca = Peca::firstWhere('codigo', $data->codigo_peca);
+			
+				if (!$peca) {
+					$peca = Peca::create([
+						'codigo' => $data->codigo_peca,
+						'descricao' => $data->descricao_peca,
+						'comprimento_final' => $data->comprimento_peca_final,
+						'largura_final' => $data->largura_peca_final,
+						'produto_id' => $produto->id,		// Tabela pivô
+						'chapa_id' => $chapaCadastro->id,	// Tabela pivô
+					]);
 
-			if (!$peca) {
-				$peca = Peca::create([
-					'codigo' => $data->codigo_peca,
-					'descricao' => $data->descricao_peca,
-					'comprimento_final' => $data->comprimento_peca_final,
-					'largura_final' => $data->largura_peca_final,
-					'produto_id' => $produto->id,		// Tabela pivô
-					'chapa_id' => $chapaCadastro->id,	// Tabela pivô
-				]);
-
-				$peca->produtos()->attach($produto);
+					if ($produto) {
+						$peca->produtos()->attach($produto);
+					}
+				}
 			}
 
 			// Deposito
@@ -220,18 +221,66 @@ class ProjetoController extends Controller
 				$logicaArdis->id = null;
 			}
 
-			// Ordem
-			$ordem = Ordem::firstWhere([
-				['plano_id', $plano->id],
-				['peca_id', $peca->id],
-			]);
+			if (!$isRetalho) {
+				
+				// Lote
+				if (!is_null($data->lote)) {
+					$lote = Lote::firstWhere('numero', $data->lote);
+					
+					if (!$lote) {
+						$lote = Lote::create([
+							'numero' => $data->lote,
+							'produto_id' => $produto->id,
+						]);
+					}
+				} else {
+					$lote = new Lote();
+					$lote->id = null;
+					$lote->produto_id;
+				}
 
-			if (!$ordem) {
-				$ordem = Ordem::create([
-					// 'ordem' => $data->ordem,	// Talvez precise
+				// Ordem
+				$ordem = Ordem::firstWhere([
+					['plano_id', $plano->id],
+					['peca_id', $peca->id],
+				]);
+
+				if (!$ordem) {
+					$ordem = Ordem::create([
+						// 'ordem' => $data->ordem,	// Talvez precise
+						'plano_id' => $plano->id,
+						'peca_id' => $peca->id,
+						'produto_id' => $produto->id,
+						'comprimento_peca' => $data->comprimento_peca,
+						'largura_peca' => $data->largura_peca,
+						'espessura_peca' => $data->espessura_peca,
+						'quantidade_programada' => $data->quantidade_programada,
+						'quantidade_produzida' => $data->quantidade_produzida,
+						'metro_quadrado_bruto_peca' => $data->metro_quadrado_bruto_peca,
+						'metro_quadrado_liquido_peca' => $data->metro_quadrado_liquido_peca,
+						'metro_quadrado_liquido_total_peca' => $data->metro_quadrado_liquido_total_peca,
+						'metro_cubico_liquido_total_peca' => $data->metro_cubico_liquido_total_peca,
+						'pecas_superproducao' => $data->pecas_superproducao,
+						'metro_quadrado_superproducao' => $data->metro_quadrado_superproducao,
+						'percentual_peca_plano' => $data->percentual_peca_plano,
+						'lote_id' => $lote->id,
+						'logica_ardis_id' => $logicaArdis->id,
+						'nivel' => $data->nivel,
+						'prioridade' => $data->prioridade,
+						'percentual_produzido' => $data->percentual_produzido,
+						'data_embalagem' => !empty($data->data_embalagem) ? Carbon::createFromFormat('d/m/y', $data->data_embalagem)->format('Y-m-d') : null,
+					]);
+
+					$ordem->setStatus(Status::PENDENTE);
+				}
+			} else {
+				// Retalho de lote
+				// Buscar pecas com mesmo comprimento, largura e espessura?
+
+				$retalho = Retalho::create([
 					'plano_id' => $plano->id,
-					'peca_id' => $peca->id,
-					'produto_id' => $produto->id,
+					// 'peca_id' => $peca->id,
+					// 'produto_id' => $produto->id,
 					'comprimento_peca' => $data->comprimento_peca,
 					'largura_peca' => $data->largura_peca,
 					'espessura_peca' => $data->espessura_peca,
@@ -244,15 +293,13 @@ class ProjetoController extends Controller
 					'pecas_superproducao' => $data->pecas_superproducao,
 					'metro_quadrado_superproducao' => $data->metro_quadrado_superproducao,
 					'percentual_peca_plano' => $data->percentual_peca_plano,
-					'lote_id' => $lote->id,
+					// 'lote_id' => $lote->id,
 					'logica_ardis_id' => $logicaArdis->id,
 					'nivel' => $data->nivel,
 					'prioridade' => $data->prioridade,
 					'percentual_produzido' => $data->percentual_produzido,
-					'data_embalagem' => !empty($data->data_embalagem) ? Carbon::createFromFormat('d/m/y', $data->data_embalagem)->format('Y-m-d') : null,
+					// 'data_embalagem' => !empty($data->data_embalagem) ? Carbon::createFromFormat('d/m/y', $data->data_embalagem)->format('Y-m-d') : null,
 				]);
-
-				$ordem->setStatus(Status::PENDENTE);
 			}
 		}
 

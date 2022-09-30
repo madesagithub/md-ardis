@@ -8,6 +8,7 @@ use App\Http\Controllers\MovementController;
 use App\Http\Controllers\OrdemController;
 use App\Http\Controllers\PlanoController;
 use App\Http\Controllers\ProjetoController;
+use App\Http\Controllers\RetalhoController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -50,6 +51,7 @@ Route::controller(OrdemController::class)->group(function () {
     Route::get('/ordem/confirmar/{id}', 'confirmar')->name('ordem.confirmar');
 });
 
+Route::resource('retalho', RetalhoController::class);
 Route::resource('movement', MovementController::class);
 Route::resource('peca', PecaController::class);
 Route::resource('chapa', ChapaController::class);

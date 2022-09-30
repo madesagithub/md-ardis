@@ -373,6 +373,6 @@ planos = get_planos(latest_file)
 
 # send_totvs(planos)
 send_php(planos)
-# move_file(latest_file)
+move_file(latest_file)
 time.sleep(5)
 # ----------

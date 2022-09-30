@@ -11,11 +11,11 @@ class Projeto extends Model
 	use HasStatuses;
 
 	/**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [
+	 * The attributes that are mass assignable.
+	 *
+	 * @var array
+	 */
+	protected $fillable = [
 		'nome',
 		'maquina_id',
 		'deposito_id',
