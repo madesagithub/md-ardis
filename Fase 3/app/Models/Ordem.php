@@ -53,7 +53,7 @@ class Ordem extends Model
 		if (env('TOTVS_ENABLE') === true) {
 			$response = $this->cancelarTotvs();
 
-			if (!is_null($response)) {
+			if (!is_null($response) && $response) {
 				if ($response['retorno'] == 'OK') {
 					// $this->disable();
 					$this->setStatus(Status::CANCELADO);
@@ -71,9 +71,9 @@ class Ordem extends Model
 	}
 
 	public function cancelarTotvs() {
-		$url = $this->getUrlApiTotvs('cancel');
+		$api = $this->getApiTotvs('cancel');
 
-		$response = $this->callApi($url);
+		$response = $this->callApi($api);
 
 		return $response;
 	}
@@ -82,7 +82,7 @@ class Ordem extends Model
 		if (env('TOTVS_ENABLE') === true) {
 			$response = $this->confirmarTotvs();
 
-			if (!is_null($response)) {
+			if (!is_null($response) && $response) {
 				if ($response['retorno'] == 'OK') {
 					// $this->disable();
 					$this->setStatus(Status::FINALIZADO);
@@ -101,9 +101,9 @@ class Ordem extends Model
 	}
 
 	public function confirmarTotvs() {
-		$url = $this->getUrlApiTotvs('confirm');
+		$api = $this->getApiTotvs('confirm');
 
-		$response = $this->callApi($url);
+		$response = $this->callApi($api);
 
 		return $response;
 	}
@@ -111,9 +111,9 @@ class Ordem extends Model
 	/**
 	 * Gera o Endereço da api conforme a ação desejada
 	 */
-	public function getUrlApiTotvs($action) {
+	public function getApiTotvs($action) {
 		# Item a ser movimentado estoque
-		$chapa = $this->plano->chapa->codigo;
+		$chapa = $this->plano->chapa;
 
 		# Depósito de origem
 		$depOrigem = 'ALM';
@@ -149,30 +149,48 @@ class Ordem extends Model
 
 		# Quantidade deve ser na unidade de medida cadastrada no sistema
 		$quantidade = $this->metro_quadrado_bruto_peca;
-		$quantidade = str_replace('.', ',', str($quantidade));
+
+		// Dados enviados
+		$data = array(
+			'ordem' => $this,
+			'base' => env('TOTVS_BASE'),
+			'cod_chave' => env('TOTVS_KEY'),
+			'item' => $chapa,
+			'dep_origem' => $depOrigem,
+			'loc_origem' => $locOrigem,
+			'dep_destino' => $depDestino,
+			'loc_destino' => $locDestino,
+			'quantidade' => $quantidade,
+			'cod_emitente' => env('TOTVS_COD_EMITENTE'),
+		);
 
 		# Api para comunicação com o TOTVS
-		$apiTotvs = env('TOTVS_API') 
+		$url = env('TOTVS_API') 
 			.'/WService='. env('TOTVS_BASE') .'/rsapi/rsapi015web'
 			.'?codChave='. env('TOTVS_KEY')
-			.'&Item='. $chapa 
+			.'&Item='. $chapa->codigo 
 			.'&dep_orig='. $depOrigem 
 			.'&loc_orig='. $locOrigem 
 			.'&dep_dest='. $depDestino 
 			.'&loc_dest='. $locDestino 
-			.'&quantidade='. $quantidade 
+			.'&quantidade='. str_replace('.', ',', str($quantidade))
 			.'&codEmitente='. env('TOTVS_COD_EMITENTE');
+
+		$apiTotvs = array(
+			'data' => $data,
+			'url' => $url
+		);
 
 		// Retornar API TOTVS
 		return $apiTotvs;
 	}
 
-	public function callApi($url)
+	public function callApi($api)
 	{
 		// Iniciar conexão com API TOTVS
 		$ch = curl_init();
 		curl_setopt_array($ch, [
-			CURLOPT_URL => $url,
+			CURLOPT_URL => $api['url'],
 			CURLOPT_RETURNTRANSFER => true,
 			CURLOPT_SSL_VERIFYPEER => false,
 			CURLOPT_SSL_VERIFYHOST => false,
@@ -188,13 +206,16 @@ class Ordem extends Model
 		$response = json_decode($json,TRUE);
 		curl_close($ch);
 
+		// Registro do movimento
+		Movement::registerMovement($api['data'], $response);
+
 		// dd(implode('; ', array_map(function ($entry) {
 		// 	return ($entry[key($entry)]);
 		//   }, $response['erros']['erro'])));
 		return $response;
 	}
 
-	public function getErros(array $entry)
+	public static function getErros(array $entry)
 	{
 		if (count($entry['erros']['erro']) > 1) {
 			$erros = implode('; ', array_map(function ($input) {

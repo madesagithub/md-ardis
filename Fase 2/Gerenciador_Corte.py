@@ -100,7 +100,7 @@ def get_planos(filename):
 			# m² líquido total peça
 			# m³ líquido total peça
 			# m² bruto peça
-			# Qupublic antidade produzida
+			# Quantidade produzida
 			# Peças superprodução
 			# m² superprodução
 			# Data embalagem
@@ -373,6 +373,6 @@ planos = get_planos(latest_file)
 
 # send_totvs(planos)
 send_php(planos)
-move_file(latest_file)
+# move_file(latest_file)
 time.sleep(5)
 # ----------

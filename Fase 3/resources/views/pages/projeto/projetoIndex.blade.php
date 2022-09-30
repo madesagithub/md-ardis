@@ -47,12 +47,16 @@
 			<div class="card-footer">
 				<div class="d-flex justify-content-end">
 					@if($projeto->status == App\Models\Status::PENDENTE)
-					<a href="{{ route('projeto.start', $projeto) }}" class="btn btn-outline-light">
-						Iniciar
+					<a href="{{ route('projeto.start', $projeto) }}" class="text-decoration-none">
+						<button type="button" class="btn btn-outline-light">
+							Iniciar
+						</button>
 					</a>
 					@elseif($projeto->status == App\Models\Status::PRODUZINDO)
-					<a href="{{ route('projeto.show', $projeto) }}" class="btn btn-outline-light">
-						Visualizar
+					<a href="{{ route('projeto.show', $projeto) }}" class="text-decoration-none">
+						<button type="button" class="btn btn-outline-light">
+							Visualizar
+						</button>
 					</a>
 					@endif
 				</div>
@@ -110,19 +114,11 @@
 
 			<div class="card-footer">
 				<div class="d-flex justify-content-end">
-					@if($projeto->status == App\Models\Status::PENDENTE)
-					<a href="{{ route('projeto.start', $projeto) }}">
-						<button type="button" class="btn btn-outline-light">
-							Iniciar
-						</button>
-					</a>
-					@else
-					<a href="{{ route('projeto.show', $projeto) }}" class="btn btn-outline-light">
+					<a href="{{ route('projeto.show', $projeto) }}" class="text-decoration-none">
 						<button type="button" class="btn btn-outline-light">
 							Visualizar
 						</button>
 					</a>
-					@endif
 				</div>
 			</div>
 		</div>

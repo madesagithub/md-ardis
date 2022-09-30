@@ -4,6 +4,7 @@ use App\Http\Controllers\ChapaController;
 use App\Http\Controllers\ConfigController;
 use App\Http\Controllers\PecaController;
 use App\Http\Controllers\MaquinaController;
+use App\Http\Controllers\MovementController;
 use App\Http\Controllers\OrdemController;
 use App\Http\Controllers\PlanoController;
 use App\Http\Controllers\ProjetoController;
@@ -49,6 +50,7 @@ Route::controller(OrdemController::class)->group(function () {
     Route::get('/ordem/confirmar/{id}', 'confirmar')->name('ordem.confirmar');
 });
 
+Route::resource('movement', MovementController::class);
 Route::resource('peca', PecaController::class);
 Route::resource('chapa', ChapaController::class);
 Route::resource('maquina', MaquinaController::class);
