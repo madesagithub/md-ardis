@@ -95,7 +95,7 @@
 					</div>
 					@if ($projeto->status == App\Models\Status::PRODUZINDO || $projeto->status == App\Models\Status::FINALIZADO)
 					<div>
-						{{ Carbon\CarbonInterval::make($projeto->getTempoProducao())->locale('pt')->forHumans(['short' => true]) }}&ensp;<i class="bi bi-clock"></i>
+						{{ $projeto->getTempoProducaoForHumans() }}&ensp;<i class="bi bi-clock"></i>
 					</div>
 					@endif
 				</div>

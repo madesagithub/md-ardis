@@ -93,7 +93,7 @@
 		<div class="card card-chapa mb-4">
 			<div class="card-body">
 				@if ($plano->status == App\Models\Status::ERRO)
-					<div class="row mb-4 justify-content-between">
+				<div class="row mb-4 justify-content-between">
 				@else
 				<div class="row justify-content-between">
 				@endif

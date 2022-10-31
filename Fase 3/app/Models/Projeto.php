@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Carbon\CarbonInterval;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\ModelStatus\HasStatuses;
 
@@ -70,12 +71,12 @@ class Projeto extends Model
 				$finish = Carbon::now();
 				break;
 			case(Status::FINALIZADO):
-				$start = $this->status()->firstWhere('name', Status::PRODUZINDO)->created_at;
+				$start = $this->statuses()->firstWhere('name', Status::PRODUZINDO)->created_at;
 				$finish = $this->status()->created_at;
 				break;
 			case(Status::CANCELADO):
-				$start = $this->status()->firstWhere('name', Status::PRODUZINDO)->created_at;
-				$finish = $this->status()->firstWhere('name', Status::CANCELADO)->created_at;
+				$start = $this->statuses()->firstWhere('name', Status::PRODUZINDO)->created_at;
+				$finish = $this->statuses()->firstWhere('name', Status::CANCELADO)->created_at;
 				break;
 			default:
 				$duration = null;
@@ -84,6 +85,11 @@ class Projeto extends Model
 		$duration = $finish->diff($start);
 
 		return $duration;
+	}
+
+	public function getTempoProducaoForHumans()
+	{
+		return CarbonInterval::make($this->getTempoProducao())->locale('pt')->forHumans(['short' => true]);
 	}
 
 	public function iniciarProducao() {

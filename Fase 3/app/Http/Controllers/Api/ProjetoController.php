@@ -74,7 +74,7 @@ class ProjetoController extends Controller
 			}
 
 			// Produto
-			if (is_null($data->referencia_item)) {
+			if ($data->referencia_item == '') {
 				$isRetalho = true;
 			} else {
 				$produto = Produto::firstWhere('referencia', $data->referencia_item);
@@ -96,7 +96,6 @@ class ProjetoController extends Controller
 
 			// Chapa utilizada
 			$chapaUtilizada = Chapa::firstWhere('codigo', $data->codigo_chapa_usado);
-
 			if (!$chapaUtilizada) {
 				$chapaUtilizada = Chapa::create([
 					'codigo' => $data->codigo_chapa_usado,
@@ -117,7 +116,7 @@ class ProjetoController extends Controller
 			}
 
 			// Chapa
-			if (is_null($data->codigo_chapa_cadastro)) {
+			if ($data->codigo_chapa_cadastro == '') {
 				$isRetalho = true;
 			} else {
 				$chapaCadastro = Chapa::firstWhere('codigo', $data->codigo_chapa_cadastro);
@@ -131,7 +130,7 @@ class ProjetoController extends Controller
 			}
 
 			// Peca
-			if (is_null($data->codigo_peca)) {
+			if ($data->codigo_peca == '') {
 				$isRetalho = true;
 			} else {
 				$peca = Peca::firstWhere('codigo', $data->codigo_peca);
@@ -216,15 +215,11 @@ class ProjetoController extends Controller
 						'nome' => $data->logica_ardis,
 					]);
 				}
-			} else {
-				$logicaArdis = new LogicaArdis();
-				$logicaArdis->id = null;
 			}
 
 			if (!$isRetalho) {
-				
 				// Lote
-				if (!is_null($data->lote)) {
+				if ($data->lote != '') {
 					$lote = Lote::firstWhere('numero', $data->lote);
 					
 					if (!$lote) {
@@ -233,10 +228,6 @@ class ProjetoController extends Controller
 							'produto_id' => $produto->id,
 						]);
 					}
-				} else {
-					$lote = new Lote();
-					$lote->id = null;
-					$lote->produto_id;
 				}
 
 				// Ordem
@@ -263,8 +254,8 @@ class ProjetoController extends Controller
 						'pecas_superproducao' => $data->pecas_superproducao,
 						'metro_quadrado_superproducao' => $data->metro_quadrado_superproducao,
 						'percentual_peca_plano' => $data->percentual_peca_plano,
-						'lote_id' => $lote->id,
-						'logica_ardis_id' => $logicaArdis->id,
+						'lote_id' => isset($lote) ? $lote->id : null,
+						'logica_ardis_id' => isset($logicaArdis) ? $logicaArdis->id : null,
 						'nivel' => $data->nivel,
 						'prioridade' => $data->prioridade,
 						'percentual_produzido' => $data->percentual_produzido,
@@ -298,7 +289,6 @@ class ProjetoController extends Controller
 					'nivel' => $data->nivel,
 					'prioridade' => $data->prioridade,
 					'percentual_produzido' => $data->percentual_produzido,
-					// 'data_embalagem' => !empty($data->data_embalagem) ? Carbon::createFromFormat('d/m/y', $data->data_embalagem)->format('Y-m-d') : null,
 				]);
 			}
 		}

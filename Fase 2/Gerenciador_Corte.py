@@ -11,11 +11,13 @@ import requests
 
 # CONSTANTES
 # --------------------------------------------------
-PATH_NOVOS = r"F:\Automação\ARDIS\Gerenciador Corte\Data\Novos"					# Fabrica
-# PATH_NOVOS = f"{os.getcwd()}/Relatórios"
+PATH = r"F:\Automação\ARDIS\Gerenciador Corte"									# Fabrica
 
-PATH_PRODUZIDOS = r"F:\Automação\ARDIS\Gerenciador Corte\Data\Processados"		# Fabrica
-PATH_EXECUTAVEIS = r"F:\Automação\ARDIS\Gerenciador Corte\Executaveis"			# Fabrica
+PATH_NOVOS = f"{PATH}\\Data\\Novos"												# Fabrica
+# PATH_NOVOS = f"{os.getcwd()}/Relatórios"
+PATH_PRODUZIDOS = f"{PATH}\\Data\\Processados"									# Fabrica
+PATH_PROBLEMAS = f"{PATH}\\Data\\Problemas"										# Fabrica
+PATH_EXECUTAVEIS = f"{PATH}\\Executaveis"										# Fabrica
 PATH_LOGS = f"{PATH_EXECUTAVEIS}"												# Fabrica
 
 API_PHP = 'http://10.1.1.86:8080/md-ardis/Fase%203/public/api/projeto'			# Fabrica
@@ -287,7 +289,7 @@ def send_totvs(planos):
 
 
 # --------------------------------------------------
-# Cadastrar npublic o sistema de controle de chapas (php)
+# Cadastrar no sistema de controle de chapas (php)
 # Enviar para API
 def send_php(planos):
 	# Converter dicionario em json
@@ -300,6 +302,7 @@ def send_php(planos):
 	post = requests.post(url=API_PHP, headers=api_headers, json=planos)
 	logging.info(post.text)
 	# print(post.json())
+	# print(post.text)
 	print(post.content)
 	print(post.status_code)
 
@@ -366,6 +369,7 @@ files = [file for file in files if file.endswith('.csv')]
 
 # Get the last file
 latest_file = max(files, key=os.path.getctime)
+print(latest_file)
 
 # ----------
 planos = get_planos(latest_file)
