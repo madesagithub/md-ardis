@@ -369,6 +369,7 @@ files = [file for file in files if file.endswith('.csv')]
 
 # Get the last file
 latest_file = max(files, key=os.path.getctime)
+logging.info(f"START: {latest_file}")
 print(latest_file)
 
 # ----------

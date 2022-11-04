@@ -285,7 +285,7 @@ class ProjetoController extends Controller
 					'metro_quadrado_superproducao' => $data->metro_quadrado_superproducao,
 					'percentual_peca_plano' => $data->percentual_peca_plano,
 					// 'lote_id' => $lote->id,
-					'logica_ardis_id' => $logicaArdis->id,
+					'logica_ardis_id' => isset($logicaArdis) ? $logicaArdis->id : null,
 					'nivel' => $data->nivel,
 					'prioridade' => $data->prioridade,
 					'percentual_produzido' => $data->percentual_produzido,
