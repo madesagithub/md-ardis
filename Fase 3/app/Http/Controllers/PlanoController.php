@@ -87,13 +87,16 @@ class PlanoController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  Plano  $plano
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        //
-    }
+    public function show(Plano $plano)
+	{
+		return redirect()->action(
+			[ProjetoController::class, 'show'],
+			['projeto' => $plano->projeto->id, 'plano' => $plano->id]
+		);
+	}
 
     /**
      * Show the form for editing the specified resource.

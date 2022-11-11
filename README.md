@@ -38,3 +38,10 @@
 		- Vermelha:
 			- Deposito: ALM -> ALM
 			- Local: ARDISV -> ALMV-A
+
+## Gerar .exe a partir do .py
+'''python
+pyinstaller --onefile --windowed --icon=icon.ico --name=nome_do_executavel arquivo.py
+
+C:\Users\t.flach\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\Scripts\pyinstaller.exe --onefile --icon=img/scissors-solid.ico Gerenciador_Corte.py
+'''

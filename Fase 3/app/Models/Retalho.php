@@ -33,5 +33,15 @@ class Retalho extends Model
 		'prioridade',
 		'percentual_produzido',
 	];
+
+	public function plano()
+	{
+		return $this->belongsTo(Plano::class);
+	}
+
+	public function logicaArdis()
+	{
+		return $this->belongsTo(LogicaArdis::class);
+	}
 	
 }

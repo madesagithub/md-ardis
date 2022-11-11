@@ -14,7 +14,11 @@ class RetalhoController extends Controller
      */
     public function index()
     {
-        //
+		$retalhos = Retalho::with(
+			'plano'
+		)->get();
+
+        return view('pages.retalho.retalhoIndex', compact('retalhos'));
     }
 
     /**

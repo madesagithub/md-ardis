@@ -32,16 +32,17 @@ Route::get('logs', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'i
 // Planos
 Route::resource('plano', PlanoController::class);
 Route::controller(PlanoController::class)->group(function () {
-    Route::get('/planos/cancelar/{id}', 'cancelar')->name('plano.cancelar');
-    Route::get('/planos/confirmar/{id}', 'confirmar')->name('plano.confirmar');
+    Route::get('/plano/cancelar/{id}', 'cancelar')->name('plano.cancelar');
+    Route::get('/plano/confirmar/{id}', 'confirmar')->name('plano.confirmar');
 });
 
 // Projetos
 Route::resource('projeto', ProjetoController::class);
 Route::controller(ProjetoController::class)->group(function () {
-    Route::get('/projetos/start/{id}', 'start')->name('projeto.start');
-    Route::get('/projetos/cancelar/{id}', 'cancelar')->name('projeto.cancelar');
-    Route::get('/projetos/confirmar/{id}', 'confirmar')->name('projeto.confirmar');
+    // Route::get('/projeto/{id}/{#plano}', 'show')->name('projeto.show');
+    Route::get('/projeto/start/{id}', 'start')->name('projeto.start');
+    Route::get('/projeto/cancelar/{id}', 'cancelar')->name('projeto.cancelar');
+    Route::get('/projeto/confirmar/{id}', 'confirmar')->name('projeto.confirmar');
 });
 
 // Ordem

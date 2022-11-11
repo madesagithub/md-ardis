@@ -23,6 +23,7 @@ Route::apiResources([
     'projeto' => ProjetoController::class,
     // 'ordem' => OrdemController::class,
     // 'posts' => PostController::class,
+	'reaproveitamento' => ReaproveitamentoController::class,
 ]);
 
 // Create new artigo

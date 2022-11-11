@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Plano;
 use App\Models\Projeto;
 use App\Models\Status;
 use Carbon\Carbon;
@@ -111,10 +112,21 @@ class ProjetoController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\Projeto  $projeto
+     * @param  \App\Models\Plano  $plano
      * @return \Illuminate\Http\Response
      */
-    public function show(Projeto $projeto)
+    public function show(Projeto $projeto, $plano = null)
     {
+		// dd($plano);
+		if (!is_null($plano))
+		{
+			// dd('oi');
+			// return view('pages.projeto.projetoShow', compact('projeto'));
+			// return view('pages.projeto.projetoShow', compact('projeto')).'/#'.$plano->id;
+			// return view('pages.projeto.projetoShow', compact('projeto'))
+			// 	->section($plano->id);
+		}
+
 		return view('pages.projeto.projetoShow', compact('projeto'));
     }
 
