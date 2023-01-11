@@ -49,9 +49,10 @@ export const renderInput = (instance, params) => {
  */
 const showInput = (params) => {
   if (!renderInputType[params.input]) {
-    return error(
+    error(
       `Unexpected type of input! Expected "text", "email", "password", "number", "tel", "select", "radio", "checkbox", "textarea", "file" or "url", got "${params.input}"`
     )
+    return
   }
 
   const inputContainer = getInputContainer(params.input)
@@ -59,9 +60,11 @@ const showInput = (params) => {
   dom.show(inputContainer)
 
   // input autofocus
-  setTimeout(() => {
-    dom.focusInput(input)
-  })
+  if (params.inputAutoFocus) {
+    setTimeout(() => {
+      dom.focusInput(input)
+    })
+  }
 }
 
 /**
@@ -153,7 +156,7 @@ const checkAndSetInputValue = (input, inputValue) => {
   }
 }
 
-/** @type Record<string, (input: Input | HTMLElement, params: SweetAlertOptions) => Input> */
+/** @type {Record<string, (input: Input | HTMLElement, params: SweetAlertOptions) => Input>} */
 const renderInputType = {}
 
 /**

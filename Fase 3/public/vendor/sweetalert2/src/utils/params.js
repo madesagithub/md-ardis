@@ -71,6 +71,7 @@ export const defaultParams = {
   inputLabel: '',
   inputValue: '',
   inputOptions: {},
+  inputAutoFocus: true,
   inputAutoTrim: true,
   inputAttributes: {},
   inputValidator: undefined,
@@ -213,7 +214,7 @@ const checkIfParamIsDeprecated = (param) => {
  * @param {SweetAlertOptions} params
  */
 export const showWarningsForParams = (params) => {
-  if (!params.backdrop && params.allowOutsideClick) {
+  if (params.backdrop === false && params.allowOutsideClick) {
     warn('"allowOutsideClick" parameter requires `backdrop` parameter to be set to `true`')
   }
 

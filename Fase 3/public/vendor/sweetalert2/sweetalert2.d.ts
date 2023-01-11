@@ -122,6 +122,11 @@ declare module 'sweetalert2' {
     function getIcon(): HTMLElement | null
 
     /**
+     * Gets the icon content (without border).
+     */
+    function getIconContent(): HTMLElement | null
+
+    /**
      * Gets the "Confirm" button.
      */
     function getConfirmButton(): HTMLButtonElement | null
@@ -175,7 +180,7 @@ declare module 'sweetalert2' {
      * Swal.showLoading(Swal.getDenyButton())
      * ```
      */
-    function showLoading(buttonToReplace?: HTMLButtonElement): void
+    function showLoading(buttonToReplace: HTMLButtonElement | null): void
 
     /**
      * Hides loader and shows back the button which was hidden by .showLoading()
@@ -1014,6 +1019,14 @@ declare module 'sweetalert2' {
      * @default {}
      */
     inputOptions?: SyncOrAsync<ReadonlyMap<string, string> | Record<string, any>>
+
+    /**
+     * Automatically focus the input when popup is shown.
+     * Set this parameter to `false` to disable auto-focusing.
+     *
+     * @default true
+     */
+    inputAutoFocus?: boolean
 
     /**
      * Automatically remove whitespaces from both ends of a result string.

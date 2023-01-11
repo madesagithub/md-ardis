@@ -8,6 +8,7 @@ export {
   getHtmlContainer,
   getImage,
   getIcon,
+  getIconContent,
   getInputLabel,
   getCloseButton,
   getActions,
@@ -19,6 +20,7 @@ export {
   getTimerProgressBar,
   getFocusableElements,
   getValidationMessage,
+  getProgressSteps,
   isLoading,
 } from '../utils/dom/index.js'
 
