@@ -15,8 +15,29 @@ class RetalhoController extends Controller
     public function index()
     {
 		$retalhos = Retalho::with(
-			'plano'
+			'plano.chapa.familia'
 		)->get();
+
+		// $retalhos = Retalho::with(
+		// 		'plano.chapa.familia'
+		// 	)
+		// 	// ->with(['plano.chapa.familia' => function($query){
+		// 	// 	return $query->groupBy('nome');
+		// 	// }])
+		// 	->groupBy('plano.chapa.familia.id')
+		// 	->get();
+		// 	// ->toSql();
+		// 	// ->get()
+		// 	// ->dd();
+
+		// $retalhos = $retalhos->groupBy([
+		// 	'plano.chapa.familia.nome',
+		// 	'comprimento_peca',
+		// 	'largura_peca'
+		// ]);
+
+		// dd($retalhos);
+		// dd($retalhos->first());
 
         return view('pages.retalho.retalhoIndex', compact('retalhos'));
     }
