@@ -23,8 +23,16 @@ Route::apiResources([
     'projeto' => ProjetoController::class,
     // 'ordem' => OrdemController::class,
     // 'posts' => PostController::class,
-	'reaproveitamento' => ReaproveitamentoController::class,
+	// 'reaproveitamento' => ReaproveitamentoController::class,
 ]);
+
+// api/v1
+Route::group(['prefix' => 'v1', 'namespace' => 'App\Http\Controllers\Api\V1'], function () {
+	Route::apiResources([
+		'ordens' => OrdemController::class,
+		'retalhos' => ReaproveitamentoController::class,
+	]);
+});
 
 // Create new artigo
 // Route::post('projeto', [ProjetoController::class, 'store']);

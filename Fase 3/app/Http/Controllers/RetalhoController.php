@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Retalho;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class RetalhoController extends Controller
 {
@@ -18,17 +19,26 @@ class RetalhoController extends Controller
 			'plano.chapa.familia'
 		)->get();
 
-		// $retalhos = Retalho::with(
-		// 		'plano.chapa.familia'
-		// 	)
+		// $retalhos = Retalho::
+		// 	select(
+		// 		// 'id',
+		// 		// 'plano.chapa.familia.nome as familia',
+		// 		'comprimento_peca',
+		// 		'largura_peca',
+		// 		DB::raw('COUNT(*) as quantidade'))
+		// 	// ->with('plano.chapa.familia')
 		// 	// ->with(['plano.chapa.familia' => function($query){
-		// 	// 	return $query->groupBy('nome');
+		// 	// 	// return $query->groupBy('id');
 		// 	// }])
-		// 	->groupBy('plano.chapa.familia.id')
+		// 	->groupBy([
+		// 		// 'plano.chapa.familia.nome',
+		// 		'comprimento_peca',
+		// 		'largura_peca'
+		// 	])
 		// 	->get();
-		// 	// ->toSql();
-		// 	// ->get()
-		// 	// ->dd();
+			// ->toSql();
+			// ->get()
+			// ->dd();
 
 		// $retalhos = $retalhos->groupBy([
 		// 	'plano.chapa.familia.nome',
