@@ -10,29 +10,17 @@ import traceback
 import requests
 
 # CONSTANTES
+from constantes import *
+
+# API PHP
+API_PHP = 'http://10.1.1.86:8080/md-ardis/Fase%203/public/api'
+
+# API TOTVS
 # --------------------------------------------------
-PATH = r"F:\Automação\ARDIS\Gerenciador Corte"									# Fabrica
-
-PATH_NOVOS = f"{PATH}\\Data\\Novos"												# Fabrica
-# PATH_NOVOS = f"{os.getcwd()}/Relatórios"
-PATH_PRODUZIDOS = f"{PATH}\\Data\\Processados"									# Fabrica
-PATH_PROBLEMAS = f"{PATH}\\Data\\Problemas"										# Fabrica
-PATH_EXECUTAVEIS = f"{PATH}\\Executaveis"										# Fabrica
-PATH_LOGS = f"{PATH_EXECUTAVEIS}"												# Fabrica
-
-API_PHP = 'http://10.1.1.86:8080/md-ardis/Fase%203/public/api/projeto'			# Fabrica
-# API_PHP = 'http://' + socket.gethostbyname(socket.gethostname()) + '/md-ardis/Fase%203/public/api/projeto'
-
-# API
-# --------------------------------------------------
-BASE = 'MD-PROT'
-CHAVE = '128964ard'
 DEP_ORIGEM = 'ALM'
 LOC_ORIGEM = ''
 DEP_DESTINO = 'FAB'
 LOC_DESTINO = ''
-COD_EMITENTE = str(138449)
-API_TOTVS = 'http://192.168.0.26:8888/scripts/cgiip.exe/WService='+ BASE +'/rsapi/rsapi015web?codChave=' + CHAVE
 
 # Como compilar para .exe
 # --------------------------------------------------
@@ -245,7 +233,7 @@ def send_totvs(planos):
 		# base = BASE
 
 		# Chave da operação, necessária para o servidor aceitar a conexão
-		cod_chave = CHAVE
+		# cod_chave = CHAVE
 
 		# Item a ser movimentado estoque
 		chapa = str(plano['codigo_chapa_usado'])
@@ -274,13 +262,10 @@ def send_totvs(planos):
 		# Quantidade deve ser na unidade de medida cadastrada no sistema
 		quantidade = str(plano['metro_quadrado_bruto_peca']).replace('.', ',')
 
-		# Emitente ARDIS
-		cod_emitente = COD_EMITENTE
-
 		# ----------
 
 		# Api para comunicação com o TOTVS
-		api_totvs = API_TOTVS + '?codChave='+ cod_chave +'&Item='+ chapa +'&dep_orig='+ dep_origem +'&loc_orig='+ loc_origem +'&dep_dest='+ dep_destino +'&loc_dest='+ loc_destino +'&quantidade='+ quantidade +'&codEmitente=' + cod_emitente
+		api_totvs = API_TOTVS + '&codChave='+ cod_chave +'&Item='+ chapa +'&dep_orig='+ dep_origem +'&loc_orig='+ loc_origem +'&dep_dest='+ dep_destino +'&loc_dest='+ loc_destino +'&quantidade='+ quantidade 
 
 		# response = requests.get(api)
 		# response.content
