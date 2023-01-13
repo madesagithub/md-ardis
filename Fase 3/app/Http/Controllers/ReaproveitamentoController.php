@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Http\Controllers\Api\V1;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\Reaproveitamento;
 use Illuminate\Http\Request;
 
@@ -14,6 +13,16 @@ class ReaproveitamentoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
+    {
+        //
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
     {
         //
     }
@@ -36,6 +45,17 @@ class ReaproveitamentoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Reaproveitamento $reaproveitamento)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Models\Reaproveitamento  $reaproveitamento
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Reaproveitamento $reaproveitamento)
     {
         //
     }

@@ -1,47 +1,11 @@
+# Verificar quantidade de retalhos no Banco de dados
+# Autor: Tiago Lucas Flach
+# Data: 13/01/2023
+
 from os import walk
 import csv
 import json
-import logging
 import os
-import socket
-import sys
-import time
-import traceback
-import requests
-
-# CONSTANTES
-from constantes import *
-
-# API PHP
-API_PHP = 'http://10.1.1.86:8080/md-ardis/Fase%203/public/api'
-
-# API TOTVS
-# --------------------------------------------------
-DEP_ORIGEM = 'ALM'
-LOC_ORIGEM = ''
-DEP_DESTINO = 'FAB'
-LOC_DESTINO = ''
-
-# Como compilar para .exe
-# --------------------------------------------------
-# No terminal
-# cd '.\Fase 2\'
-# C:\Users\t.flach\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\Scripts\pyinstaller.exe --onefile Gerenciador_Corte.py
-
-
-# Configuração de Logs
-# --------------------------------------------------
-logging.basicConfig(
-	level=logging.INFO,
-	format='%(asctime)s :: %(levelname)s :: %(message)s',
-	filename=f'{PATH_LOGS}\erros_python.log')
-
-# log uncaught exceptions
-def log_exceptions(type, value, tb):
-	logging.exception(''.join((traceback.format_exception(type, value, tb))))
-	sys.__excepthook__(type, value, tb) # calls default excepthook
-
-sys.excepthook = log_exceptions
 
 # --------------------------------------------------
 # Varredura de arquivo em busca das informações de planos
@@ -59,7 +23,7 @@ def get_planos(filename):
 		for row in csv_reader:
 
 			# N° Layout						Plano
-			# Código chapa ERP usada		Chapa
+			# Código chapa ERP usada		Chapa ↓
 			# Descrição da chapa
 			# Classificação da chapa
 			# Espessura chapa e peça
@@ -67,7 +31,7 @@ def get_planos(filename):
 			# Largura Chapa
 			# m² da chapa
 			# Quantidade de chapa
-			# m³ total plano				Plano
+			# m³ total plano				Plano ↓
 			# Carregamentos
 			# Quantidade por corte
 			# Aproveitamento
@@ -81,7 +45,7 @@ def get_planos(filename):
 			# Cortes N2
 			# Cortes N3
 			# % peça no plano
-			# Código peça ERP				Peça
+			# Código peça ERP				Peça ↓
 			# Descrição da peça
 			# Comprimento da peça
 			# Largura da peça
@@ -103,7 +67,7 @@ def get_planos(filename):
 			# Comprimento peça final
 			# Largura peça final
 			# % produzido
-			# Nome arquivo data				Cabeçalho
+			# Nome arquivo data				Cabeçalho ↓
 			# Tipo dado
 			# Usuário
 			# Data processamento
@@ -125,7 +89,7 @@ def get_planos(filename):
 				}
 
 				fabrica = {
-					'fabrica': row['unidade'].title(),
+					'fabrica': row['unidade'].upper(),
 				}
 
 				maquina = {
@@ -225,113 +189,17 @@ def get_planos(filename):
 
 
 # --------------------------------------------------
-# Baixa na TOTVS
-# Movimentação (deposito -> fabrica)
-def send_totvs(planos):
-	for plano in planos:
-		# MD-PROT - Sinaliza que a operação será feita na base de PROTÓTIPO
-		# base = BASE
+# Obter o último arquivo de um diretório
+def get_lasted_file(dir, ext):
+	os.chdir(dir)
 
-		# Chave da operação, necessária para o servidor aceitar a conexão
-		# cod_chave = CHAVE
+	# Get files list
+	files = os.listdir(dir)
+	files = [file for file in files if file.endswith('.' + ext)]
 
-		# Item a ser movimentado estoque
-		chapa = str(plano['codigo_chapa_usado'])
-
-		# Depósito de origem
-		dep_origem = DEP_ORIGEM
-
-		# Local de origem
-		fabrica = str(plano['fabrica']).upper().split()
-		fabrica = ''.join(fabrica)
-
-		if LOC_ORIGEM == '':
-			if fabrica == 'FB':
-				loc_origem = 'ALMB-A'
-			elif fabrica == 'FV':
-				loc_origem = 'ALMV-A'
-		else:
-			loc_origem = LOC_ORIGEM
-
-		# dep_dest à deposito destino
-		dep_destino = DEP_DESTINO
-
-		# Local destino
-		loc_destino = LOC_DESTINO
-
-		# Quantidade deve ser na unidade de medida cadastrada no sistema
-		quantidade = str(plano['metro_quadrado_bruto_peca']).replace('.', ',')
-
-		# ----------
-
-		# Api para comunicação com o TOTVS
-		api_totvs = API_TOTVS + '&codChave='+ cod_chave +'&Item='+ chapa +'&dep_orig='+ dep_origem +'&loc_orig='+ loc_origem +'&dep_dest='+ dep_destino +'&loc_dest='+ loc_destino +'&quantidade='+ quantidade 
-
-		# response = requests.get(api)
-		# response.content
-		# logging.info(response.content)
-		print(api_totvs)
-
-
-# --------------------------------------------------
-# Cadastrar no sistema de controle de chapas (php)
-# Enviar para API
-def send_php(planos):
-	# Converter dicionario em json
-	planos = json.dumps(planos, indent = 4)
-
-	api_headers = {
-		'Content-Type': 'application/json',
-	}
-
-	post = requests.post(url=API_PHP, headers=api_headers, json=planos)
-	logging.info(post.text)
-	# print(post.json())
-	# print(post.text)
-	print(post.content)
-	print(post.status_code)
-
-
-# --------------------------------------------------
-# Retorna a fábrica do projeto
-def get_fabrica(file):
-
-	with open(file, 'r', encoding='latin-1') as file_csv:
-
-		csv_reader = csv.DictReader(file_csv, delimiter=';')
-
-		# Remove espaços e torna minusculo
-		headers = [head.strip().lower() for head in csv_reader.fieldnames]
-		csv_reader.fieldnames = headers
-
-		file_csv.readline()
-		for row in csv_reader:
-
-			# Remove espaços, % e asteriscos
-			row = dict((k, v.strip()) for k, v in row.items())
-			row = dict((k, v.replace('%', '')) for k, v in row.items())
-			row = dict((k, v.replace('*****', '100')) for k, v in row.items())
-
-			if row['tipo dado'] == 'DATA_PECA':
-				fabrica = row['unidade'].upper()
-				fabrica = str(fabrica).split()
-				fabrica = ''.join(fabrica)
-				break
-
-	return fabrica
-
-
-# --------------------------------------------------
-# Mover arquivo
-def move_file(file):
-	fabrica = get_fabrica(file)
-
-	new_file = f"{PATH_PRODUZIDOS}\{fabrica}\{file}"
-	try:
-		os.replace(file, new_file)
-		logging.info(f"{file} -> {new_file}")
-	except:
-		logging.info(f"Sem permissão para mover arquivo: {file} -> {new_file}")
+	# Get the last file
+	latest_file = max(files, key=os.path.getctime)
+	return latest_file
 
 
 # --------------------------------------------------
@@ -344,25 +212,8 @@ def print_planos(planos):
 
 
 # --------------------------------------------------
-# Main
+# Converter string para camel case
+def to_camel_case(snake_str):
+    components = snake_str.split('_')
 
-os.chdir(PATH_NOVOS)
-
-# Get files list
-files = os.listdir(PATH_NOVOS)
-files = [file for file in files if file.endswith('.csv')]
-
-# Get the last file
-latest_file = max(files, key=os.path.getctime)
-logging.info(f"START: {latest_file}")
-print(latest_file)
-
-# ----------
-planos = get_planos(latest_file)
-# print_planos(planos)
-
-# send_totvs(planos)
-send_php(planos)
-move_file(latest_file)
-time.sleep(5)
-# ----------
+    return components[0] + ''.join(x.title() for x in components[1:])

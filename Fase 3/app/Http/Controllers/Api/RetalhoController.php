@@ -7,7 +7,7 @@ use App\Models\Lote;
 use App\Models\Produto;
 use Illuminate\Http\Request;
 
-class ReaproveitamentoController extends Controller
+class RetalhoController extends Controller
 {
     /**
      * Display a listing of the resource.

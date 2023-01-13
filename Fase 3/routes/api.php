@@ -30,9 +30,13 @@ Route::apiResources([
 Route::group(['prefix' => 'v1', 'namespace' => 'App\Http\Controllers\Api\V1'], function () {
 	Route::apiResources([
 		'ordens' => OrdemController::class,
-		'retalhos' => ReaproveitamentoController::class,
+		'reaproveitamento' => ReaproveitamentoController::class,
+		'retalhos' => RetalhoController::class,
 	]);
+
+	// Route::controller(RetalhoController::class)->group(function () {
+	// 	Route::get('/retalhos/{id}/plano', 'plano');
+	// });
 });
 
-// Create new artigo
 // Route::post('projeto', [ProjetoController::class, 'store']);
