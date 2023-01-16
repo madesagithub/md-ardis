@@ -13,8 +13,8 @@ PATH_PROBLEMAS = f"{PATH}\\Data\\Problemas"										# Fabrica
 PATH_EXECUTAVEIS = f"{PATH}\\Executaveis"										# Fabrica
 PATH_LOGS = f"{PATH_EXECUTAVEIS}"												# Fabrica
 
-API_PHP = 'http://10.1.1.86:8080/md-ardis/Fase%203/public/api/v1/'				# Fabrica
-# API_PHP = 'http://' + socket.gethostbyname(socket.gethostname()) + '/md-ardis/Fase%203/public/api/projeto'
+API_PHP = 'http://10.1.1.86:8080/md-ardis/Fase%204/public/api/v1/'				# Fabrica
+# API_PHP = 'http://' + socket.gethostbyname(socket.gethostname()) + '/md-ardis/Fase%204/public/api/projeto'
 
 # API TOTVS
 # --------------------------------------------------

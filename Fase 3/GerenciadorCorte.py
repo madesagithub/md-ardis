@@ -14,7 +14,7 @@ from constantes import *
 from functions import *
 
 # API PHP
-API_PHP = 'http://10.1.1.86:8080/md-ardis/Fase%203/public/api'
+API_PHP = 'http://10.1.1.86:8080/md-ardis/Fase%204/public/api'
 
 # API TOTVS
 # --------------------------------------------------
@@ -26,7 +26,7 @@ LOC_DESTINO = ''
 # Como compilar para .exe
 # --------------------------------------------------
 # No terminal
-# cd '.\Fase 2\'
+# cd '.\Fase 3\'
 # C:\Users\t.flach\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\Scripts\pyinstaller.exe --onefile Gerenciador_Corte.py
 
 
