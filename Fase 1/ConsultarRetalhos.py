@@ -9,15 +9,13 @@
 # 		[x] atualizar a array de planos
 # [ ] Gerar um arquivo novo e atualizado em uma pasta separada
 
+import sys
+sys.path.append('')
 
 # CONSTANTES
-from constantes import *
 from functions import *
-
-# PATH =
-# PATH_ARDIS = 
-# PATH_BACKUP = 
-# PATH_POS_PROCESSAMENTO = 
+# from constantes import *
+from constantes_dev import *
 
 
 # Retorna os retalhos presentes no projeto
