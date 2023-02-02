@@ -20,8 +20,8 @@ class RetalhoResource extends JsonResource
 			'comprimentoPeca' => $this->comprimento_peca,
 			'larguraPeca' => $this->largura_peca,
 			'espessuraPeca' => $this->espessura_peca,
-			// 'quantidade_programada' => 
-			// 'quantidade_produzida' => 
+			// 'quantidade_programada' => $this->quantidade_programada,
+			'quantidade_produzida' => $this->quantidade_produzida,
 			// 'metro_quadrado_bruto_peca' => 
 			// 'metro_quadrado_liquido_peca' => 
 			// 'metro_quadrado_liquido_total_peca' => 

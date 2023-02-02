@@ -30,7 +30,7 @@ class PlanoResource extends JsonResource
 			'cortesN2' => $this->cortes_n2,
 			'cortesN3' => $this->cortes_n3,
 			'active' => $this->active,
-			// 'projeto' => new ProjetoResource($this->whenLoaded('projeto')),
+			'projeto' => new ProjetoResource($this->whenLoaded('projeto')),
 			'chapa' => new ChapaResource($this->whenLoaded('chapa')),
 		];
 

@@ -7,9 +7,14 @@
 
 # Fase 1
 PATH_1 = r"F:/Programacao/07  Ardis"
-PATH_1_ARDIS = f"{PATH_1}/Ardis" 
+PATH_1_DATA = f"{PATH_1}/Data" 
+PATH_1_ARDIS = f"{PATH_1}/Ardis"
 PATH_1_BACKUP = f"{PATH_1}/Backup"
 PATH_1_POS_CONFERENCIA = f"{PATH_1}/pos-conferencia"
+
+PATH_1_FV = r"F:/Programacao/07  Ardis/FV"
+PATH_1_FV_SUB = f"{PATH_1_FV}/sub"
+PATH_1_FV_ARDIS = f"{PATH_1_FV}/FV_ARDIS"
 
 # Fase 2
 PATH_2 = r"F:\Automação\ARDIS\Gerenciador Corte"								# Fabrica
@@ -18,7 +23,7 @@ PATH_2_NOVOS = f"{PATH_2}\\Data\\Novos"											# Fabrica
 # PATH_2_NOVOS = f"{os.getcwd()}/Relatórios"
 PATH_2_PRODUZIDOS = f"{PATH_2}\\Data\\Processados"								# Fabrica
 PATH_2_PROBLEMAS = f"{PATH_2}\\Data\\Problemas"									# Fabrica
-PATH_2_EXECUTAVEIS = f"{PATH}_2\\Executaveis"									# Fabrica
+PATH_2_EXECUTAVEIS = f"{PATH_2}\\Executaveis"									# Fabrica
 PATH_2_LOGS = f"{PATH_2_EXECUTAVEIS}"											# Fabrica
 
 # API PHP

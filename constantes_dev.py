@@ -7,7 +7,7 @@
 
 # Fase 1
 PATH_1 = r"Fase 1/Files"
-PATH_1_DATA = f"{PATH_1}/data" 
+PATH_1_DATA = f"{PATH_1}/Data" 
 PATH_1_ARDIS = f"{PATH_1}/Ardis" 
 PATH_1_BACKUP = f"{PATH_1}/Backup"
 PATH_1_POS_CONFERENCIA = f"{PATH_1}/Pos conferencia"

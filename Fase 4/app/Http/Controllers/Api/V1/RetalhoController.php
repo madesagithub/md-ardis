@@ -20,7 +20,41 @@ class RetalhoController extends Controller
 	// 	return new PlanoController::show($retalho->plano);
 	// }
 
-    /**
+	function saldo(Request $request)
+	{
+		// dd($request->all());
+
+		$filter = new RetalhoFilter();
+		$filterItems = $filter->transform($request);
+
+		$retalhos = Retalho::where($filterItems);
+
+		// Chapa
+		$chapa = $request->query('chapa');
+		if ($chapa) {
+			$retalhos = $retalhos->whereHas('plano.chapa.familia', function ($query) use ($chapa) {
+				$query->where('nome', $chapa);
+			});
+		}
+
+		// Fábrica
+		$fabrica = $request->query('fabrica');
+		if ($fabrica) {
+			$retalhos = $retalhos->whereHas('plano.projeto.maquina.fabrica', function ($query) use ($fabrica) {
+				$query->where('nome', $fabrica);
+			});
+		}
+
+		$retalhos = $retalhos->sum('quantidade_produzida');
+		$saldo = [
+			'quantidade' => intval($retalhos),
+		];
+
+		return $saldo;
+	}
+
+
+	/**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -48,6 +82,32 @@ class RetalhoController extends Controller
 		$includeFamilia = $request->query('includeFamilia');
 		if ($includeFamilia) {
 			$retalhos = $retalhos->with('plano.chapa.familia');
+		}
+
+		$familia = $request->query('familia');
+		if ($familia) {
+			$retalhos = $retalhos->whereHas('plano.chapa.familia', function ($query) use ($familia) {
+				$query->where('nome', $familia);
+			});
+		}
+
+		// Projeto
+		$includeProjeto = $request->query('includeProjeto');
+		if ($includeProjeto) {
+			$retalhos = $retalhos->with('plano.projeto');
+		}
+
+		// Fábrica
+		$includeFabrica = $request->query('includeFabrica');
+		if ($includeFabrica) {
+			$retalhos = $retalhos->with('plano.projeto.maquina.fabrica');
+		}
+
+		$fabrica = $request->query('fabrica');
+		if ($fabrica) {
+			$retalhos = $retalhos->whereHas('plano.projeto.maquina.fabrica', function ($query) use ($fabrica) {
+				$query->where('nome', $fabrica);
+			});
 		}
 
 		// dd($retalhos->toSql());

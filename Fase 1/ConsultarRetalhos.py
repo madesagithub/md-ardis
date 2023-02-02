@@ -34,12 +34,12 @@ def print_retalhos(retalhos):
 
 # Consulta o saldo de peças desejadas
 def get_saldo(item):
-	API_PHP = API_PHP + '?' \
-			  + '&chapa=' + item['classificacao_chapa'] \
-			  + '&comprimento=' + item['comprimento_peca'] \
-			  + '&largura=' + item['largura_peca'] \
-			  + '&espessura=' + item['espessura_peca'] \
-			  + '&fabrica=' + item['fabrica']
+	API_PHP = API_PHP \
+			  + '?chapa=' + item['classificacao_chapa'] \
+			  + '?comprimentoPeca[eq]=' + item['comprimento_peca'] \
+			  + '?larguraPeca[eq]=' + item['largura_peca'] \
+			  + '?espessuraPeca[eq]=' + item['espessura_peca'] \
+			  + '?fabrica=' + item['fabrica']
 
 	# Converter dicionario em json
 	item = json.dumps(item, indent = 4)
