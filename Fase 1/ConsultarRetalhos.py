@@ -34,7 +34,7 @@ def print_retalhos(retalhos):
 
 # Consulta o saldo de peças desejadas
 def get_saldo(item):
-	API_PHP = API_PHP \
+	API_PHP_GET_SALDO = API_PHP \
 			  + '?chapa=' + item['classificacao_chapa'] \
 			  + '?comprimentoPeca[eq]=' + item['comprimento_peca'] \
 			  + '?larguraPeca[eq]=' + item['largura_peca'] \
@@ -44,7 +44,7 @@ def get_saldo(item):
 	# Converter dicionario em json
 	item = json.dumps(item, indent = 4)
 
-	result = requests.get(url=API_PHP)
+	result = requests.get(url=API_PHP_GET_SALDO)
 	# result = requests.post(url=API_PHP, headers=api_headers, json=item)
 	# logging.info(result.text)
 	# print(result.json())
@@ -70,6 +70,8 @@ def send_reaproveitamento(ordem):
 		'Content-Type': 'application/json',
 	}
 
+	API_PHP_SEND_REAPROVEITAMENTO = API_PHP + '/retalhos/reaproveitamento'
+
 	result = requests.post(url=API_PHP, headers=api_headers, json=ordem)
 	# logging.info(result.text)
 	# print(result.json())
@@ -81,7 +83,13 @@ def send_reaproveitamento(ordem):
 # --------------------------------------------------
 # Main
 
-latest_file = get_lasted_file(PATH_POS_PROCESSAMENTO, 'txt')
+# latest_file = get_lasted_file(PATH_1_POS_CONFERENCIA, 'txt')
+latest_file = get_lasted_file(PATH_1_POS_CONFERENCIA, 'csv')					# test
+
+if latest_file is None:
+	print('Nenhum arquivo encontrado')
+	exit()
+
 print(latest_file)
 
 planos = get_planos(latest_file)

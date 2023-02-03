@@ -15,15 +15,15 @@ use Illuminate\Http\Request;
 
 class RetalhoController extends Controller
 {
-	// public function plano(Retalho $retalho)
-	// {
-	// 	return new PlanoController::show($retalho->plano);
-	// }
 
+	/**
+	 * Return saldo of Retalhos
+	 *
+	 * @param Request $request
+	 * @return void
+	 */
 	function saldo(Request $request)
 	{
-		// dd($request->all());
-
 		$filter = new RetalhoFilter();
 		$filterItems = $filter->transform($request);
 
@@ -51,6 +51,44 @@ class RetalhoController extends Controller
 		];
 
 		return $saldo;
+	}
+
+	public function reaproveitamento(Request $request)
+	{
+		// dd($request->all());
+
+		// $filter = new RetalhoFilter();
+		// $filterItems = $filter->transform($request);
+
+		// $retalhos = Retalho::where($filterItems);
+		$retalhos = Retalho::where([
+			['comprimento_peca', $request->input('comprimentoPeca')],
+			['largura_peca', $request->input('larguraPeca')],
+			['espessura_peca', $request->input('espessuraPeca')],
+			['quantidade_produzida', '>', 0],
+		]);
+
+		// Chapa
+		$chapa = $request->query('chapa');
+		if ($chapa) {
+			$retalhos = $retalhos->whereHas('plano.chapa.familia', function ($query) use ($chapa) {
+				$query->where('nome', $chapa);
+			});
+		}
+
+		// Fábrica
+		$fabrica = $request->query('fabrica');
+		if ($fabrica) {
+			$retalhos = $retalhos->whereHas('plano.projeto.maquina.fabrica', function ($query) use ($fabrica) {
+				$query->where('nome', $fabrica);
+			});
+		}
+
+		$retalhos = $retalhos->get();
+
+		dd($retalhos->sum('quantidade_produzida'));
+
+		// return $saldo;
 	}
 
 

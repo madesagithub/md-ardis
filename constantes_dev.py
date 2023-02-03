@@ -28,8 +28,8 @@ PATH_2_LOGS = f"{PATH_2_EXECUTAVEIS}"											# Fabrica
 
 # API PHP
 # --------------------------------------------------
-API_PHP = 'http://10.1.1.86:8080/md-ardis/Fase%204/public/api/v1/'				# Fabrica
-# API_PHP = 'http://' + socket.gethostbyname(socket.gethostname()) + '/md-ardis/Fase%204/public/api/projeto'
+API_PHP = 'http://localhost/md-ardis/Fase%204/public/api/v1/'
+# API_PHP = 'http://' + socket.gethostbyname(socket.gethostname()) + '/md-ardis/Fase%204/public/api/v1/'
 
 # API TOTVS
 # --------------------------------------------------

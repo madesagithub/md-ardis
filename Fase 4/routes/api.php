@@ -30,6 +30,7 @@ Route::apiResources([
 Route::group(['prefix' => 'v1', 'namespace' => 'App\Http\Controllers\Api\V1'], function () {
 	Route::controller(RetalhoController::class)->prefix('retalhos')->group(function () {
 		Route::get('saldo', 'saldo');
+		Route::post('reaproveitamento', 'reaproveitamento');
 	});
 
 	Route::apiResources([
