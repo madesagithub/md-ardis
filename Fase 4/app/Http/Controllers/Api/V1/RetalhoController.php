@@ -55,7 +55,7 @@ class RetalhoController extends Controller
 
 	public function reaproveitamento(Request $request)
 	{
-		// dd($request->all());
+		// dd($request);
 
 		// $filter = new RetalhoFilter();
 		// $filterItems = $filter->transform($request);
@@ -69,7 +69,7 @@ class RetalhoController extends Controller
 		]);
 
 		// Chapa
-		$chapa = $request->query('chapa');
+		$chapa = $request->input('chapa');
 		if ($chapa) {
 			$retalhos = $retalhos->whereHas('plano.chapa.familia', function ($query) use ($chapa) {
 				$query->where('nome', $chapa);
@@ -77,15 +77,17 @@ class RetalhoController extends Controller
 		}
 
 		// Fábrica
-		$fabrica = $request->query('fabrica');
+		$fabrica = $request->input('fabrica');
 		if ($fabrica) {
 			$retalhos = $retalhos->whereHas('plano.projeto.maquina.fabrica', function ($query) use ($fabrica) {
 				$query->where('nome', $fabrica);
 			});
 		}
 
-		$retalhos = $retalhos->get();
+		// $retalhos = $retalhos->get();
 
+		// dd($retalhos);
+		// dd($retalhos->toSql());
 		dd($retalhos->sum('quantidade_produzida'));
 
 		// return $saldo;
