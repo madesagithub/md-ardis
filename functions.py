@@ -210,6 +210,22 @@ def get_lasted_file(dir, ext):
 
 
 # --------------------------------------------------
+# Obter arquivos de um diretório
+def get_files(dir, ext):
+	script_path = os.path.dirname(os.path.realpath(__file__))
+	dir = os.path.join(script_path, dir)
+	
+	os.chdir(dir)
+	# Get files list
+	files = os.listdir(dir)
+
+	# Filter files by extension
+	files = [file for file in files if file.endswith('.' + ext)]
+
+	return files
+
+
+# --------------------------------------------------
 # Imprime os planos em formato json
 def print_planos(planos):
 	# Converter dicionario em json

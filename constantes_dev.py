@@ -7,14 +7,23 @@
 
 # Fase 1
 PATH_1 = r"Fase 1/Files"
-PATH_1_DATA = f"{PATH_1}/Data" 
-PATH_1_ARDIS = f"{PATH_1}/Ardis" 
+
 PATH_1_BACKUP = f"{PATH_1}/Backup"
 PATH_1_POS_CONFERENCIA = f"{PATH_1}/Pos conferencia"
 
-PATH_1_FV = r"Fase 1/Files/FV"
-PATH_1_FV_SUB = f"{PATH_1_FV}/sub"
+PATH_1_FV = f"{PATH_1}/FV"
 PATH_1_FV_ARDIS = f"{PATH_1_FV}/FV_ARDIS"
+PATH_1_FV_BACKUP = f"{PATH_1_FV}/FV_Backup"
+PATH_1_FV_POS_CONFERENCIA = f"{PATH_1_FV}/FV_Pos conferencia"
+
+PATH_1_FB = f"{PATH_1}/FB"
+PATH_1_FB_ARDIS = f"{PATH_1_FB}/FB_ARDIS"
+PATH_1_FB_BACKUP = f"{PATH_1_FB}/FB_Backup"
+PATH_1_FB_POS_CONFERENCIA = f"{PATH_1_FB}/FB_Pos conferencia"
+
+PATH_1_FV_SUB = f"{PATH_1_FV}/sub"
+PATH_1_FB_SUB = f"{PATH_1_FB}/sub"
+
 
 # Fase 2
 PATH_2 = r"F:\Automação\ARDIS\Gerenciador Corte"								# Fabrica

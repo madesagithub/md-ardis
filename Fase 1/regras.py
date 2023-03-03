@@ -12,12 +12,15 @@ nomes = []
 i = 0
 
 # pasta = 'F:/Programacao/07  Ardis/FV/sub'
-pasta = PATH_1_FV_SUB
+# pasta = PATH_1_FV_SUB
+pasta = PATH_1_FV_POS_CONFERENCIA
 
+# for diretorio, subpastas, arquivos in os.walk(pasta):
 for diretorio, subpastas, arquivos in os.walk(pasta):
     for arquivo in arquivos:
         vol = (os.path.join(arquivo))
         nomes.append(vol)
+		# Somente CSV
 
 if len(nomes) != 0:
     # df = pd.read_csv(f'F:/Programacao/07  Ardis/FV/sub/{nomes[i]}', sep=';', encoding='latin-1', index_col=False)
@@ -168,13 +171,17 @@ def delete():
     df.drop('Espessura', inplace=True, axis=1)    
     print(df)
     # df.to_csv(f'F:/Programacao/07  Ardis/FV/sub/{nomes[i]}', sep=';', encoding='latin-1', index=False)  
-    df.to_csv(f'{PATH_1_FV_SUB}/{nomes[i]}', sep=';', encoding='latin-1', index=False)  
+    # df.to_csv(f'{PATH_1_FV_SUB}/{nomes[i]}', sep=';', encoding='latin-1', index=False)  
+    df.to_csv(f'{PATH_1_FV_POS_CONFERENCIA}/{nomes[i]}', sep=';', encoding='latin-1', index=False)  
 
 def deleta():
     # os.remove(f'F:/Programacao/07  Ardis/FV/sub/{nomes[i]}')
-    os.remove(f'{PATH_1_FV_SUB}/{nomes[i]}')
+    # os.remove(f'{PATH_1_FV_SUB}/{nomes[i]}')
+    os.remove(f'{PATH_1_FV_POS_CONFERENCIA}/{nomes[i]}')
     
-def execute2():
+def main():
+    print('Iniciando a atualização da base de dados')
+
     if len(nomes) != 0:
         med_elc() 
         tratamento_de_lados()
@@ -187,10 +194,10 @@ def execute2():
         delete()
         deleta()
         nomes.clear()
-        return execute2()
+        return main()
     else:
         print('Lista de arquivos vazia')
         return
 
-print('Iniciando a atualização da base de dados')
-execute2()
+
+# main()
